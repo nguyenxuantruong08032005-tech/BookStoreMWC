@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using BookStoreMVC.Models.Entities;
 using BookStoreMVC.Models.ViewModels;
 using BookStoreMVC.Services;
-
+using Microsoft.AspNetCore.Http;
 namespace BookStoreMVC.Controllers
 {
     public class BooksController : Controller
@@ -31,15 +31,15 @@ namespace BookStoreMVC.Controllers
         {
             try
             {
+                NormalizeSorting(Request, model);
                 var (books, totalCount) = await _bookService.GetBooksAsync(model);
 
                 model.Books = books;
                 model.TotalCount = totalCount;
                 model.Categories = await _bookService.GetCategoriesAsync();
+                ViewBag.PageTitle = BuildPageTitle(model);
+                ViewBag.PageDescription = BuildPageDescription(model, totalCount);
 
-                ViewBag.PageTitle = !string.IsNullOrEmpty(model.SearchTerm)
-                    ? $"Search Results for '{model.SearchTerm}'"
-                    : "All Books";
 
                 return View(model);
             }
@@ -49,7 +49,75 @@ namespace BookStoreMVC.Controllers
                 return View(new BookListViewModel());
             }
         }
+ private static void NormalizeSorting(HttpRequest request, BookListViewModel model)
+        {
+            var sortBy = string.IsNullOrWhiteSpace(model.SortBy)
+                ? "title"
+                : model.SortBy.Trim().ToLowerInvariant();
 
+            model.SortBy = sortBy;
+
+            var hasExplicitSortOrder = request.Query.ContainsKey("sortOrder");
+
+            if (!hasExplicitSortOrder || string.IsNullOrWhiteSpace(model.SortOrder))
+            {
+                model.SortOrder = GetDefaultSortOrder(sortBy);
+            }
+            else
+            {
+                model.SortOrder = model.SortOrder.Trim().ToLowerInvariant();
+            }
+
+            if (!hasExplicitSortOrder && model.SortBy is "featured" or "bestseller")
+            {
+                model.SortOrder = "desc";
+            }
+        }
+
+        private static string GetDefaultSortOrder(string sortBy) => sortBy switch
+        {
+            "newest" => "desc",
+            "bestseller" => "desc",
+            "discount" => "desc",
+            "rating" => "desc",
+            _ => "asc"
+        };
+
+        private static string BuildPageTitle(BookListViewModel model)
+        {
+            if (!string.IsNullOrWhiteSpace(model.SearchTerm))
+            {
+                return $"Kết quả cho '{model.SearchTerm}'";
+            }
+
+            return model.SortBy switch
+            {
+                "featured" => "Sách nổi bật",
+                "newest" => "Sách mới nhất",
+                "bestseller" => "Sách bán chạy",
+                "discount" => "Sách đang giảm giá",
+                _ => "Tất cả sách"
+            };
+        }
+
+        private static string BuildPageDescription(BookListViewModel model, int totalCount)
+        {
+            var formattedCount = totalCount.ToString("N0");
+
+            if (!string.IsNullOrWhiteSpace(model.SearchTerm))
+            {
+                return $"Có {formattedCount} kết quả phù hợp với từ khóa '{model.SearchTerm}'.";
+            }
+
+            return model.SortBy switch
+            {
+                "featured" => $"Khám phá {formattedCount} tựa sách được độc giả yêu thích nhất trong hệ thống của chúng tôi.",
+                "newest" => $"Cập nhật những cuốn sách vừa lên kệ với {formattedCount} lựa chọn mới nhất.",
+                "bestseller" => $"Top {formattedCount} đầu sách bán chạy đang được nhiều độc giả lựa chọn.",
+                "discount" => $"Săn ưu đãi hấp dẫn với {formattedCount} đầu sách đang giảm giá.",
+                _ => $"Khám phá {formattedCount} đầu sách thuộc nhiều thể loại khác nhau."
+            };
+        }
         public async Task<IActionResult> Details(int id, string? title)
         {
             try

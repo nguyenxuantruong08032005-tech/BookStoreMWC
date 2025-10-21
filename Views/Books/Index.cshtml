@@ -1,14 +1,10 @@
-@model BookStoreMVC.Models.ViewModels.HomeViewModel
+@model BookStoreMVC.Models.ViewModels.BookListViewModel
 
 @{
-    ViewData["Title"] = "BookStore - Khám phá thế giới sách";
-    @* ViewBag.ShowBreadcrumb = false; *@
-}
-
-@section Meta {
-    <meta name="description"
-        content="Khám phá bộ sưu tập sách phong phú với hàng ngàn đầu sách từ khắp nơi trên thế giới. Mua sách online với giá tốt nhất." />
-    <meta name="keywords" content="sách, mua sách online, book store, văn học, tiểu thuyết" />
+       var pageTitle = ViewBag.PageTitle as string ?? "Tất cả sách";
+    var pageDescription = ViewBag.PageDescription as string
+        ?? $"Khám phá {Model.TotalCount.ToString("N0")} đầu sách thuộc nhiều thể loại khác nhau.";
+    ViewData["Title"] = pageTitle;
 }
 
 @section Styles {
@@ -17,318 +13,322 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
-        .card-hover {
+        .book-card {
             transition: all 0.3s ease;
         }
 
-        .card-hover:hover {
+        .book-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+           box-shadow: 0 12px 32px rgba(102, 126, 234, 0.18);
+        }
+
+        .filter-card {
+            backdrop-filter: blur(6px);
+        }
+
+        .empty-state-icon {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.12), rgba(118, 75, 162, 0.18));
         }
     </style>
 }
 
 <!-- Hero Section -->
-<section class="hero-gradient text-white py-16 mb-8">
+<section class="hero-gradient text-white py-12 mb-10 rounded-3xl shadow-xl">
     <div class="container mx-auto px-4">
-        <div class="text-center max-w-4xl mx-auto">
-            <h1 class="text-4xl md:text-6xl font-bold mb-6">
-                Khám phá thế giới <span class="text-yellow-300">sách</span>
-            </h1>
-            <p class="text-xl md:text-2xl mb-8 opacity-90">
-                Hàng ngàn đầu sách hay từ khắp nơi trên thế giới
+        <div class="max-w-3xl">
+            <p class="uppercase tracking-widest text-indigo-200 font-semibold text-sm mb-3">
+                Bộ sưu tập sách phong phú
             </p>
-
-            <!-- Search Bar -->
-            <div class="max-w-2xl mx-auto">
-                <form asp-controller="Books" asp-action="Index" method="get" class="flex">
-                    <input type="text" name="searchTerm" placeholder="Tìm kiếm sách, tác giả, thể loại..."
-                        class="flex-1 px-6 py-4 rounded-l-lg text-gray-800 text-lg focus:outline-none focus:ring-2 focus:ring-yellow-300" />
-                    <button type="submit"
-                        class="bg-yellow-500 hover:bg-yellow-600 px-8 py-4 rounded-r-lg text-gray-800 font-semibold transition-colors">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </form>
-            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold leading-tight mb-4">
+                @pageTitle
+            </h1>
+            <p class="text-indigo-100 text-lg md:text-xl opacity-90">
+                @pageDescription
+            </p>
         </div>
     </div>
 </section>
 
 <!-- Statistics Section -->
-<section class="py-8 mb-12">
-    <div class="container mx-auto px-4">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div class="text-center">
-                <div class="text-3xl font-bold text-blue-600">@Model.TotalBooks.ToString("N0")</div>
-                <div class="text-gray-600">Đầu sách</div>
-            </div>
-            <div class="text-center">
-                <div class="text-3xl font-bold text-green-600">@Model.TotalUsers.ToString("N0")</div>
-                <div class="text-gray-600">Độc giả</div>
-            </div>
-            <div class="text-center">
-                <div class="text-3xl font-bold text-purple-600">@Model.TotalOrders.ToString("N0")</div>
-                <div class="text-gray-600">Đơn hàng</div>
-            </div>
-            <div class="text-center">
-                <div class="text-3xl font-bold text-orange-600">@Model.TotalCategories.ToString("N0")</div>
-                <div class="text-gray-600">Thể loại</div>
-            </div>
-        </div>
-    </div>
-</section>
+<div class="container mx-full px-4 mb-16">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div class="lg:col-span-1">
+            <div class="filter-card bg-white/80 shadow-lg rounded-2xl border border-indigo-50 p-6 sticky top-4 w-full max-w-xs">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-lg font-semibold text-gray-800 flex items-center">
+                        <i class="fas fa-filter text-indigo-500 mr-2"></i>
+                        Bộ lọc nâng cao
+                    </h2>
+                    <a asp-action="Index" class="text-sm text-indigo-600 hover:text-indigo-800 font-medium">
+                        Đặt lại
+                    </a>
+                </div>
 
 <!-- Featured Books Section - SỬ DỤNG BOOKCARD -->
-@if (Model.FeaturedBooks.Any())
-{
-    <section class="py-12 mb-8 bg-gray-50">
-        <div class="container mx-auto px-4">
-            <div class="flex items-center justify-between mb-8">
-                <h2 class="text-3xl font-bold text-gray-800">
-                    <i class="fas fa-star text-yellow-500 mr-2"></i>
-                    Sách nổi bật
-                </h2>
-                <a asp-controller="Books" asp-action="Index" asp-route-sortBy="featured"
-                    class="text-blue-600 hover:text-blue-800 font-semibold">
-                    Xem tất cả <i class="fas fa-arrow-right ml-1"></i>
-                </a>
-            </div>
+<form asp-action="Index" method="get" class="space-y-6" id="filterForm">
+                    <input type="hidden" name="pageNumber" value="1" />
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
-                @foreach (var book in Model.FeaturedBooks)
-                {
-                    @await Html.PartialAsync("_BookCard", book)
-                }
-            </div>
-        </div>
-    </section>
+        <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Từ khóa</label>
+                        <div class="relative">
+                            <input type="text" name="searchTerm" value="@Model.SearchTerm"
+                                   placeholder="Tên sách, tác giả, nhà xuất bản..."
+                                   class="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-400 focus:border-transparent text-sm" />
+                            <span class="absolute left-3 top-2.5 text-gray-400">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </div>
+                    </div>
+
+           <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Danh mục</label>
+                        <select name="categoryId" class="w-full border border-gray-200 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-indigo-400 focus:border-transparent">
+                            <option value="">Tất cả danh mục</option>
+                           @foreach (var category in Model.Categories)
+    {
+        var isSelected = Model.CategoryId == category.Id ? "selected" : "";
+        <option value="@category.Id" selected="@isSelected">@category.Name</option>
+    }
+                        </select>
+                    </div>
 }
 
-<!-- New Books Section - SỬ DỤNG BOOKCARD -->
-@if (Model.NewBooks.Any())
+<div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Giá tối thiểu</label>
+                            <input type="number" name="minPrice" min="0" step="1000"
+                                   value="@(Model.MinPrice?.ToString("0") ?? string.Empty)"
+                                   class="w-full border border-gray-200 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-indigo-400 focus:border-transparent"
+                                   placeholder="0" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Giá tối đa</label>
+                            <input type="number" name="maxPrice" min="0" step="1000"
+                                   value="@(Model.MaxPrice?.ToString("0") ?? string.Empty)"
+                                   class="w-full border border-gray-200 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-indigo-400 focus:border-transparent"
+                                   placeholder="Không giới hạn" />
+                        </div>
+                    </div>
+                     <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tối thiểu @Html.Raw("★")</label>
+                        <select name="minRating" class="w-full border border-gray-200 rounded-xl py-2.5 px-3 text-sm focus:ring-2 focus:ring-indigo-400 focus:border-transparent">
+                            <option value="">Bất kỳ đánh giá nào</option>
+                            @for (var rating = 5; rating >= 1; rating--)
+                            {
+                               @foreach (var category in Model.Categories)
 {
-    <section class="py-12 mb-8">
-        <div class="container mx-auto px-4">
-            <div class="flex items-center justify-between mb-8">
-                <h2 class="text-3xl font-bold text-gray-800">
-                    <i class="fas fa-fire text-orange-500 mr-2"></i>
-                    Sách mới
-                </h2>
-                <a asp-controller="Books" asp-action="Index" asp-route-sortBy="newest"
-                    class="text-blue-600 hover:text-blue-800 font-semibold">
-                    Xem tất cả <i class="fas fa-arrow-right ml-1"></i>
-                </a>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
-                @foreach (var book in Model.NewBooks)
-                {
-                    @await Html.PartialAsync("_BookCard", book)
-                }
-            </div>
-        </div>
-    </section>
+    var isSelected = Model.CategoryId == category.Id ? "selected" : "";
+    <option value="@category.Id" selected="@isSelected">@category.Name</option>
 }
-
-<!-- Best Sellers Section - SỬ DỤNG BOOKCARD -->
-@if (Model.BestSellers.Any())
-{
-    <section class="py-12 mb-8 bg-gradient-to-r from-blue-50 to-purple-50">
-        <div class="container mx-auto px-4">
-            <div class="flex items-center justify-between mb-8">
-                <h2 class="text-3xl font-bold text-gray-800">
-                    <i class="fas fa-trophy text-yellow-500 mr-2"></i>
-                    Bán chạy nhất
-                </h2>
-                <a asp-controller="Books" asp-action="Index" asp-route-sortBy="bestseller"
-                    class="text-blue-600 hover:text-blue-800 font-semibold">
-                    Xem tất cả <i class="fas fa-arrow-right ml-1"></i>
-                </a>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
-                @foreach (var book in Model.BestSellers)
-                {
-                    @await Html.PartialAsync("_BookCard", book)
-                }
-            </div>
-        </div>
-    </section>
-}
+                            }
+                        </select>
+                    </div>
 
 <!-- Discounted Books Section - SỬ DỤNG BOOKCARD -->
-@if (Model.DiscountedBooks.Any())
-{
-    <section class="py-12 mb-8 bg-red-50">
-        <div class="container mx-auto px-4">
-            <div class="flex items-center justify-between mb-8">
-                <h2 class="text-3xl font-bold text-gray-800">
-                    <i class="fas fa-tag text-red-500 mr-2"></i>
-                    Đang giảm giá
-                </h2>
-                <a asp-controller="Books" asp-action="Index" asp-route-sortBy="discount"
-                    class="text-blue-600 hover:text-blue-800 font-semibold">
-                    Xem tất cả <i class="fas fa-arrow-right ml-1"></i>
-                </a>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
-                @foreach (var book in Model.DiscountedBooks)
-                {
-                    @await Html.PartialAsync("_BookCard", book)
-                }
-            </div>
-        </div>
-    </section>
-}
-
-<!-- Categories Section -->
-@if (Model.PopularCategories.Any())
-{
-    <section class="py-12 mb-8">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">
-                <i class="fas fa-list-ul text-blue-600 mr-2"></i>
-                Danh mục phổ biến
-            </h2>
-
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-4">
-                @foreach (var category in Model.PopularCategories)
-                {
-                    <a asp-controller="Books" asp-action="Category" asp-route-id="@category.Id" asp-route-name="@category"
-                        class="bg-white rounded-lg p-4 text-center hover:shadow-lg transition-all duration-300 border border-gray-200 card-hover">
-                        <div class="text-3xl mb-2">
-                            @if (!string.IsNullOrEmpty(category.ImageUrl))
-                            {
-                                <img src="@category.ImageUrl" alt="@category.Name" class="w-12 h-12 mx-auto object-cover rounded" />
-                            }
-                            else
-                            {
-                                <i class="fas fa-book text-blue-600"></i>
-                            }
-                        </div>
-                        <h3 class="font-semibold text-gray-800 text-sm">@category.Name</h3>
-                        @* @if (category.BookCount > 0)
-                        {
-                            <p class="text-xs text-gray-500 mt-1">@category.BookCount sách</p>
-                        } *@
-                    </a>
-                }
-            </div>
-        </div>
-    </section>
-}
-
-<!-- Testimonials Section -->
-@if (Model.Testimonials != null && Model.Testimonials.Any())
-{
-    <section class="py-12 mb-8 bg-gray-50">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">
-                <i class="fas fa-comments text-purple-600 mr-2"></i>
-                Khách hàng nói gì
-            </h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                @foreach (var testimonial in Model.Testimonials.Take(3))
-                {
-                    <div class="bg-white rounded-lg p-6 shadow-md hover:shadow-xl transition-shadow">
-                        <div class="flex items-center mb-4">
-                            <img src="@testimonial.CustomerImageUrl" alt="@testimonial.CustomerName"
-                                class="w-12 h-12 rounded-full mr-4 object-cover" />
-                            <div>
-                                <h4 class="font-bold text-gray-800">@testimonial.CustomerName</h4>
-                                <p class="text-sm text-gray-600">@testimonial.CustomerTitle</p>
-                            </div>
-                        </div>
-                        <div class="text-yellow-400 mb-3">
-                            @for (int i = 0; i < testimonial.Rating; i++)
-                            {
-                                <i class="fas fa-star"></i>
-                            }
-                        </div>
-                        <p class="text-gray-600 italic">"@testimonial.Content"</p>
+ <div class="flex items-center">
+                        <input type="checkbox" name="inStock" value="true" @(Model.InStock ? "checked" : null)
+                               class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" />
+                        <span class="ml-2 text-sm text-gray-700">Chỉ hiển thị sách còn hàng</span>
                     </div>
-                }
+                            <div class="space-y-3">
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2.5 rounded-xl font-semibold text-sm shadow">
+                            Áp dụng bộ lọc
+                        </button>
+                        <a asp-action="Index"
+                           class="block text-center w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-2.5 rounded-xl font-semibold text-sm transition">
+                            Xóa bộ lọc
+                        </a>
+                    </div>
+                </form>
             </div>
         </div>
-    </section>
-}
-
-<!-- Newsletter Section -->
-<section class="py-12 mb-8 bg-gradient-to-r from-purple-600 to-blue-600 text-white">
-    <div class="container mx-auto px-4 text-center">
-        <h2 class="text-3xl font-bold mb-4">Đăng ký nhận tin</h2>
-        <p class="text-xl mb-8 opacity-90">Nhận thông tin về sách mới và ưu đãi đặc biệt</p>
-
-        <form class="max-w-md mx-auto">
-            <div class="flex">
-                <input type="email" placeholder="Email của bạn"
-                    class="flex-1 px-6 py-4 rounded-l-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-yellow-300" />
-                <button type="submit"
-                    class="bg-yellow-500 hover:bg-yellow-600 px-8 py-4 rounded-r-lg text-gray-800 font-semibold transition-colors">
-                    Đăng ký
-                </button>
+<!-- Categories Section -->
+ <div class="lg:col-span-4">
+            <div class="bg-white shadow-lg rounded-3xl border border-gray-100 p-6 mb-6">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div>
+                        <p class="text-sm text-gray-500">@Model.TotalCount.ToString("N0") kết quả</p>
+                        <h2 class="text-2xl font-semibold text-gray-800">Khám phá những cuốn sách phù hợp nhất</h2>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-3">
+                        <div>
+                            <label for="sortBy" class="block text-xs uppercase tracking-wide text-gray-500 font-semibold mb-1">Sắp xếp theo</label>
+                            <select id="sortBy" name="sortBy" form="filterForm"
+                                    class="border border-gray-200 rounded-xl py-2 px-3 text-sm focus:ring-2 focus:ring-indigo-400 focus:border-transparent">
+                                @{
+        var sortOptions = new Dictionary<string, string>
+        {
+            { "featured", "Nổi bật" },
+            { "newest", "Mới nhất" },
+            { "bestseller", "Bán chạy" },
+            { "discount", "Ưu đãi lớn" },
+            { "price", "Giá" },
+            { "rating", "Đánh giá" },
+            { "title", "Tên sách (A-Z)" },
+            { "author", "Tác giả" }
+        };
+    }
+    @foreach (var opt in sortOptions)
+    {
+        var isSelected = Model.SortBy?.Equals(opt.Key, StringComparison.OrdinalIgnoreCase) == true ? "selected" : "";
+        <option value="@opt.Key" selected="@isSelected">@opt.Value</option>
+    }
+                            </select>
+                                  <div>
+                            <label for="sortOrder" class="block text-xs uppercase tracking-wide text-gray-500 font-semibold mb-1">Thứ tự</label>
+                            <select id="sortOrder" name="sortOrder" form="filterForm"
+                                    class="border border-gray-200 rounded-xl py-2 px-3 text-sm focus:ring-2 focus:ring-indigo-400 focus:border-transparent">
+                                 @{
+        var orderOptions = new Dictionary<string, string>
+        {
+            { "asc", "Tăng dần" },
+            { "desc", "Giảm dần" }
+        };
+    }
+    @foreach (var opt in orderOptions)
+    {
+        var isSelected = Model.SortOrder?.Equals(opt.Key, StringComparison.OrdinalIgnoreCase) == true ? "selected" : "";
+        <option value="@opt.Key" selected="@isSelected">@opt.Value</option>
+    }
+                            </select>
+                        </div>
+                        <button type="submit" form="filterForm"
+                                class="inline-flex items-center justify-center bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-4 py-2 rounded-xl text-sm font-semibold transition">
+                            <i class="fas fa-sync-alt mr-2"></i>Cập nhật
+                        </button>
+                    </div>
+                </div>
             </div>
-        </form>
+<!-- Testimonials Section -->
+            @if (Model.Books.Any())
+            {
+                <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                    @foreach (var book in Model.Books)
+                    {
+                        <div class="book-card bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
+                            @await Html.PartialAsync("_BookCard", book)
+                        </div>
+                    }
+                </div>
 
-        <p class="text-sm mt-4 opacity-75">
-            <i class="fas fa-users mr-2"></i>
-            Tham gia cùng @Model.NewsletterSubscribers.ToString("N0") độc giả khác
-        </p>
+          <nav class="flex justify-center mt-10" aria-label="Pagination">
+                        <ul class="inline-flex items-center space-x-2">
+                            <li>
+                                @if (Model.HasPreviousPage)
+                                {
+                                    <a asp-action="Index"
+                                       asp-route-pageNumber="@(Model.PageNumber - 1)"
+                                       asp-route-searchTerm="@Model.SearchTerm"
+                                       asp-route-categoryId="@Model.CategoryId"
+                                       asp-route-minPrice="@Model.MinPrice"
+                                       asp-route-maxPrice="@Model.MaxPrice"
+                                       asp-route-minRating="@Model.MinRating"
+                                       asp-route-inStock="@Model.InStock"
+                                       asp-route-sortBy="@Model.SortBy"
+                                       asp-route-sortOrder="@Model.SortOrder"
+                                       class="px-3 py-2 rounded-xl border border-gray-200 text-sm text-gray-600 hover:bg-gray-100">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <span class="px-3 py-2 rounded-xl border border-gray-200 text-sm text-gray-400 bg-gray-100">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                }
+                            </li>
+
+                            @for (var i = 1; i <= Model.TotalPages; i++)
+                            {
+                                <li>
+                                    <a asp-action="Index"
+                                       asp-route-pageNumber="@i"
+                                       asp-route-searchTerm="@Model.SearchTerm"
+                                       asp-route-categoryId="@Model.CategoryId"
+                                       asp-route-minPrice="@Model.MinPrice"
+                                       asp-route-maxPrice="@Model.MaxPrice"
+                                       asp-route-minRating="@Model.MinRating"
+                                       asp-route-inStock="@Model.InStock"
+                                       asp-route-sortBy="@Model.SortBy"
+                                       asp-route-sortOrder="@Model.SortOrder"
+                                       class="px-3 py-2 rounded-xl text-sm font-medium @(i == Model.PageNumber ? "bg-indigo-600 text-white" : "text-gray-600 hover:bg-gray-100 border border-gray-200")">
+                                        @i
+                                    </a>
+                                </li>
+                            }
+                            }
+                       <li>
+                                @if (Model.HasNextPage)
+                                {
+                                    <a asp-action="Index"
+                                       asp-route-pageNumber="@(Model.PageNumber + 1)"
+                                       asp-route-searchTerm="@Model.SearchTerm"
+                                       asp-route-categoryId="@Model.CategoryId"
+                                       asp-route-minPrice="@Model.MinPrice"
+                                       asp-route-maxPrice="@Model.MaxPrice"
+                                       asp-route-minRating="@Model.MinRating"
+                                       asp-route-inStock="@Model.InStock"
+                                       asp-route-sortBy="@Model.SortBy"
+                                       asp-route-sortOrder="@Model.SortOrder"
+                                       class="px-3 py-2 rounded-xl border border-gray-200 text-sm text-gray-600 hover:bg-gray-100">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <span class="px-3 py-2 rounded-xl border border-gray-200 text-sm text-gray-400 bg-gray-100">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                }
+                            </li>
+                        </ul>
+                    </nav>
+                }
+                }
+           }
+            else
+            {
+                <div class="text-center bg-white border border-dashed border-indigo-200 rounded-3xl py-16 px-6">
+                    <div class="mx-auto w-28 h-28 empty-state-icon rounded-full flex items-center justify-center text-indigo-500 mb-6">
+                        <i class="fas fa-book-open text-4xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-3">Không tìm thấy sách phù hợp</h3>
+                    <p class="text-gray-500 max-w-xl mx-auto mb-6">
+                        Thử thay đổi bộ lọc tìm kiếm hoặc quay lại trang chủ để khám phá những danh mục sách khác.
+                    </p>
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <a asp-action="Index"
+                           class="inline-flex items-center bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-semibold shadow">
+                            Xóa bộ lọc
+                        </a>
+                        <a asp-controller="Home" asp-action="Index"
+                           class="inline-flex items-center bg-white border border-indigo-200 text-indigo-600 px-6 py-3 rounded-xl font-semibold hover:bg-indigo-50">
+                            Trở về trang chủ
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+  
     </div>
-</section>
+</div>
 
 @section Scripts {
     <script>
-        // Add to cart without login
-        $(document).ready(function () {
-            $('.add-to-cart-btn').on('click', function (e) {
-                e.preventDefault();
+        (function () {
+            const form = document.getElementById('filterForm');
+            if (!form) return;
 
-                var bookId = $(this).data('book-id');
-                var quantity = 1;
-
-                $.ajax({
-                    url: '@Url.Action("AddToCart", "Cart")',
-                    method: 'POST',
-                    data: {
-                        bookId: bookId,
-                        quantity: quantity,
-                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
-                    },
-                    success: function (response) {
-                        if (response.success) {
-                            // Update cart count in header
-                            $('.cart-count').text(response.cartItemCount);
-
-                            // Show success message
-                            showToast('success', response.message);
-                        } else {
-                            showToast('error', response.message);
-                        }
-                    },
-                    error: function () {
-                        showToast('error', 'Đã xảy ra lỗi khi thêm vào giỏ hàng');
+                const inputs = form.querySelectorAll('input[name="searchTerm"], select[name="categoryId"], select[name="minRating"], input[name="minPrice"], input[name="maxPrice"], input[name="inStock"]');
+            inputs.forEach(input => {
+                input.addEventListener('change', () => {
+                    const pageField = form.querySelector('input[name="pageNumber"]');
+                    if (pageField) {
+                        pageField.value = '1';
                     }
                 });
             });
-        });
-
-        function showToast(type, message) {
-            // Simple toast notification
-            var toast = $('<div>')
-                .addClass('fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg text-white z-50')
-                .addClass(type === 'success' ? 'bg-green-500' : 'bg-red-500')
-                .text(message);
-
-            $('body').append(toast);
-
-            setTimeout(function () {
-                toast.fadeOut(300, function () {
-                    $(this).remove();
-                });
-            }, 3000);
-        }
+       
+        
     </script>
 }

@@ -506,21 +506,57 @@
                 submitBtn.innerHTML = originalText;
                 return;
             }
-
+const formData = new FormData(this);
             // Submit form
             fetch(this.action, {
                 method: 'POST',
-                body: new FormData(this)
+                 body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
+                },
+                credentials: 'same-origin'
             })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
+                 .then(async response => {
+                    const contentType = response.headers.get('content-type') || '';
+
+                    if (!contentType.includes('application/json')) {
+                        const html = await response.text();
+                        document.open();
+                        document.write(html);
+                        document.close();
+                        return null;
+                    }
+
+                    const data = await response.json();
+                    return { data, ok: response.ok };
+                })
+                .then(result => {
+                    if (!result) {
+                        return;
+                    }
+
+                    const { data, ok } = result;
+
+                    if (ok && data.success) {
                         // Redirect to order confirmation
                         window.location.href = data.redirectUrl || '/Orders/Confirmation/' + data.orderId;
                     } else {
-                        showNotification(data.message || 'Có lỗi xảy ra khi đặt hàng!', 'error');
-                        submitBtn.disabled = false;
-                        submitBtn.innerHTML = originalText;
+                       const errorMessage = data.message || 'Có lỗi xảy ra khi đặt hàng!';
+                    showNotification(errorMessage, 'error');
+
+                    if (data.errors) {
+                        Object.keys(data.errors).forEach(key => {
+                            const field = document.querySelector(`[name="${key}"]`);
+                            if (field) {
+                                field.classList.add('border-red-500');
+                            }
+                        });
+                    }
+
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalText;
+                        return;
                     }
                 })
                 .catch(error => {

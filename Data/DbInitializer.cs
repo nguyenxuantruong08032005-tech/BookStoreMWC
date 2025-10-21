@@ -36,7 +36,7 @@ namespace BookStoreMVC.Data
 
         private static async Task CreateRoles(RoleManager<IdentityRole> roleManager)
         {
-            string[] roleNames = { "Admin" }; // Chỉ tạo role Admin
+            string[] roleNames = { "Admin", "Customer" }; // Tạo cả role Admin và Customer cho hệ thống
 
             foreach (string roleName in roleNames)
             {

@@ -118,8 +118,10 @@ namespace BookStoreMVC.Services
         public async Task<(IEnumerable<BookViewModel> Books, int TotalCount)> GetBooksAsync(BookListViewModel model)
         {
             var query = _context.Books
+             .AsNoTrackingWithIdentityResolution()
                 .Include(b => b.Category)
                 .Include(b => b.Reviews)
+                  .Include(b => b.OrderItems)
                 .Where(b => b.IsActive);
 
             // Áp dụng bộ lọc
@@ -154,20 +156,53 @@ namespace BookStoreMVC.Services
                 query = query.Where(b => b.Reviews.Any() && b.Reviews.Average(r => r.Rating) >= model.MinRating);
 
             // Áp dụng bộ sắp xếp
-            query = model.SortBy.ToLower() switch
+             var sortBy = string.IsNullOrWhiteSpace(model.SortBy)
+                ? "title"
+                : model.SortBy.ToLowerInvariant();
+            var sortOrder = string.IsNullOrWhiteSpace(model.SortOrder)
+                ? "asc"
+                : model.SortOrder.ToLowerInvariant();
+
+            if (sortBy == "discount")
             {
-                "title" => model.SortOrder == "desc" ? query.OrderByDescending(b => b.Title) : query.OrderBy(b => b.Title),
-                "author" => model.SortOrder == "desc" ? query.OrderByDescending(b => b.Author) : query.OrderBy(b => b.Author),
-                "price" => model.SortOrder == "desc"
+                query = query.Where(b => b.DiscountPrice.HasValue && b.DiscountPrice.Value < b.Price);
+            }
+
+            query = sortBy switch
+            {
+                "title" => sortOrder == "desc"
+                    ? query.OrderByDescending(b => b.Title)
+                    : query.OrderBy(b => b.Title),
+                "author" => sortOrder == "desc"
+                    ? query.OrderByDescending(b => b.Author)
+                    : query.OrderBy(b => b.Author),
+                "price" => sortOrder == "desc"
                     ? query.OrderByDescending(b => b.DiscountPrice ?? b.Price)
                     : query.OrderBy(b => b.DiscountPrice ?? b.Price),
-                "rating" => model.SortOrder == "desc"
+                 "rating" => sortOrder == "desc"
                     ? query.OrderByDescending(b => b.Reviews.Any() ? b.Reviews.Average(r => r.Rating) : 0)
                     : query.OrderBy(b => b.Reviews.Any() ? b.Reviews.Average(r => r.Rating) : 0),
-                "newest" => query.OrderByDescending(b => b.CreatedAt),
-                "oldest" => query.OrderBy(b => b.CreatedAt),
+                "newest" => sortOrder == "asc"
+                    ? query.OrderBy(b => b.CreatedAt)
+                    : query.OrderByDescending(b => b.CreatedAt),
+                "oldest" => sortOrder == "desc"
+                    ? query.OrderByDescending(b => b.CreatedAt)
+                    : query.OrderBy(b => b.CreatedAt),
                 "popularity" => query.OrderByDescending(b => b.Reviews.Count),
-                _ => query.OrderBy(b => b.Title)
+                //  => query.OrderBy(b => b.Title),
+                "featured" => query
+                    .OrderByDescending(b => b.Reviews.Any() ? b.Reviews.Average(r => r.Rating) : 0)
+                    .ThenByDescending(b => b.Reviews.Count),
+                "bestseller" => query
+                    .OrderByDescending(b => b.OrderItems.Sum(oi => (int?)oi.Quantity) ?? 0)
+                    .ThenByDescending(b => b.Reviews.Count),
+                "discount" => sortOrder == "asc"
+                    ? query
+                        .OrderBy(b => b.DiscountPrice.HasValue ? b.Price - b.DiscountPrice.Value : 0)
+                        .ThenBy(b => b.DiscountPrice ?? b.Price)
+                    : query
+                        .OrderByDescending(b => b.DiscountPrice.HasValue ? b.Price - b.DiscountPrice.Value : 0)
+                        .ThenBy(b => b.DiscountPrice ?? b.Price),
             };
 
             var totalCount = await query.CountAsync();
@@ -183,6 +218,7 @@ namespace BookStoreMVC.Services
         public async Task<IEnumerable<BookViewModel>> GetFeaturedBooksAsync(int count = 8)
         {
             var books = await _context.Books
+                .AsNoTrackingWithIdentityResolution()
                 .Include(b => b.Category)
                 .Include(b => b.Reviews)
                 .Where(b => b.IsActive && b.StockQuantity > 0)
@@ -197,6 +233,7 @@ namespace BookStoreMVC.Services
         public async Task<IEnumerable<BookViewModel>> GetNewBooksAsync(int count = 8)
         {
             var books = await _context.Books
+            .AsNoTrackingWithIdentityResolution()
                 .Include(b => b.Category)
                 .Include(b => b.Reviews)
                 .Where(b => b.IsActive && b.StockQuantity > 0)
@@ -210,6 +247,7 @@ namespace BookStoreMVC.Services
         public async Task<IEnumerable<BookViewModel>> GetBestSellersAsync(int count = 8)
         {
             var books = await _context.Books
+            .AsNoTrackingWithIdentityResolution()
                 .Include(b => b.Category)
                 .Include(b => b.Reviews)
                 .Include(b => b.OrderItems)
@@ -227,6 +265,7 @@ namespace BookStoreMVC.Services
             if (book == null) return Enumerable.Empty<BookViewModel>();
 
             var books = await _context.Books
+            .AsNoTrackingWithIdentityResolution()
                 .Include(b => b.Category)
                 .Include(b => b.Reviews)
                 .Where(b => b.IsActive && b.Id != bookId && b.CategoryId == book.CategoryId)

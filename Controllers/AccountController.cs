@@ -345,8 +345,34 @@ namespace BookStoreMVC.Controllers
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    // Thêm role User cho tài khoản mới
-                    await _userManager.AddToRoleAsync(user, "User");
+                    // Thêm role Customer cho tài khoản mới
+                    var roleResult = await _userManager.AddToRoleAsync(user, "Customer");
+                    if (!roleResult.Succeeded)
+                    {
+                        foreach (var error in roleResult.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+
+                        await _userManager.DeleteAsync(user);
+                        return View(model);
+                    }
+
+                    if (!user.EmailConfirmed)
+                    {
+                        user.EmailConfirmed = true;
+                        var confirmResult = await _userManager.UpdateAsync(user);
+                        if (!confirmResult.Succeeded)
+                        {
+                            foreach (var error in confirmResult.Errors)
+                            {
+                                ModelState.AddModelError(string.Empty, error.Description);
+                            }
+
+                            await _userManager.DeleteAsync(user);
+                            return View(model);
+                        }
+                    }
 
                     // Tự động đăng nhập sau khi đăng ký
                     await _signInManager.SignInAsync(user, isPersistent: false);

@@ -184,7 +184,7 @@ namespace BookStoreMVC.Models.ViewModels
 
         // Sorting
         public string SortBy { get; set; } = "title";
-        public string SortOrder { get; set; } = "asc";
+         public string SortOrder { get; set; } = string.Empty;
 
         // Pagination
         public int PageNumber { get; set; } = 1;

@@ -1,7 +1,9 @@
 // Controllers/OrdersController.cs - FIXED VERSION
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using BookStoreMVC.Models.Entities;
 using BookStoreMVC.Models.ViewModels;
 using BookStoreMVC.Services;
@@ -145,54 +147,121 @@ namespace BookStoreMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Checkout(OrderCreateViewModel model)
         {
+            var currentUserId = _userManager.GetUserId(User)!;
+
             try
             {
                 if (!ModelState.IsValid)
                 {
-                    var userId = _userManager.GetUserId(User)!;
-                    model.Cart = await _cartService.GetCartAsync(userId);
-                    model.AvailablePaymentMethods = new[] { "Credit Card", "PayPal", "Bank Transfer", "Cash on Delivery" };
-                    model.AvailableCountries = new[] { "Vietnam", "United States", "United Kingdom", "Canada", "Australia" };
+                    await PopulateCheckoutViewModelAsync(model, currentUserId);
+
+                    if (IsAjaxRequest())
+                    {
+                        return BadRequest(new
+                        {
+                            success = false,
+                            message = "Vui lòng kiểm tra lại thông tin đã nhập.",
+                            errors = ModelState
+                                .Where(entry => entry.Value?.Errors?.Count > 0)
+                                .ToDictionary(
+                                    entry => entry.Key,
+                                    entry => entry.Value!.Errors.Select(error => error.ErrorMessage))
+                        });
+                    }
+
                     return View(model);
                 }
 
-                var currentUserId = _userManager.GetUserId(User)!;
                 var order = await _orderService.CreateOrderAsync(currentUserId, model);
 
                 if (order != null)
                 {
+                    if (IsAjaxRequest())
+                    {
+                        return Json(new
+                        {
+                            success = true,
+                            orderId = order.Id,
+                            redirectUrl = Url.Action(nameof(Details), new { id = order.Id })
+                        });
+                    }
+
                     TempData["SuccessMessage"] = $"Đơn hàng #{order.OrderNumber} đã được tạo thành công!";
                     return RedirectToAction(nameof(Details), new { id = order.Id });
                 }
-                else
+
+                ModelState.AddModelError(string.Empty, "Không thể tạo đơn hàng. Vui lòng thử lại.");
+                await PopulateCheckoutViewModelAsync(model, currentUserId);
+
+                if (IsAjaxRequest())
                 {
-                    ModelState.AddModelError(string.Empty, "Không thể tạo đơn hàng. Vui lòng thử lại.");
-                    model.Cart = await _cartService.GetCartAsync(currentUserId);
-                    model.AvailablePaymentMethods = new[] { "Credit Card", "PayPal", "Bank Transfer", "Cash on Delivery" };
-                    model.AvailableCountries = new[] { "Vietnam", "United States", "United Kingdom", "Canada", "Australia" };
-                    return View(model);
+                    return StatusCode(StatusCodes.Status500InternalServerError, new
+                    {
+                        success = false,
+                        message = "Không thể tạo đơn hàng. Vui lòng thử lại."
+                    });
                 }
+
+                return View(model);
             }
             catch (InvalidOperationException ex)
             {
                 _logger.LogWarning(ex, "Invalid operation when creating order");
                 ModelState.AddModelError(string.Empty, ex.Message);
-                var userId = _userManager.GetUserId(User)!;
-                model.Cart = await _cartService.GetCartAsync(userId);
-                model.AvailablePaymentMethods = new[] { "Credit Card", "PayPal", "Bank Transfer", "Cash on Delivery" };
-                model.AvailableCountries = new[] { "Vietnam", "United States", "United Kingdom", "Canada", "Australia" };
+                await PopulateCheckoutViewModelAsync(model, currentUserId);
+
+                if (IsAjaxRequest())
+                {
+                    return BadRequest(new
+                    {
+                        success = false,
+                        message = ex.Message
+                    });
+                }
+
                 return View(model);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error creating order");
                 ModelState.AddModelError(string.Empty, "Đã xảy ra lỗi khi tạo đơn hàng. Vui lòng thử lại sau.");
-                var userId = _userManager.GetUserId(User)!;
-                model.Cart = await _cartService.GetCartAsync(userId);
-                model.AvailablePaymentMethods = new[] { "Credit Card", "PayPal", "Bank Transfer", "Cash on Delivery" };
-                model.AvailableCountries = new[] { "Vietnam", "United States", "United Kingdom", "Canada", "Australia" };
+                await PopulateCheckoutViewModelAsync(model, currentUserId);
+
+                if (IsAjaxRequest())
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new
+                    {
+                        success = false,
+                        message = "Đã xảy ra lỗi khi tạo đơn hàng. Vui lòng thử lại sau."
+                    });
+                }
+
                 return View(model);
             }
+        }
+
+        private async Task PopulateCheckoutViewModelAsync(OrderCreateViewModel model, string userId)
+        {
+            model.Cart = await _cartService.GetCartAsync(userId);
+            model.AvailablePaymentMethods = new[] { "Credit Card", "PayPal", "Bank Transfer", "Cash on Delivery" };
+            model.AvailableCountries = new[] { "Vietnam", "United States", "United Kingdom", "Canada", "Australia" };
+        }
+
+        private bool IsAjaxRequest()
+        {
+            if (Request.Headers.TryGetValue("X-Requested-With", out var requestedWith) &&
+                requestedWith.Any(value => string.Equals(value, "XMLHttpRequest", StringComparison.OrdinalIgnoreCase)))
+            {
+                return true;
+            }
+
+            if (Request.Headers.TryGetValue("Accept", out var acceptHeaders) &&
+                acceptHeaders.Any(value => value.Contains("application/json", StringComparison.OrdinalIgnoreCase)))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         [HttpPost("Cancel/{id:int}")]

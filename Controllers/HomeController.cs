@@ -35,9 +35,11 @@ namespace BookStoreMVC.Controllers
 
         public async Task<IActionResult> Index()
         {
+            
             try
             {
-                // Get featured content
+                // Get feature
+                // d content
                 var featuredBooks = await _bookService.GetFeaturedBooksAsync(8);
                 var newBooks = await _bookService.GetNewBooksAsync(8);
                 var bestSellers = await _bookService.GetBestSellersAsync(8);
@@ -71,7 +73,8 @@ namespace BookStoreMVC.Controllers
                 var discountedBooksModel = new BookListViewModel
                 {
                     PageSize = 6,
-                    SortBy = "discount"
+                    SortBy = "discount",
+                    SortOrder = "desc"
                 };
                 var (allBooks, _) = await _bookService.GetBooksAsync(discountedBooksModel);
                 var discountedBooks = allBooks.Where(b => b.HasDiscount).Take(6).ToList();
