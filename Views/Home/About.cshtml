@@ -1,0 +1,312 @@
+@* Views/Home/About.cshtml *@
+@{
+    ViewData["Title"] = "Giới thiệu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <!-- Breadcrumb -->
+    @await Html.PartialAsync("_Breadcrumb", new List<(string, string)> {
+    ("Trang chủ", Url.Action("Index", "Home")),
+        ("Giới thiệu", "")
+        })
+
+    <!-- Hero Section -->
+    <section class="about-hero py-5 mb-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 mb-4">Về chúng tôi</h1>
+                <p class="lead mb-4">
+                    BookStore là điểm đến tin cậy cho những người yêu sách tại Việt Nam.
+                    Chúng tôi cam kết mang đến những cuốn sách chất lượng với dịch vụ tốt nhất.
+                </p>
+                <p class="mb-4">
+                    Với hơn 10 năm kinh nghiệm trong ngành xuất bản và phân phối sách,
+                    chúng tôi hiểu rõ nhu cầu và mong muốn của độc giả Việt Nam.
+                </p>
+                <a asp-controller="Books" asp-action="Index" class="btn btn-primary btn-lg">
+                    <i class="fas fa-book"></i> Khám phá sách
+                </a>
+            </div>
+            <div class="col-lg-6">
+                <img src="/images/about/about-hero.jpg" alt="About BookStore" class="img-fluid rounded shadow">
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission & Vision -->
+    <section class="mission-vision py-5 mb-5">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="section-title">Sứ mệnh & Tầm nhìn</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-5">
+                        <div class="mb-4">
+                            <i class="fas fa-bullseye fa-4x text-primary"></i>
+                        </div>
+                        <h4 class="card-title">Sứ mệnh</h4>
+                        <p class="card-text">
+                            Làm cho việc đọc sách trở nên dễ dàng và thú vị hơn.
+                            Chúng tôi mong muốn mỗi người Việt Nam đều có thể tiếp cận
+                            với tri thức và văn hóa thông qua những cuốn sách hay.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-5">
+                        <div class="mb-4">
+                            <i class="fas fa-eye fa-4x text-success"></i>
+                        </div>
+                        <h4 class="card-title">Tầm nhìn</h4>
+                        <p class="card-text">
+                            Trở thành nhà phân phối sách trực tuyến hàng đầu Việt Nam,
+                            góp phần xây dựng một xã hội học tập suốt đời và
+                            nâng cao trình độ văn hóa dân tộc.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Values -->
+    <section class="values py-5 mb-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="section-title">Giá trị cốt lõi</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="value-item text-center">
+                        <div class="value-icon mb-3">
+                            <i class="fas fa-heart fa-3x text-danger"></i>
+                        </div>
+                        <h5>Tận tâm</h5>
+                        <p>Phục vụ khách hàng với tình yêu sách và sự tận tâm cao nhất</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="value-item text-center">
+                        <div class="value-icon mb-3">
+                            <i class="fas fa-star fa-3x text-warning"></i>
+                        </div>
+                        <h5>Chất lượng</h5>
+                        <p>Cam kết về chất lượng sản phẩm và dịch vụ tốt nhất</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="value-item text-center">
+                        <div class="value-icon mb-3">
+                            <i class="fas fa-handshake fa-3x text-info"></i>
+                        </div>
+                        <h5>Uy tín</h5>
+                        <p>Xây dựng lòng tin với khách hàng qua từng giao dịch</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="value-item text-center">
+                        <div class="value-icon mb-3">
+                            <i class="fas fa-rocket fa-3x text-primary"></i>
+                        </div>
+                        <h5>Đổi mới</h5>
+                        <p>Không ngừng cải tiến và áp dụng công nghệ mới</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="value-item text-center">
+                        <div class="value-icon mb-3">
+                            <i class="fas fa-users fa-3x text-success"></i>
+                        </div>
+                        <h5>Cộng đồng</h5>
+                        <p>Góp phần xây dựng cộng đồng yêu sách Việt Nam</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="value-item text-center">
+                        <div class="value-icon mb-3">
+                            <i class="fas fa-leaf fa-3x text-success"></i>
+                        </div>
+                        <h5>Bền vững</h5>
+                        <p>Hoạt động kinh doanh có trách nhiệm với môi trường</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team -->
+    <section class="team py-5 mb-5">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="section-title">Đội ngũ của chúng tôi</h2>
+                <p class="text-muted">Những con người tạo nên sự khác biệt</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="team-card text-center">
+                    <img src="/images/team/ceo.jpg" alt="CEO" class="team-photo mb-3">
+                    <h5>Nguyễn Văn A</h5>
+                    <p class="text-primary">Giám đốc điều hành</p>
+                    <p class="text-muted">15 năm kinh nghiệm trong ngành xuất bản</p>
+                    <div class="social-links">
+                        <a href="#" class="text-decoration-none me-2">
+                            <i class="fab fa-linkedin fa-lg"></i>
+                        </a>
+                        <a href="#" class="text-decoration-none">
+                            <i class="fab fa-twitter fa-lg"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="team-card text-center">
+                    <img src="/images/team/marketing.jpg" alt="Marketing Director" class="team-photo mb-3">
+                    <h5>Trần Thị B</h5>
+                    <p class="text-primary">Giám đốc Marketing</p>
+                    <p class="text-muted">Chuyên gia về truyền thông và marketing số</p>
+                    <div class="social-links">
+                        <a href="#" class="text-decoration-none me-2">
+                            <i class="fab fa-linkedin fa-lg"></i>
+                        </a>
+                        <a href="#" class="text-decoration-none">
+                            <i class="fab fa-facebook fa-lg"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="team-card text-center">
+                    <img src="/images/team/tech.jpg" alt="Tech Lead" class="team-photo mb-3">
+                    <h5>Lê Văn C</h5>
+                    <p class="text-primary">Trưởng phòng Công nghệ</p>
+                    <p class="text-muted">Kiến trúc sư phần mềm với 10 năm kinh nghiệm</p>
+                    <div class="social-links">
+                        <a href="#" class="text-decoration-none me-2">
+                            <i class="fab fa-github fa-lg"></i>
+                        </a>
+                        <a href="#" class="text-decoration-none">
+                            <i class="fab fa-linkedin fa-lg"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Milestones -->
+    <section class="milestones py-5 mb-5 bg-primary text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center mb-5">
+                    <h2 class="section-title text-white">Hành trình phát triển</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-6 mb-4">
+                    <div class="milestone-item text-center">
+                        <h3 class="milestone-year">2013</h3>
+                        <p>Thành lập công ty</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6 mb-4">
+                    <div class="milestone-item text-center">
+                        <h3 class="milestone-year">2016</h3>
+                        <p>Ra mắt website bán hàng online</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6 mb-4">
+                    <div class="milestone-item text-center">
+                        <h3 class="milestone-year">2019</h3>
+                        <p>Đạt 100,000 khách hàng</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6 mb-4">
+                    <div class="milestone-item text-center">
+                        <h3 class="milestone-year">2024</h3>
+                        <p>Hơn 1 triệu cuốn sách đã bán</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact CTA -->
+    <section class="contact-cta py-5 text-center">
+        <div class="row">
+            <div class="col-12">
+                <h2>Liên hệ với chúng tôi</h2>
+                <p class="lead text-muted mb-4">
+                    Có câu hỏi hoặc cần hỗ trợ? Đội ngũ của chúng tôi luôn sẵn sàng giúp đỡ bạn.
+                </p>
+                <a asp-action="Contact" class="btn btn-primary btn-lg me-3">
+                    <i class="fas fa-phone"></i> Liên hệ ngay
+                </a>
+                <a asp-controller="Books" asp-action="Index" class="btn btn-outline-primary btn-lg">
+                    <i class="fas fa-shopping-cart"></i> Mua sắm ngay
+                </a>
+            </div>
+        </div>
+    </section>
+</div>
+
+<style>
+    .section-title {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .value-item {
+        padding: 2rem 1rem;
+    }
+
+    .team-photo {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 5px solid #f8f9fa;
+    }
+
+    .team-card {
+        padding: 2rem 1rem;
+        transition: transform 0.3s ease;
+    }
+
+    .team-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .milestone-year {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+
+    .social-links a {
+        color: #6c757d;
+        transition: color 0.3s ease;
+    }
+
+    .social-links a:hover {
+        color: #007bff;
+    }
+
+    @@media (max-width: 768px) {
+        .section-title {
+            font-size: 2rem;
+        }
+
+        .milestone-year {
+            font-size: 2rem;
+        }
+    }
+</style>

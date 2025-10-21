@@ -1,0 +1,377 @@
+@using BookStoreMVC.Models.ViewModels
+<!-- ===== Views/Shared/_AdminLayout.cshtml - ĐÃ SỬA TẤT CẢ LỖI ===== -->
+<!DOCTYPE html>
+<html lang="vi" class="h-full bg-gray-50">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - BookStore Admin</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+    <!-- DataTables (Optional - nếu cần) -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" />
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="~/css/output.css" asp-append-version="true" />
+
+    <style>
+        .animate-slide-in {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @@keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .rotate-180 {
+            transform: rotate(180deg);
+        }
+
+        .transition-transform {
+            transition: transform 0.2s ease;
+        }
+    </style>
+
+    @RenderSection("Styles", required: false)
+</head>
+
+<body class="h-full flex bg-gray-50">
+    <!-- Mobile menu overlay -->
+    <div id="mobile-menu-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden lg:hidden"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar"
+        class="fixed inset-y-0 left-0 z-50 w-64 bg-gray-900 text-white transform -translate-x-full lg:translate-x-0 lg:static lg:inset-0 transition-transform duration-300 ease-in-out">
+        <div class="flex flex-col h-full">
+            <!-- Logo -->
+            <div class="flex items-center justify-between h-20 border-b border-gray-700 px-6">
+                <div class="flex items-center">
+                    <i class="fas fa-book-reader text-primary-500 text-2xl mr-3"></i>
+                    <span class="text-xl font-bold">Admin Panel</span>
+                </div>
+                <button id="mobile-sidebar-close" class="lg:hidden p-2 text-gray-400 hover:text-white">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- User Info -->
+            <div class="px-6 py-4 border-b border-gray-700">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-primary-500 rounded-full flex items-center justify-center">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm font-medium text-white">@User.Identity.Name</p>
+                        <p class="text-xs text-gray-300">Administrator</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="flex-1 px-4 py-6 overflow-y-auto">
+                <ul class="space-y-2">
+                    <!-- Dashboard -->
+                    <li>
+                        <a asp-controller="Admin" asp-action="Dashboard"
+                            class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors">
+                            <i class="fas fa-tachometer-alt mr-3 w-5"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+
+                    <!-- Books Management -->
+                    <li>
+                        <a asp-controller="Admin" asp-action="Books"
+                            class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors">
+                            <i class="fas fa-book mr-3 w-5"></i>
+                            <span>Quản lý sách</span>
+                        </a>
+                    </li>
+
+                    <!-- Categories Management -->
+                    <li>
+                        <a asp-controller="Admin" asp-action="Categories"
+                            class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors">
+                            <i class="fa-solid fa-layer-group mr-3 w-5"></i>
+                            <span>Quản lý danh mục</span>
+                        </a>
+                    </li>
+
+                    <!-- Orders Management -->
+
+                    <li>
+                        <a asp-controller="Admin" asp-action="Orders"
+                            class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors">
+                            <i class="fas fa-shopping-cart mr-3 w-5"></i>
+                            <span>Quản lý đơn hàng</span>
+                        </a>
+                    </li>
+
+
+                    <!-- Users Management -->
+                    <li>
+                        <a asp-controller="Admin" asp-action="Users"
+                            class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors">
+                            <i class="fas fa-users mr-3 w-5"></i>
+                            <span>Quản lý người dùng</span>
+                        </a>
+                    </li>
+
+                    <!-- Reviews Management -->
+                    <li>
+                        <a asp-controller="Admin" asp-action="Reviews"
+                            class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors">
+                            <i class="fas fa-star mr-3 w-5"></i>
+                            <span>Quản lý đánh giá</span>
+                        </a>
+                    </li>
+
+                    <!-- Reports & Analytics -->
+                    <li>
+                        <a asp-controller="Admin" asp-action="Reports"
+                            class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors">
+                            <i class="fas fa-chart-bar mr-3 w-5"></i>
+                            <span>Báo cáo & Thống kê</span>
+                        </a>
+                    </li>
+
+                    <!-- Settings -->
+                    <li>
+                        <a asp-controller="Admin" asp-action="Settings"
+                            class="flex items-center px-4 py-3 text-gray-300 hover:bg-gray-800 hover:text-white rounded-lg transition-colors">
+                            <i class="fas fa-cog mr-3 w-5"></i>
+                            <span>Cài đặt</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Logout -->
+            <div class="p-4 border-t border-gray-700">
+                <form asp-area="Identity" asp-page="/Account/Logout" method="post" class="w-full">
+                    <button type="submit"
+                        class="flex items-center w-full px-4 py-3 text-gray-300 hover:bg-red-600 hover:text-white rounded-lg transition-colors">
+                        <i class="fas fa-sign-out-alt mr-3 w-5"></i>
+                        <span>Đăng xuất</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+        <!-- Top Header -->
+        <header class="bg-white border-b border-gray-200 h-20 flex items-center px-6">
+            <div class="flex items-center justify-between w-full">
+                <!-- Left Side -->
+                <div class="flex items-center">
+                    <!-- Mobile menu button -->
+                    <button id="mobile-sidebar-toggle" class="lg:hidden mr-4 p-2 text-gray-600 hover:text-gray-900">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+
+                    <!-- Page Title -->
+                    <div>
+                        <h1 class="text-xl font-semibold text-gray-800">@ViewData["Title"]</h1>
+                        @if (ViewBag.Subtitle != null)
+                        {
+                            <p class="text-sm text-gray-600 mt-1">@ViewBag.Subtitle</p>
+                        }
+                    </div>
+                </div>
+
+                <!-- Right Side -->
+                <div class="flex items-center space-x-4">
+                    <!-- Search -->
+                    <div class="hidden md:block relative">
+                        <div class="relative">
+                            <input type="text" id="admin-search" placeholder="Tìm kiếm..."
+                                class="w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent" />
+                            <div class="absolute left-3 top-2.5 text-gray-400">
+                                <i class="fas fa-search"></i>
+                            </div>
+                        </div>
+                        <!-- Search Suggestions Dropdown -->
+                        <div id="search-suggestions"
+                            class="hidden absolute top-full mt-2 w-full bg-white rounded-lg shadow-lg border border-gray-200 max-h-96 overflow-y-auto z-50">
+                        </div>
+                    </div>
+
+                    <!-- Notifications -->
+                    <div class="relative">
+                        <button id="notifications-btn"
+                            class="relative p-2 text-gray-400 hover:text-gray-600 focus:outline-none">
+                            <i class="fas fa-bell text-lg"></i>
+                            <span id="notification-badge"
+                                class="hidden absolute top-0 right-0 -mt-1 -mr-1 h-5 w-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">0</span>
+                        </button>
+
+                        <!-- Notifications Dropdown -->
+                        <div id="notifications-dropdown"
+                            class="hidden absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+                            <div class="px-4 py-3 border-b border-gray-200">
+                                <h3 class="text-sm font-semibold text-gray-900">Thông báo</h3>
+                            </div>
+                            <div id="notifications-list" class="max-h-96 overflow-y-auto">
+                                <!-- Notifications will be loaded here -->
+                            </div>
+                            <div class="px-4 py-3 border-t border-gray-200">
+                                <a href="#" class="text-sm text-primary-600 hover:text-primary-800">Xem tất cả</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- User Menu -->
+                    <div class="relative group">
+                        <button
+                            class="flex items-center space-x-2 text-gray-700 hover:text-gray-900 focus:outline-none">
+                            <div
+                                class="w-8 h-8 bg-primary-500 text-white rounded-full flex items-center justify-center">
+                                <i class="fas fa-user text-sm"></i>
+                            </div>
+                            <span class="hidden md:block text-sm font-medium">@User.Identity.Name</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+
+                        <!-- User Dropdown -->
+                        <div
+                            class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                            <div class="py-2">
+                                <a asp-area="Identity" asp-page="/Account/Manage/Index" target="_blank"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                                    <i class="fas fa-user-cog mr-2"></i>
+                                    Tài khoản của tôi
+                                </a>
+                                <a asp-controller="Home" asp-action="Index" target="_blank"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                                    <i class="fas fa-store mr-2"></i>
+                                    Xem cửa hàng
+                                </a>
+                                <div class="border-t border-gray-100 my-1"></div>
+                                <form asp-area="Identity" asp-page="/Account/Logout" method="post">
+                                    <button type="submit"
+                                        class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                                        <i class="fas fa-sign-out-alt mr-2"></i>
+                                        Đăng xuất
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto bg-gray-50">
+
+
+
+            <!-- Alert Messages -->
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="mx-6 mt-6">
+                    <div
+                        class="alert-auto-hide bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg flex items-center">
+                        <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                        <span>@TempData["SuccessMessage"]</span>
+                        <button type="button" class="ml-auto text-green-500 hover:text-green-700"
+                            onclick="this.parentElement.remove()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            }
+
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="mx-6 mt-6">
+                    <div
+                        class="alert-auto-hide bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg flex items-center">
+                        <i class="fas fa-exclamation-circle text-red-500 mr-3"></i>
+                        <span>@TempData["ErrorMessage"]</span>
+                        <button type="button" class="ml-auto text-red-500 hover:text-red-700"
+                            onclick="this.parentElement.remove()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            }
+
+            @if (TempData["InfoMessage"] != null)
+            {
+                <div class="mx-6 mt-6">
+                    <div
+                        class="alert-auto-hide bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded-lg flex items-center">
+                        <i class="fas fa-info-circle text-blue-500 mr-3"></i>
+                        <span>@TempData["InfoMessage"]</span>
+                        <button type="button" class="ml-auto text-blue-500 hover:text-blue-700"
+                            onclick="this.parentElement.remove()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            }
+
+            <!-- Page Content -->
+            <div class="p-6">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-white rounded-lg p-6 flex flex-col items-center">
+            <i class="fas fa-spinner fa-spin text-4xl text-primary-600 mb-4"></i>
+            <p id="loadingText" class="text-gray-700 font-medium">Đang tải...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- DataTables (Optional) -->
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+
+    <!-- Custom Admin JS -->
+    <script src="~/js/admin.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

@@ -1,0 +1,148 @@
+@using BookStoreMVC.Models.ViewModels
+@model CartViewModel
+
+<div class="bg-white rounded-lg shadow-lg overflow-hidden sticky top-4">
+    <div class="p-6 border-b border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-900 flex items-center">
+            <i class="fas fa-shopping-cart mr-2 text-primary-600"></i>
+            Tóm tắt đơn hàng
+        </h3>
+    </div>
+
+    <!-- Cart Items -->
+    @if (!Model.IsEmpty)
+    {
+        <div class="p-6 space-y-4 max-h-64 overflow-y-auto">
+            @foreach (var item in Model.Items.Take(3))
+            {
+                <div class="flex items-center space-x-3">
+                    <img src="@item.Book.ImageUrl" alt="@item.Book.Title" class="w-12 h-16 object-cover rounded" />
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium text-gray-900 truncate">@item.Book.Title</p>
+                        <p class="text-xs text-gray-500">@item.Book.Author</p>
+                        <p class="text-xs text-gray-600">Số lượng: @item.Quantity</p>
+                    </div>
+                    <p class="text-sm font-semibold text-gray-900">
+                        @item.TotalPrice.ToString("N0")₫
+                    </p>
+                </div>
+            }
+
+            @if (Model.Items.Count > 3)
+            {
+                <div class="text-center">
+                    <p class="text-sm text-gray-500">
+                        và @(Model.Items.Count - 3) sản phẩm khác...
+                    </p>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="p-6 text-center">
+            <div class="text-gray-400 mb-3">
+                <i class="fas fa-shopping-cart text-4xl"></i>
+            </div>
+            <p class="text-gray-500">Giỏ hàng trống</p>
+            <a asp-controller="Books" asp-action="Index"
+                class="inline-block mt-3 text-primary-600 hover:text-primary-700 font-medium">
+                Tiếp tục mua sắm
+            </a>
+        </div>
+    }
+
+    @if (!Model.IsEmpty)
+    {
+        <!-- Price Breakdown -->
+        <div class="p-6 border-t border-gray-200 space-y-3">
+            <!-- Subtotal -->
+            <div class="flex justify-between text-sm">
+                <span class="text-gray-600">Tạm tính (@Model.ItemCount sản phẩm):</span>
+                <span class="font-medium">@Model.SubTotal.ToString("N0")₫</span>
+            </div>
+
+            <!-- Shipping -->
+            <div class="flex justify-between text-sm">
+                <span class="text-gray-600">Phí vận chuyển:</span>
+                <span class="font-medium">
+                    @(Model.ShippingCost > 0 ? Model.ShippingCost.ToString("N0") + "₫" : "Miễn phí")
+                </span>
+            </div>
+
+            <!-- Tax -->
+            @if (Model.Tax > 0)
+            {
+                <div class="flex justify-between text-sm">
+                    <span class="text-gray-600">Thuế VAT (10%):</span>
+                    <span class="font-medium">@Model.Tax.ToString("N0")₫</span>
+                </div>
+            }
+
+            <!-- Promo Discount -->
+            @* @if (Model.PromoDiscount > 0)
+            {
+                <div class="flex justify-between text-sm text-green-600">
+                    <span>Giảm giá (@Model.PromoCode):</span>
+                    <span class="font-medium">-@Model.PromoDiscount.ToString("N0")₫</span>
+                </div>
+            } *@
+        </div>
+
+        <!-- Total -->
+        <div class="p-6 bg-gray-50 border-t border-gray-200">
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-lg font-semibold text-gray-900">Tổng cộng:</span>
+                <span class="text-xl font-bold text-primary-600">@Model.Total.ToString("N0")₫</span>
+            </div>
+
+            <!-- Free Shipping Progress -->
+            @{
+                decimal freeShippingThreshold = 500000;
+                decimal amountToFreeShipping = Math.Max(0, freeShippingThreshold - Model.SubTotal);
+            }
+
+            @if (amountToFreeShipping > 0)
+            {
+                <div class="mb-4">
+                    <div class="flex justify-between text-xs text-gray-600 mb-1">
+                        <span>Mua thêm @amountToFreeShipping.ToString("N0")₫ để được miễn phí vận chuyển</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-primary-600 h-2 rounded-full"
+                            style="width: @((Model.SubTotal / freeShippingThreshold * 100))%"></div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="flex items-center text-green-600 text-sm mb-4">
+                    <i class="fas fa-truck mr-2"></i>
+                    <span>Bạn được miễn phí vận chuyển!</span>
+                </div>
+            }
+
+            <!-- Promo Code Input -->
+            @* @if (string.IsNullOrEmpty(Model.PromoCode))
+            {
+                <div class="mb-4">
+                    <div class="flex space-x-2">
+                        <input type="text" id="promoCode" placeholder="Mã giảm giá"
+                            class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent" />
+                        <button onclick="applyPromoCode()"
+                            class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 text-sm font-medium transition-colors">
+                            Áp dụng
+                        </button>
+                    </div>
+                </div>
+            } *@
+
+            <!-- Checkout Button -->
+            <a asp-controller="Cart" asp-action="Checkout"
+                class="w-full bg-primary-600 text-white py-3 px-4 rounded-lg hover:bg-primary-700 transition-colors font-medium text-center block">
+                <i class="fas fa-credit-card mr-2"></i>
+                Tiến hành thanh toán
+            </a>
+        </div>
+    }
+</div>

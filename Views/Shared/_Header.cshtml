@@ -1,0 +1,354 @@
+@* _HeaderPartial.cshtml - BookVerse Header Component *@
+
+<!-- Top Announcement Bar -->
+<div class="bg-gradient-to-r from-blue-600 via-purple-500 to-blue-600 text-white">
+    <div class="bv-container">
+        <div class="flex items-center justify-between text-sm py-2">
+            <div class="flex items-center space-x-4 md:space-x-6">
+                <div class="flex items-center">
+                    <i class="fas fa-phone-alt mr-1 md:mr-2 text-blue-200"></i>
+                    <span class="hidden sm:inline">Hotline: </span>
+                    <strong>1900-1234</strong>
+                </div>
+                <div class="bv-hide-mobile items-center">
+                    <i class="fas fa-envelope mr-2 text-blue-200"></i>
+                    <span>support@bookverse.vn</span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-1">
+                <i class="fas fa-shipping-fast text-blue-200"></i>
+                <span class="font-medium text-xs sm:text-sm">Ship free 299k+</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Header -->
+<header class=" bg-white shadow-lg sticky top-0 z-50 border-b border-gray-100">
+    <div class="bv-container">
+        <!-- Mobile Header -->
+        <div class="flex md:hidden items-center justify-between py-3">
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn"
+                class="p-2 text-gray-600 hover:text-primary-600 hover:bg-gray-100 rounded-lg transition-colors">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+
+            <!-- Mobile Logo -->
+            <div class="flex items-center space-x-2">
+                <div class="bv-logo">
+                    <i class="fas fa-book-reader text-white text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold bv-gradient-text">BookVerse</h1>
+                </div>
+            </div>
+
+            <!-- Mobile Actions -->
+            <div class="flex items-center space-x-1">
+                <button class="bv-btn-action hover:text-accent-pink-500">
+                    <i class="fas fa-heart text-lg"></i>
+                    <span class="bv-badge bg-pink-500">@ViewBag.WishlistCount ?? 3</span>
+                </button>
+                <button class="bv-btn-action hover:text-primary-600">
+                    <i class="fas fa-shopping-bag text-lg"></i>
+                    <span class="bv-badge bg-blue-500">@ViewBag.CartCount ?? 2</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Desktop Header -->
+        <div class="bv-hide-mobile items-center justify-between py-4">
+            <!-- Logo Section -->
+            <a href="/" class="flex items-center space-x-3 hover:opacity-90 transition">
+                <div class="relative">
+                    <div class="bv-logo">
+                        <i class="fas fa-book-reader text-white text-2xl"></i>
+                    </div>
+                    <div
+                        class="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-br from-orange-400 to-pink-500 rounded-full bv-animate-bounce-soft">
+                    </div>
+                </div>
+                <div>
+                    <h1 class="bv-logo-text">BookVerse</h1>
+                    <p class="text-xs text-gray-500 font-medium">Thế giới sách số</p>
+                </div>
+            </a>
+
+            <!-- Search Bar -->
+            <div class="flex-1 max-w-2xl mx-8">
+                <form asp-action="Search" asp-controller="Book" method="get" class="relative group">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <i
+                            class="fas fa-search text-gray-400 group-focus-within:text-primary-500 transition-colors"></i>
+                    </div>
+                    <input type="text" name="query" placeholder="Tìm kiếm sách, tác giả, thể loại..."
+                        class="bv-search-input" value="@ViewBag.SearchQuery">
+                    <div class="absolute inset-y-0 right-0 flex items-center">
+                        <select name="category"
+                            class="h-full py-0 pl-3 pr-8 text-gray-500 bg-transparent border-0 rounded-r-full focus:ring-2 focus:ring-primary-500 focus:outline-none text-sm">
+                            <option value="">Tất cả</option>
+                            <option value="literature">Văn học</option>
+                            <option value="business">Kinh tế</option>
+                            <option value="skills">Kỹ năng</option>
+                            <option value="technology">Công nghệ</option>
+                        </select>
+                        <button type="submit" class="bv-search-button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center space-x-1">
+
+                <!-- Wishlist -->
+                <a asp-action="Index" asp-controller="Wishlist"
+                    class="bv-btn-action hover:text-pink-500 hover:bg-pink-50 group">
+                    <i class="fas fa-heart text-lg group-hover:scale-110 transition-transform"></i>
+                    <span class="bv-badge bg-pink-500">@ViewBag.WishlistCount ?? 8</span>
+                    <div class="bv-tooltip">Yêu thích</div>
+                </a>
+
+                <!-- Cart -->
+                <a asp-controller="Cart" asp-action="Index"
+                    class="bv-btn-action hover:text-primary-600 hover:bg-primary-50 group">
+                    <i class="fas fa-shopping-bag text-lg group-hover:scale-110 transition-transform"></i>
+                    <span class="bv-badge bg-blue-500">(@ViewBag.CartCount ?? 3)</span>
+                    <div class="bv-tooltip">Giỏ hàng</div>
+                </a>
+
+
+                <!-- Account -->
+                <div class="relative group">
+                    <button
+                        class="flex items-center space-x-2 p-3 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-full transition-all duration-200">
+                        <i class="fas fa-user-circle text-lg"></i>
+                        <span class="hidden lg:block font-medium">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                @User.Identity.Name
+                            }
+                            else
+                            {
+                                <span>Tài khoản</span>
+                            }
+                        </span>
+                        <i
+                            class="fas fa-chevron-down text-xs hidden lg:block group-hover:rotate-180 transition-transform"></i>
+                    </button>
+
+                    <!-- Account Dropdown -->
+                    <div class="bv-dropdown bv-animate-fade-in">
+                        <div class="p-2">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <div class="px-4 py-3 border-b border-gray-100">
+                                    <p class="text-sm font-medium text-gray-800">@User.Identity.Name</p>
+                                    <p class="text-xs text-gray-500">Thành viên BookVerse</p>
+                                </div>
+                                <div class="py-2">
+                                    <a asp-action="Profile" asp-controller="Account" class="bv-dropdown-item">
+                                        <i class="fas fa-user w-4 mr-3 text-gray-400"></i>
+                                        Hồ sơ của tôi
+                                    </a>
+                                    <a asp-action="Index" asp-controller="Orders" class="bv-dropdown-item">
+                                        <i class="fas fa-clipboard-list w-4 mr-3 text-gray-400"></i>
+                                        Đơn hàng của tôi
+                                    </a>
+
+                                </div>
+                                <div class="border-t border-gray-100 py-2">
+                                    <form asp-action="Logout" asp-controller="Account" method="post">
+                                        <button type="submit"
+                                            class="w-full text-left bv-dropdown-item text-red-600 hover:bg-red-50">
+                                            <i class="fas fa-sign-out-alt w-4 mr-3 text-red-500"></i>
+                                            Đăng xuất
+                                        </button>
+                                    </form>
+                                </div>
+                            }
+                            else
+                            {
+
+                                <div class="px-4 py-3 border-b border-gray-100">
+                                    <p class="text-sm font-medium text-gray-800">Chưa đăng nhập</p>
+                                    <p class="text-xs text-gray-500">Đăng nhập để xem ưu đãi</p>
+
+                                </div>
+                                <div class="py-2">
+                                    <a asp-action="Login" asp-controller="Account" class="bv-dropdown-item">
+                                        <i class="fas fa-sign-in-alt w-4 mr-3 text-primary-500"></i>
+                                        Đăng nhập
+                                    </a>
+                                    <a asp-action="Register" asp-controller="Account"
+                                        class="bv-dropdown-item text-green-600 hover:bg-green-50">
+                                        <i class="fas fa-user-plus w-4 mr-3 text-green-500"></i>
+                                        Đăng ký
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Search Bar -->
+        <div class="md:hidden pb-3">
+            <form asp-action="Search" asp-controller="Book" method="get" class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i class="fas fa-search text-gray-400"></i>
+                </div>
+                <input type="text" name="query" placeholder="Tìm kiếm sách..."
+                    class="w-full pl-10 pr-4 py-3 text-gray-700 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:border-primary-500 focus:ring-2 focus:ring-primary-100 focus:outline-none transition-all duration-300"
+                    value="@ViewBag.SearchQuery">
+            </form>
+        </div>
+    </div>
+</header>
+
+<!-- Navigation Bar -->
+<partial name="_Navigation" />
+
+<!-- Mobile Menu Overlay -->
+<div id="mobile-overlay" class="bv-mobile-overlay"></div>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="bv-mobile-menu bv-scrollbar">
+    <div class="p-4">
+        <!-- Mobile Menu Header -->
+        <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-br from-primary-500 to-secondary-500 p-2 rounded-lg">
+                    <i class="fas fa-book-reader text-white text-lg"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold bv-gradient-text">BookVerse</h3>
+                    <p class="text-xs text-gray-500">Menu</p>
+                </div>
+            </div>
+            <button id="close-mobile-menu"
+                class="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+
+        <!-- User Account Section -->
+        <div class="mb-6 bv-user-section">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="flex items-center space-x-3 mb-3">
+                    <div
+                        class="w-10 h-10 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full flex items-center justify-center">
+                        <i class="fas fa-user text-white"></i>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-800">@User.Identity.Name</p>
+                        <p class="text-xs text-gray-500">Thành viên BookVerse</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <a asp-action="Profile" asp-controller="Account" class="bv-btn-primary text-center">Hồ sơ</a>
+                    <form asp-action="Logout" asp-controller="Account" method="post" class="inline">
+                        <button type="submit" class="bv-btn-secondary w-full">Đăng xuất</button>
+                    </form>
+                </div>
+            }
+            else
+            {
+                <div class="flex items-center space-x-3 mb-3">
+                    <div
+                        class="w-10 h-10 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full flex items-center justify-center">
+                        <i class="fas fa-user text-white"></i>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-800">Chưa đăng nhập</p>
+                        <p class="text-xs text-gray-500">Đăng nhập để nhận ưu đãi</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <a asp-action="Login" asp-controller="Account" class="bv-btn-primary text-center">Đăng nhập</a>
+                    <a asp-action="Register" asp-controller="Account" class="bv-btn-secondary text-center">Đăng ký</a>
+                </div>
+            }
+        </div>
+
+        <!-- Categories Section -->
+        <div class="mb-6">
+            <h4 class="font-bold text-gray-800 mb-3 flex items-center">
+                <i class="fas fa-th-large text-primary-500 mr-2"></i>
+                Danh mục sách
+            </h4>
+            <div class="space-y-1">
+                <a asp-action="Category" asp-controller="Book" asp-route-category="literature-domestic"
+                    class="bv-mobile-menu-item">
+                    <i class="fas fa-book-open w-5 mr-3 text-primary-400"></i>
+                    <span>Văn học trong nước</span>
+                </a>
+                <a asp-action="Category" asp-controller="Book" asp-route-category="literature-foreign"
+                    class="bv-mobile-menu-item hover:bg-green-50 hover:text-green-600">
+                    <i class="fas fa-globe w-5 mr-3 text-green-500"></i>
+                    <span>Văn học nước ngoài</span>
+                </a>
+                <a asp-action="Category" asp-controller="Book" asp-route-category="business"
+                    class="bv-mobile-menu-item hover:bg-orange-50 hover:text-orange-600">
+                    <i class="fas fa-chart-line w-5 mr-3 text-orange-500"></i>
+                    <span>Kinh tế - Quản lý</span>
+                </a>
+                <a asp-action="Category" asp-controller="Book" asp-route-category="life-skills"
+                    class="bv-mobile-menu-item hover:bg-yellow-50 hover:text-yellow-600">
+                    <i class="fas fa-lightbulb w-5 mr-3 text-yellow-500"></i>
+                    <span>Kỹ năng sống</span>
+                </a>
+                <a asp-action="Category" asp-controller="Book" asp-route-category="technology"
+                    class="bv-mobile-menu-item hover:bg-purple-50 hover:text-secondary-600">
+                    <i class="fas fa-laptop-code w-5 mr-3 text-secondary-500"></i>
+                    <span>Công nghệ thông tin</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Menu -->
+        <div class="space-y-1">
+            <a asp-action="Index" asp-controller="Home" class="bv-mobile-menu-item">
+                <i class="fas fa-home w-5 mr-3 text-primary-500"></i>
+                <span>Trang chủ</span>
+            </a>
+            <a asp-action="NewBooks" asp-controller="Book"
+                class="bv-mobile-menu-item hover:bg-green-50 hover:text-green-600">
+                <i class="fas fa-star w-5 mr-3 text-green-500"></i>
+                <span>Sách mới</span>
+            </a>
+            <a asp-action="Bestseller" asp-controller="Book"
+                class="bv-mobile-menu-item hover:bg-yellow-50 hover:text-yellow-600">
+                <i class="fas fa-crown w-5 mr-3 text-yellow-500"></i>
+                <span>Bestseller</span>
+            </a>
+            <a asp-action="Promotions" asp-controller="Book"
+                class="bv-mobile-menu-item hover:bg-orange-50 hover:text-orange-600">
+                <i class="fas fa-tags w-5 mr-3 text-orange-500"></i>
+                <span>Khuyến mãi</span>
+            </a>
+            <a asp-action="Index" asp-controller="Blog"
+                class="bv-mobile-menu-item hover:bg-purple-50 hover:text-secondary-600">
+                <i class="fas fa-blog w-5 mr-3 text-secondary-500"></i>
+                <span>Blog</span>
+            </a>
+            <a asp-action="Contact" asp-controller="Home" class="bv-mobile-menu-item">
+                <i class="fas fa-phone w-5 mr-3 text-primary-500"></i>
+                <span>Liên hệ</span>
+            </a>
+        </div>
+
+        <!-- Bottom Actions -->
+        <div class="mt-8 pt-6 border-t border-gray-200">
+            <div class="bg-gradient-to-r from-red-500 to-pink-500 text-white p-4 rounded-lg text-center animate-pulse">
+                <i class="fas fa-bolt text-xl mb-2"></i>
+                <p class="font-bold">Flash Sale 50%</p>
+                <p class="text-sm opacity-90">Khuyến mãi có hạn</p>
+            </div>
+        </div>
+    </div>
+</div>

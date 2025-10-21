@@ -1,0 +1,280 @@
+@* Views/Admin/Reports.cshtml *@
+@model BookStoreMVC.Models.ViewModels.AdminDashboardViewModel
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Báo cáo & Phân tích";
+    ViewBag.PageTitle = "Báo cáo & Phân tích";
+    ViewBag.ActiveMenu = "Reports";
+}
+
+<!-- Page Header -->
+<div class="mb-6">
+    <div class="sm:flex sm:items-center sm:justify-between">
+        <div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">
+                <i class="fas fa-chart-bar text-primary-600 mr-3"></i>
+                Báo cáo & Phân tích
+            </h2>
+            <p class="text-sm text-gray-600">Phân tích chi tiết về hoạt động kinh doanh</p>
+        </div>
+        <div class="mt-4 sm:mt-0">
+            <button onclick="exportReport()"
+                class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                <i class="fas fa-file-export mr-2"></i>Xuất báo cáo
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Summary Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm font-medium text-gray-600">Tổng doanh thu</p>
+                <p class="text-3xl font-bold text-gray-900 mt-2">@(Model?.TotalRevenue.ToString("N0") ?? "0") ₫</p>
+
+            </div>
+            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <i class="fas fa-dollar-sign text-green-600 text-xl"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm font-medium text-gray-600">Tổng đơn hàng</p>
+                <p class="text-3xl font-bold text-gray-900 mt-2">@(Model?.TotalOrders.ToString() ?? "0")</p>
+
+            </div>
+            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <i class="fas fa-shopping-cart text-blue-600 text-xl"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="text-sm font-medium text-gray-600">Giá trị TB/Đơn</p>
+                <p class="text-3xl font-bold text-gray-900 mt-2">
+                    @((Model != null && Model.TotalOrders > 0 ? Model.TotalRevenue / Model.TotalOrders :
+                                        0).ToString("N0")) ₫
+                </p>
+
+            </div>
+            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <i class="fas fa-chart-line text-purple-600 text-xl"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+    <!-- Revenue Chart -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <div class="flex items-center justify-between">
+                <h3 class="text-lg font-semibold text-gray-900">Doanh thu theo tháng</h3>
+                <div class="flex space-x-2">
+                    <button class="px-3 py-1 text-sm bg-primary-500 text-white rounded-lg">12 tháng</button>
+                    <button class="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded-lg">6 tháng</button>
+                    <button class="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded-lg">3 tháng</button>
+                </div>
+            </div>
+        </div>
+        <div class="p-6">
+            <canvas id="revenueChart" height="300"></canvas>
+        </div>
+    </div>
+
+    <!-- Orders by Status -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900">Đơn hàng theo trạng thái</h3>
+        </div>
+        <div class="p-6">
+            <canvas id="orderStatusChart" height="300"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- User Registrations Chart -->
+<div class="bg-white rounded-xl shadow-sm border border-gray-200 mb-8">
+    <div class="px-6 py-4 border-b border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-900">Đăng ký người dùng mới</h3>
+    </div>
+    <div class="p-6">
+        <canvas id="userRegistrationsChart" height="150"></canvas>
+    </div>
+</div>
+
+<!-- Top Products and Customers -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Top Selling Books -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900">
+                <i class="fas fa-trophy text-yellow-600 mr-2"></i>
+                Sách bán chạy
+            </h3>
+        </div>
+        <div class="p-6">
+            <div class="space-y-3">
+                @if (ViewBag.TopSellingBooks != null && ((IEnumerable<BookStoreMVC.Models.ViewModels.BookSummaryViewModel>)ViewBag.TopSellingBooks).Any())
+                {
+                    var rank = 1;
+                    foreach (var book in (IEnumerable<BookStoreMVC.Models.ViewModels.BookSummaryViewModel>)ViewBag.TopSellingBooks)
+                    {
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center space-x-3">
+                                <span class="text-2xl font-bold text-gray-400">@rank</span>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">@book.Title</p>
+                                    <p class="text-xs text-gray-500">Đã bán: @book.QuantitySold cuốn</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm font-semibold text-green-600">@book.Revenue.ToString("N0") ₫</p>
+                            </div>
+                        </div>
+                        rank++;
+                    }
+                }
+                else
+                {
+                    <div class="text-center py-8 text-gray-500">
+                        <i class="fas fa-book text-3xl mb-2"></i>
+                        <p class="text-sm">Chưa có dữ liệu bán hàng</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Customers -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900">
+                <i class="fas fa-user-tie text-blue-600 mr-2"></i>
+                Khách hàng VIP
+            </h3>
+        </div>
+        <div class="p-6">
+            <div class="space-y-3">
+                @if (ViewBag.TopCustomers != null && ((IEnumerable<BookStoreMVC.Models.ViewModels.UserSummaryViewModel>)ViewBag.TopCustomers).Any())
+                {
+                    foreach (var customer in (IEnumerable<BookStoreMVC.Models.ViewModels.UserSummaryViewModel>)ViewBag.TopCustomers)
+                    {
+                        var initials = customer.UserName.Length >= 2 ? customer.UserName.Substring(0, 2).ToUpper() : customer.UserName.Substring(0, 1).ToUpper();
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
+                                    <span class="text-sm font-semibold text-primary-600">@initials</span>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-900">@customer.UserName</p>
+                                    <p class="text-xs text-gray-500">@customer.OrdersCount đơn hàng</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm font-semibold text-green-600">@customer.TotalSpent.ToString("N0") ₫</p>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="text-center py-8 text-gray-500">
+                        <i class="fas fa-users text-3xl mb-2"></i>
+                        <p class="text-sm">Chưa có dữ liệu khách hàng</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Revenue Chart
+        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+        const monthlyRevenue = @Html.Raw(Json.Serialize(Model?.MonthlyRevenue ?? new Dictionary<string, decimal>()));
+
+        new Chart(revenueCtx, {
+            type: 'line',
+            data: {
+                labels: Object.keys(monthlyRevenue),
+                datasets: [{
+                    label: 'Doanh thu (₫)',
+                    data: Object.values(monthlyRevenue),
+                    borderColor: 'rgb(59, 130, 246)',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                }
+            }
+        });
+
+        // Order Status Chart
+        const orderStatusCtx = document.getElementById('orderStatusChart').getContext('2d');
+        const ordersByStatus = @Html.Raw(Json.Serialize(Model?.OrdersByStatus ?? new Dictionary<string, int>()));
+
+        new Chart(orderStatusCtx, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(ordersByStatus),
+                datasets: [{
+                    data: Object.values(ordersByStatus),
+                    backgroundColor: [
+                        'rgb(59, 130, 246)',
+                        'rgb(16, 185, 129)',
+                        'rgb(245, 158, 11)',
+                        'rgb(239, 68, 68)',
+                        'rgb(139, 92, 246)'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        // User Registrations Chart
+        const userRegsCtx = document.getElementById('userRegistrationsChart').getContext('2d');
+        const userRegistrations = @Html.Raw(Json.Serialize(Model?.UserRegistrations ?? new Dictionary<string, int>()));
+
+        new Chart(userRegsCtx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(userRegistrations),
+                datasets: [{
+                    label: 'Người dùng mới',
+                    data: Object.values(userRegistrations),
+                    backgroundColor: 'rgba(139, 92, 246, 0.8)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        function exportReport() {
+            window.location.href = '@Url.Action("ExportReport", "Admin", new { type = "full" })';
+        }
+    </script>
+}

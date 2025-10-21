@@ -1,0 +1,660 @@
+@* Views/Home/FAQ.cshtml *@
+@{
+    ViewData["Title"] = "Câu hỏi thường gặp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <!-- Breadcrumb -->
+    @await Html.PartialAsync("_Breadcrumb", new List<(string, string)> {
+    ("Trang chủ", Url.Action("Index", "Home")),
+        ("FAQ", "")
+        })
+
+    <div class="row">
+        <div class="col-12 text-center mb-5">
+            <h1 class="display-4">Câu hỏi thường gặp</h1>
+            <p class="lead text-muted">
+                Tìm câu trả lời cho những thắc mắc phổ biến
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Search FAQ -->
+        <div class="col-lg-8 mx-auto mb-5">
+            <div class="card">
+                <div class="card-body">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="faqSearch" placeholder="Tìm kiếm câu hỏi...">
+                        <button class="btn btn-primary" type="button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- FAQ Categories -->
+        <div class="col-lg-3 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">Danh mục câu hỏi</h6>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="#ordering" class="list-group-item list-group-item-action">
+                        <i class="fas fa-shopping-cart text-primary me-2"></i>
+                        Đặt hàng
+                    </a>
+                    <a href="#payment" class="list-group-item list-group-item-action">
+                        <i class="fas fa-credit-card text-success me-2"></i>
+                        Thanh toán
+                    </a>
+                    <a href="#shipping" class="list-group-item list-group-item-action">
+                        <i class="fas fa-shipping-fast text-info me-2"></i>
+                        Vận chuyển
+                    </a>
+                    <a href="#returns" class="list-group-item list-group-item-action">
+                        <i class="fas fa-undo text-warning me-2"></i>
+                        Đổi trả
+                    </a>
+                    <a href="#account" class="list-group-item list-group-item-action">
+                        <i class="fas fa-user text-secondary me-2"></i>
+                        Tài khoản
+                    </a>
+                    <a href="#technical" class="list-group-item list-group-item-action">
+                        <i class="fas fa-cog text-danger me-2"></i>
+                        Kỹ thuật
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Content -->
+        <div class="col-lg-9">
+            <!-- Ordering -->
+            <section id="ordering" class="faq-section mb-5">
+                <h3 class="section-title">
+                    <i class="fas fa-shopping-cart text-primary"></i> Đặt hàng
+                </h3>
+                <div class="accordion" id="orderingAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#order1" aria-expanded="true">
+                                Làm thế nào để đặt hàng trên website?
+                            </button>
+                        </h2>
+                        <div id="order1" class="accordion-collapse collapse show" data-bs-parent="#orderingAccordion">
+                            <div class="accordion-body">
+                                <p>Để đặt hàng trên BookStore, bạn thực hiện theo các bước sau:</p>
+                                <ol>
+                                    <li>Tìm kiếm sách bạn muốn mua</li>
+                                    <li>Nhấn "Thêm vào giỏ hàng"</li>
+                                    <li>Vào giỏ hàng và kiểm tra sản phẩm</li>
+                                    <li>Nhấn "Thanh toán"</li>
+                                    <li>Điền thông tin giao hàng</li>
+                                    <li>Chọn phương thức thanh toán</li>
+                                    <li>Xác nhận đơn hàng</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#order2">
+                                Tôi có thể hủy đơn hàng đã đặt không?
+                            </button>
+                        </h2>
+                        <div id="order2" class="accordion-collapse collapse" data-bs-parent="#orderingAccordion">
+                            <div class="accordion-body">
+                                Bạn có thể hủy đơn hàng trong vòng 1 giờ sau khi đặt hàng.
+                                Sau thời gian này, đơn hàng sẽ được xử lý và không thể hủy.
+                                Vui lòng liên hệ hotline 123-456-789 để được hỗ trợ.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#order3">
+                                Tại sao đơn hàng của tôi bị từ chối?
+                            </button>
+                        </h2>
+                        <div id="order3" class="accordion-collapse collapse" data-bs-parent="#orderingAccordion">
+                            <div class="accordion-body">
+                                Đơn hàng có thể bị từ chối vì các lý do sau:
+                                <ul>
+                                    <li>Sản phẩm hết hàng</li>
+                                    <li>Thông tin giao hàng không chính xác</li>
+                                    <li>Thanh toán thất bại</li>
+                                    <li>Đơn hàng nghi ngờ gian lận</li>
+                                </ul>
+                                Chúng tôi sẽ thông báo lý do cụ thể qua email.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Payment -->
+            <section id="payment" class="faq-section mb-5">
+                <h3 class="section-title">
+                    <i class="fas fa-credit-card text-success"></i> Thanh toán
+                </h3>
+                <div class="accordion" id="paymentAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#payment1">
+                                Có những phương thức thanh toán nào?
+                            </button>
+                        </h2>
+                        <div id="payment1" class="accordion-collapse collapse" data-bs-parent="#paymentAccordion">
+                            <div class="accordion-body">
+                                BookStore hỗ trợ các phương thức thanh toán sau:
+                                <ul>
+                                    <li><strong>Thẻ tín dụng/ghi nợ:</strong> Visa, MasterCard, JCB</li>
+                                    <li><strong>Ví điện tử:</strong> MoMo, ZaloPay, VNPay</li>
+                                    <li><strong>Chuyển khoản ngân hàng:</strong> Vietcombank, Techcombank, BIDV</li>
+                                    <li><strong>Thanh toán khi nhận hàng (COD)</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#payment2">
+                                Thông tin thanh toán có an toàn không?
+                            </button>
+                        </h2>
+                        <div id="payment2" class="accordion-collapse collapse" data-bs-parent="#paymentAccordion">
+                            <div class="accordion-body">
+                                Hoàn toàn an toàn! Chúng tôi sử dụng:
+                                <ul>
+                                    <li>Mã hóa SSL 256-bit</li>
+                                    <li>Chuẩn bảo mật PCI DSS</li>
+                                    <li>Không lưu trữ thông tin thẻ</li>
+                                    <li>Xác thực 3D Secure</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Shipping -->
+            <section id="shipping" class="faq-section mb-5">
+                <h3 class="section-title">
+                    <i class="fas fa-shipping-fast text-info"></i> Vận chuyển
+                </h3>
+                <div class="accordion" id="shippingAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#shipping1">
+                                Thời gian giao hàng là bao lâu?
+                            </button>
+                        </h2>
+                        <div id="shipping1" class="accordion-collapse collapse" data-bs-parent="#shippingAccordion">
+                            <div class="accordion-body">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Khu vực</th>
+                                            <th>Giao hàng tiêu chuẩn</th>
+                                            <th>Giao hàng nhanh</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>TP.HCM & Hà Nội</td>
+                                            <td>1-2 ngày</td>
+                                            <td>3-6 giờ</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Các tỉnh thành khác</td>
+                                            <td>2-5 ngày</td>
+                                            <td>1-2 ngày</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Vùng sâu vùng xa</td>
+                                            <td>5-7 ngày</td>
+                                            <td>3-5 ngày</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#shipping2">
+                                Phí vận chuyển được tính như thế nào?
+                            </button>
+                        </h2>
+                        <div id="shipping2" class="accordion-collapse collapse" data-bs-parent="#shippingAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li><strong>Miễn phí</strong> với đơn hàng từ 500,000đ</li>
+                                    <li><strong>30,000đ</strong> cho đơn hàng dưới 500,000đ (nội thành)</li>
+                                    <li><strong>50,000đ</strong> cho đơn hàng dưới 500,000đ (ngoại thành)</li>
+                                    <li><strong>Giao hàng nhanh:</strong> +20,000đ</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Returns -->
+            <section id="returns" class="faq-section mb-5">
+                <h3 class="section-title">
+                    <i class="fas fa-undo text-warning"></i> Đổi trả
+                </h3>
+                <div class="accordion" id="returnsAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#return1">
+                                Điều kiện đổi trả sách như thế nào?
+                            </button>
+                        </h2>
+                        <div id="return1" class="accordion-collapse collapse" data-bs-parent="#returnsAccordion">
+                            <div class="accordion-body">
+                                <h6>Điều kiện đổi trả:</h6>
+                                <ul>
+                                    <li>Thời hạn: 7 ngày kể từ ngày nhận hàng</li>
+                                    <li>Sản phẩm còn nguyên vẹn, chưa sử dụng</li>
+                                    <li>Có hóa đơn mua hàng</li>
+                                    <li>Đóng gói đầy đủ như ban đầu</li>
+                                </ul>
+                                <h6>Không áp dụng đổi trả:</h6>
+                                <ul>
+                                    <li>Sách đã được đọc hoặc có dấu hiệu sử dụng</li>
+                                    <li>Sách đặt in theo yêu cầu riêng</li>
+                                    <li>Quá thời hạn đổi trả</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#return2">
+                                Quy trình đổi trả như thế nào?
+                            </button>
+                        </h2>
+                        <div id="return2" class="accordion-collapse collapse" data-bs-parent="#returnsAccordion">
+                            <div class="accordion-body">
+                                <ol>
+                                    <li>Liên hệ hotline 123-456-789 hoặc email support@bookstore.vn</li>
+                                    <li>Cung cấp mã đơn hàng và lý do đổi trả</li>
+                                    <li>Nhận mã RMA (Return Authorization)</li>
+                                    <li>Đóng gói sản phẩm kèm mã RMA</li>
+                                    <li>Gửi hàng về địa chỉ chúng tôi cung cấp</li>
+                                    <li>Chúng tôi xử lý trong vòng 3-5 ngày làm việc</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#return3">
+                                Khi nào tôi nhận được tiền hoàn?
+                            </button>
+                        </h2>
+                        <div id="return3" class="accordion-collapse collapse" data-bs-parent="#returnsAccordion">
+                            <div class="accordion-body">
+                                <ul>
+                                    <li><strong>Thanh toán COD:</strong> Hoàn tiền trong 1-2 ngày làm việc</li>
+                                    <li><strong>Chuyển khoản:</strong> Hoàn về tài khoản trong 3-5 ngày làm việc</li>
+                                    <li><strong>Thẻ tín dụng:</strong> 7-15 ngày làm việc (tùy ngân hàng)</li>
+                                    <li><strong>Ví điện tử:</strong> 1-3 ngày làm việc</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Account -->
+            <section id="account" class="faq-section mb-5">
+                <h3 class="section-title">
+                    <i class="fas fa-user text-secondary"></i> Tài khoản
+                </h3>
+                <div class="accordion" id="accountAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#account1">
+                                Làm thế nào để đăng ký tài khoản?
+                            </button>
+                        </h2>
+                        <div id="account1" class="accordion-collapse collapse" data-bs-parent="#accountAccordion">
+                            <div class="accordion-body">
+                                <ol>
+                                    <li>Nhấn "Đăng ký" ở góc trên cùng trang web</li>
+                                    <li>Điền đầy đủ thông tin: họ tên, email, số điện thoại</li>
+                                    <li>Tạo mật khẩu mạnh (ít nhất 8 ký tự)</li>
+                                    <li>Xác nhận đồng ý với điều khoản sử dụng</li>
+                                    <li>Nhấn "Đăng ký" để hoàn tất</li>
+                                    <li>Kiểm tra email để xác thực tài khoản</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#account2">
+                                Tôi quên mật khẩu, phải làm sao?
+                            </button>
+                        </h2>
+                        <div id="account2" class="accordion-collapse collapse" data-bs-parent="#accountAccordion">
+                            <div class="accordion-body">
+                                <ol>
+                                    <li>Vào trang đăng nhập</li>
+                                    <li>Nhấn "Quên mật khẩu?"</li>
+                                    <li>Nhập email đã đăng ký</li>
+                                    <li>Kiểm tra email để nhận link đặt lại mật khẩu</li>
+                                    <li>Nhấn vào link và tạo mật khẩu mới</li>
+                                </ol>
+                                <div class="alert alert-info">
+                                    <small><i class="fas fa-info-circle"></i>
+                                        Link đặt lại mật khẩu có hiệu lực trong 24 giờ</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#account3">
+                                Làm thế nào để cập nhật thông tin cá nhân?
+                            </button>
+                        </h2>
+                        <div id="account3" class="accordion-collapse collapse" data-bs-parent="#accountAccordion">
+                            <div class="accordion-body">
+                                <ol>
+                                    <li>Đăng nhập vào tài khoản</li>
+                                    <li>Vào mục "Thông tin cá nhân"</li>
+                                    <li>Nhấn "Chỉnh sửa thông tin"</li>
+                                    <li>Cập nhật các thông tin cần thiết</li>
+                                    <li>Nhấn "Lưu thay đổi"</li>
+                                </ol>
+                                <p><strong>Lưu ý:</strong> Địa chỉ email không thể thay đổi sau khi đăng ký.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Technical -->
+            <section id="technical" class="faq-section mb-5">
+                <h3 class="section-title">
+                    <i class="fas fa-cog text-danger"></i> Kỹ thuật
+                </h3>
+                <div class="accordion" id="technicalAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#tech1">
+                                Website hoạt động chậm, tôi phải làm gì?
+                            </button>
+                        </h2>
+                        <div id="tech1" class="accordion-collapse collapse" data-bs-parent="#technicalAccordion">
+                            <div class="accordion-body">
+                                <h6>Các bước khắc phục:</h6>
+                                <ol>
+                                    <li>Kiểm tra kết nối internet</li>
+                                    <li>Xóa cache và cookies trình duyệt</li>
+                                    <li>Thử trình duyệt khác</li>
+                                    <li>Tắt các extension không cần thiết</li>
+                                    <li>Restart router/modem</li>
+                                </ol>
+                                <p>Nếu vẫn không khắc phục được, vui lòng liên hệ hỗ trợ kỹ thuật.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#tech2">
+                                Tại sao tôi không thể thanh toán?
+                            </button>
+                        </h2>
+                        <div id="tech2" class="accordion-collapse collapse" data-bs-parent="#technicalAccordion">
+                            <div class="accordion-body">
+                                <h6>Nguyên nhân có thể gặp:</h6>
+                                <ul>
+                                    <li>Thông tin thẻ không chính xác</li>
+                                    <li>Thẻ hết hạn hoặc bị khóa</li>
+                                    <li>Không đủ số dư</li>
+                                    <li>Ngân hàng từ chối giao dịch</li>
+                                    <li>Lỗi kết nối mạng</li>
+                                </ul>
+                                <h6>Giải pháp:</h6>
+                                <ul>
+                                    <li>Kiểm tra lại thông tin thanh toán</li>
+                                    <li>Thử phương thức thanh toán khác</li>
+                                    <li>Liên hệ ngân hàng của bạn</li>
+                                    <li>Sử dụng thanh toán COD</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#tech3">
+                                Website có hỗ trợ trên điện thoại không?
+                            </button>
+                        </h2>
+                        <div id="tech3" class="accordion-collapse collapse" data-bs-parent="#technicalAccordion">
+                            <div class="accordion-body">
+                                <p>Có! Website BookStore được tối ưu cho mọi thiết bị:</p>
+                                <ul>
+                                    <li><strong>Responsive design:</strong> Tự động điều chỉnh theo màn hình</li>
+                                    <li><strong>Touch-friendly:</strong> Dễ dàng sử dụng bằng cảm ứng</li>
+                                    <li><strong>Tốc độ tải nhanh:</strong> Tối ưu cho mạng di động</li>
+                                </ul>
+                                <div class="alert alert-info">
+                                    <small><i class="fas fa-mobile-alt"></i>
+                                        Sắp tới chúng tôi sẽ ra mắt ứng dụng di động riêng</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Support -->
+            <section class="contact-support">
+                <div class="card bg-primary text-white">
+                    <div class="card-body text-center">
+                        <h4>Không tìm thấy câu trả lời?</h4>
+                        <p class="mb-3">Đội ngũ hỗ trợ của chúng tôi luôn sẵn sàng giúp đỡ bạn</p>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="support-item">
+                                    <i class="fas fa-phone fa-2x mb-2"></i>
+                                    <h6>Hotline</h6>
+                                    <p class="mb-0">123-456-789</p>
+                                    <small>8:00 - 22:00 hàng ngày</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="support-item">
+                                    <i class="fas fa-envelope fa-2x mb-2"></i>
+                                    <h6>Email</h6>
+                                    <p class="mb-0">support@bookstore.vn</p>
+                                    <small>Phản hồi trong 24h</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="support-item">
+                                    <i class="fab fa-facebook-messenger fa-2x mb-2"></i>
+                                    <h6>Live Chat</h6>
+                                    <p class="mb-0">Chat trực tuyến</p>
+                                    <small>8:00 - 18:00 T2-T6</small>
+                                </div>
+                            </div>
+                        </div>
+                        <a asp-action="Contact" class="btn btn-light btn-lg mt-3">
+                            <i class="fas fa-headset"></i> Liên hệ hỗ trợ
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<script>
+    // FAQ Search
+    document.getElementById('faqSearch').addEventListener('input', function () {
+        const searchTerm = this.value.toLowerCase();
+        const accordions = document.querySelectorAll('.accordion-item');
+
+        accordions.forEach(function (accordion) {
+            const question = accordion.querySelector('.accordion-button').textContent.toLowerCase();
+            const answer = accordion.querySelector('.accordion-body').textContent.toLowerCase();
+
+            if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                accordion.style.display = 'block';
+                if (searchTerm.length > 2) {
+                    // Highlight search terms
+                    highlightText(accordion, searchTerm);
+                }
+            } else {
+                accordion.style.display = 'none';
+            }
+        });
+
+        // Show/hide sections based on visible items
+        document.querySelectorAll('.faq-section').forEach(function (section) {
+            const visibleItems = section.querySelectorAll('.accordion-item[style*="block"]');
+            if (visibleItems.length === 0 && searchTerm.length > 0) {
+                section.style.display = 'none';
+            } else {
+                section.style.display = 'block';
+            }
+        });
+    });
+
+    function highlightText(element, searchTerm) {
+        const textNodes = getTextNodes(element);
+        textNodes.forEach(function (node) {
+            const text = node.textContent;
+            const regex = new RegExp(`(${searchTerm})`, 'gi');
+            if (regex.test(text)) {
+                const highlightedText = text.replace(regex, '<mark>$1</mark>');
+                const wrapper = document.createElement('span');
+                wrapper.innerHTML = highlightedText;
+                node.parentNode.replaceChild(wrapper, node);
+            }
+        });
+    }
+
+    function getTextNodes(element) {
+        const textNodes = [];
+        const walker = document.createTreeWalker(
+            element,
+            NodeFilter.SHOW_TEXT,
+            null,
+            false
+        );
+
+        let node;
+        while (node = walker.nextNode()) {
+            textNodes.push(node);
+        }
+
+        return textNodes;
+    }
+
+    // Smooth scroll for category links
+    document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Auto-expand first item in each section
+    document.addEventListener('DOMContentLoaded', function () {
+        const firstItems = document.querySelectorAll('.faq-section .accordion-item:first-child .accordion-collapse');
+        firstItems.forEach(function (item, index) {
+            if (index === 0) { // Only expand the very first item
+                item.classList.add('show');
+            }
+        });
+    });
+</script>
+
+<style>
+    .faq-section {
+        scroll-margin-top: 100px;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #e9ecef;
+    }
+
+    .support-item {
+        padding: 1rem;
+    }
+
+    .support-item i {
+        opacity: 0.8;
+    }
+
+    .accordion-button:not(.collapsed) {
+        background-color: #f8f9fa;
+        color: #007bff;
+    }
+
+    .list-group-item-action:hover {
+        background-color: #f8f9fa;
+        transform: translateX(5px);
+        transition: all 0.2s ease;
+    }
+
+    mark {
+        background-color: #fff3cd;
+        padding: 0.1em 0.2em;
+        border-radius: 0.2em;
+    }
+
+    @@media (max-width: 768px) {
+        .section-title {
+            font-size: 1.5rem;
+        }
+    }
+</style>

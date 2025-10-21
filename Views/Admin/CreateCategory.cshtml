@@ -1,0 +1,99 @@
+@* Views/Admin/CreateCategory.cshtml *@
+@model BookStoreMVC.Models.ViewModels.CategoryViewModel
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Thêm danh mục mới";
+    ViewBag.PageTitle = "Thêm danh mục mới";
+    ViewBag.ActiveMenu = "Categories";
+}
+
+
+<form asp-action="CreateCategory" method="post" class="max-w-2xl mx-auto">
+    @Html.AntiForgeryToken()
+
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900">
+                <i class="fas fa-plus text-primary-600 mr-2"></i>
+                Thêm danh mục mới
+            </h3>
+        </div>
+
+        <div class="p-6 space-y-6">
+            <!-- Name -->
+            <div>
+                <label asp-for="Name" class="block text-sm font-medium text-gray-700 mb-2">
+                    Tên danh mục <span class="text-red-500">*</span>
+                </label>
+                <input asp-for="Name" type="text"
+                    class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    placeholder="Nhập tên danh mục...">
+                <span asp-validation-for="Name" class="text-red-500 text-sm mt-1 block"></span>
+            </div>
+
+            <!-- Parent Category -->
+            <div>
+                <label asp-for="ParentCategoryId" class="block text-sm font-medium text-gray-700 mb-2">
+                    Danh mục cha
+                </label>
+                <select asp-for="ParentCategoryId"
+                    asp-items="@(new SelectList(Model.AvailableParentCategories, "Id", "Name"))"
+                    class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                    <option value="">-- Không có (Danh mục gốc) --</option>
+                </select>
+                <p class="text-xs text-gray-500 mt-1">Chọn danh mục cha nếu đây là danh mục con</p>
+                <span asp-validation-for="ParentCategoryId" class="text-red-500 text-sm mt-1 block"></span>
+            </div>
+
+            <!-- Description -->
+            <div>
+                <label asp-for="Description" class="block text-sm font-medium text-gray-700 mb-2">
+                    Mô tả
+                </label>
+                <textarea asp-for="Description" rows="3"
+                    class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 resize-none"
+                    placeholder="Nhập mô tả về danh mục..."></textarea>
+                <span asp-validation-for="Description" class="text-red-500 text-sm mt-1 block"></span>
+            </div>
+
+            <!-- Image URL -->
+            <div>
+                <label asp-for="ImageUrl" class="block text-sm font-medium text-gray-700 mb-2">
+                    URL hình ảnh
+                </label>
+                <input asp-for="ImageUrl" type="text"
+                    class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                    placeholder="https://example.com/image.jpg">
+                <p class="text-xs text-gray-500 mt-1">URL hình ảnh đại diện cho danh mục</p>
+                <span asp-validation-for="ImageUrl" class="text-red-500 text-sm mt-1 block"></span>
+            </div>
+
+            <!-- Is Active -->
+            <div class="flex items-center">
+                <input asp-for="IsActive" type="checkbox" checked
+                    class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded">
+                <label asp-for="IsActive" class="ml-2 text-sm font-medium text-gray-700">
+                    Kích hoạt danh mục
+                </label>
+            </div>
+            <p class="text-xs text-gray-500 ml-6">Danh mục sẽ hiển thị trên website khi được kích hoạt</p>
+        </div>
+
+        <!-- Actions -->
+        <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 flex justify-end space-x-3">
+            <a href="@Url.Action("Categories", "Admin")"
+                class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors">
+                <i class="fas fa-times mr-2"></i>Hủy
+            </a>
+            <button type="submit"
+                class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+                <i class="fas fa-save mr-2"></i>Lưu danh mục
+            </button>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

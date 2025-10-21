@@ -1,0 +1,212 @@
+@* ===================================================================== *@
+@* Views/Home/Terms.cshtml *@
+@{
+    ViewData["Title"] = "Điều khoản sử dụng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <!-- Breadcrumb -->
+    @await Html.PartialAsync("_Breadcrumb", new List<(string, string)> {
+    ("Trang chủ", Url.Action("Index", "Home")),
+        ("Điều khoản sử dụng", "")
+        })
+
+    <div class="row">
+        <div class="col-lg-9 mx-auto">
+            <div class="card shadow-sm">
+                <div class="card-body p-5">
+                    <h1 class="text-center mb-5">Điều khoản sử dụng</h1>
+
+                    <div class="terms-content">
+                        <p class="lead text-muted mb-4">
+                            Chào mừng bạn đến với BookStore. Bằng việc truy cập và sử dụng website này,
+                            bạn đồng ý tuân thủ các điều khoản và điều kiện dưới đây.
+                        </p>
+
+                        <h3>1. Định nghĩa</h3>
+                        <ul>
+                            <li><strong>"Chúng tôi"</strong> hoặc <strong>"BookStore"</strong>: Công ty TNHH BookStore
+                                Việt Nam</li>
+                            <li><strong>"Bạn"</strong> hoặc <strong>"Người dùng"</strong>: Cá nhân hoặc tổ chức sử dụng
+                                dịch vụ</li>
+                            <li><strong>"Dịch vụ"</strong>: Website và các dịch vụ do BookStore cung cấp</li>
+                            <li><strong>"Sản phẩm"</strong>: Các loại sách và ấn phẩm được bán trên website</li>
+                        </ul>
+
+                        <h3>2. Chấp nhận điều khoản</h3>
+                        <p>
+                            Việc truy cập và sử dụng website BookStore đồng nghĩa với việc bạn chấp nhận
+                            toàn bộ các điều khoản này. Nếu không đồng ý, vui lòng ngừng sử dụng dịch vụ.
+                        </p>
+
+                        <h3>3. Đăng ký tài khoản</h3>
+                        <p>Khi đăng ký tài khoản, bạn cam kết:</p>
+                        <ul>
+                            <li>Cung cấp thông tin chính xác và đầy đủ</li>
+                            <li>Cập nhật thông tin khi có thay đổi</li>
+                            <li>Bảo mật thông tin đăng nhập</li>
+                            <li>Chịu trách nhiệm với mọi hoạt động trong tài khoản</li>
+                            <li>Thông báo ngay nếu phát hiện tài khoản bị xâm nhập</li>
+                        </ul>
+
+                        <h3>4. Sử dụng dịch vụ</h3>
+                        <p>Bạn được phép sử dụng dịch vụ cho mục đích cá nhân và thương mại hợp pháp.
+                            Bạn không được:</p>
+                        <ul>
+                            <li>Sử dụng dịch vụ cho mục đích bất hợp pháp</li>
+                            <li>Tấn công hoặc làm gián đoạn hệ thống</li>
+                            <li>Sao chép, phân phối nội dung mà không được phép</li>
+                            <li>Giả mạo hoặc làm giả thông tin</li>
+                            <li>Spam hoặc gửi nội dung không mong muốn</li>
+                            <li>Vi phạm quyền sở hữu trí tuệ</li>
+                        </ul>
+
+                        <h3>5. Đặt hàng và thanh toán</h3>
+                        <h5>5.1 Đặt hàng</h5>
+                        <ul>
+                            <li>Đơn hàng được xác nhận khi bạn nhận được email xác nhận</li>
+                            <li>Giá cả và tình trạng sản phẩm có thể thay đổi mà không báo trước</li>
+                            <li>Chúng tôi có quyền từ chối đơn hàng trong trường hợp cần thiết</li>
+                        </ul>
+
+                        <h5>5.2 Thanh toán</h5>
+                        <ul>
+                            <li>Thanh toán phải được thực hiện đầy đủ trước khi giao hàng</li>
+                            <li>Giá sản phẩm đã bao gồm VAT (nếu có)</li>
+                            <li>Phí vận chuyển được tính riêng theo chính sách giao hàng</li>
+                        </ul>
+
+                        <h3>6. Giao hàng</h3>
+                        <ul>
+                            <li>Thời gian giao hàng: 1-7 ngày làm việc tùy khu vực</li>
+                            <li>Miễn phí vận chuyển cho đơn hàng từ 500,000đ</li>
+                            <li>Chúng tôi giao hàng toàn quốc</li>
+                            <li>Rủi ro mất mát trong quá trình vận chuyển do đơn vị vận chuyển chịu trách nhiệm</li>
+                        </ul>
+
+                        <h3>7. Đổi trả và hoàn tiền</h3>
+                        <h5>7.1 Điều kiện đổi trả</h5>
+                        <ul>
+                            <li>Thời hạn: 7 ngày kể từ ngày nhận hàng</li>
+                            <li>Sản phẩm còn nguyên vẹn, chưa sử dụng</li>
+                            <li>Có hóa đơn mua hàng</li>
+                            <li>Lý do đổi trả hợp lệ</li>
+                        </ul>
+
+                        <h5>7.2 Trường hợp không được đổi trả</h5>
+                        <ul>
+                            <li>Sách đã được đọc hoặc có dấu hiệu sử dụng</li>
+                            <li>Sách được đặt in theo yêu cầu riêng</li>
+                            <li>Quá thời hạn đổi trả</li>
+                        </ul>
+
+                        <h3>8. Quyền sở hữu trí tuệ</h3>
+                        <p>
+                            Tất cả nội dung trên website (văn bản, hình ảnh, logo, thiết kế)
+                            đều thuộc quyền sở hữu của BookStore hoặc được cấp phép sử dụng hợp pháp.
+                            Việc sao chép, phân phối mà không được phép là vi phạm pháp luật.
+                        </p>
+
+                        <h3>9. Bảo mật thông tin</h3>
+                        <p>
+                            Chúng tôi cam kết bảo vệ thông tin cá nhân của bạn theo
+                            <a asp-action="Privacy">Chính sách bảo mật</a>.
+                            Tuy nhiên, không có hệ thống nào là 100% an toàn,
+                            bạn cũng cần bảo vệ thông tin của mình.
+                        </p>
+
+                        <h3>10. Giới hạn trách nhiệm</h3>
+                        <p>BookStore không chịu trách nhiệm cho:</p>
+                        <ul>
+                            <li>Thiệt hại gián tiếp hoặc hậu quả</li>
+                            <li>Mất dữ liệu hoặc lợi nhuận</li>
+                            <li>Gián đoạn kinh doanh</li>
+                            <li>Lỗi kỹ thuật ngoài tầm kiểm soát</li>
+                            <li>Hành vi của bên thứ ba</li>
+                        </ul>
+
+                        <h3>11. Chấm dứt dịch vụ</h3>
+                        <p>Chúng tôi có quyền:</p>
+                        <ul>
+                            <li>Tạm ngừng hoặc chấm dứt tài khoản vi phạm điều khoản</li>
+                            <li>Thay đổi hoặc ngừng cung cấp dịch vụ</li>
+                            <li>Xóa nội dung vi phạm quy định</li>
+                        </ul>
+
+                        <h3>12. Luật áp dụng và giải quyết tranh chấp</h3>
+                        <ul>
+                            <li>Điều khoản này được điều chỉnh bởi pháp luật Việt Nam</li>
+                            <li>Tranh chấp sẽ được giải quyết thông qua thương lượng</li>
+                            <li>Nếu không thỏa thuận được, tranh chấp sẽ được đưa ra Tòa án có thẩm quyền</li>
+                        </ul>
+
+                        <h3>13. Thay đổi điều khoản</h3>
+                        <p>
+                            Chúng tôi có quyền sửa đổi điều khoản này bất cứ lúc nào.
+                            Thay đổi sẽ có hiệu lực ngay khi được đăng tải trên website.
+                            Việc tiếp tục sử dụng dịch vụ đồng nghĩa với việc chấp nhận thay đổi.
+                        </p>
+
+                        <h3>14. Thông tin liên hệ</h3>
+                        <p>Mọi thắc mắc về điều khoản này, vui lòng liên hệ:</p>
+                        <div class="contact-info bg-light p-3 rounded">
+                            <p class="mb-1"><strong>Công ty:</strong> Công ty TNHH BookStore Việt Nam</p>
+                            <p class="mb-1"><strong>Địa chỉ:</strong> 123 Đường Nguyễn Huệ, Quận 1, TP.HCM</p>
+                            <p class="mb-1"><strong>Email:</strong> legal@bookstore.vn</p>
+                            <p class="mb-1"><strong>Điện thoại:</strong> (+84) 123 456 789</p>
+                            <p class="mb-0"><strong>MST:</strong> 0123456789</p>
+                        </div>
+
+                        <div class="alert alert-warning mt-4">
+                            <h6><i class="fas fa-exclamation-triangle"></i> Lưu ý quan trọng</h6>
+                            <p class="mb-0">
+                                Điều khoản này có hiệu lực từ ngày 01/01/2024.
+                                Bằng việc sử dụng website BookStore, bạn xác nhận đã đọc,
+                                hiểu và đồng ý tuân thủ tất cả các điều khoản và điều kiện nêu trên.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .terms-content h3 {
+        color: #007bff;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid #e9ecef;
+        padding-bottom: 0.5rem;
+    }
+
+    .terms-content h5 {
+        color: #28a745;
+        margin-top: 1.5rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .terms-content ul {
+        margin-bottom: 1.5rem;
+    }
+
+    .terms-content li {
+        margin-bottom: 0.5rem;
+    }
+
+    .contact-info {
+        border-left: 4px solid #007bff;
+    }
+
+    @@media print {
+        .breadcrumb {
+            display: none;
+        }
+
+        .terms-content {
+            font-size: 12px;
+        }
+    }
+</style>

@@ -1,0 +1,337 @@
+@* Views/Admin/Reviews.cshtml - Updated theo ReviewViewModel mới *@
+@model BookStoreMVC.Models.ViewModels.ReviewListViewModel
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Quản lý đánh giá";
+    ViewBag.PageTitle = "Quản lý đánh giá";
+    ViewBag.ActiveMenu = "Reviews";
+}
+
+<!-- Page Header -->
+<div class="mb-6">
+    <div class="sm:flex sm:items-center sm:justify-between">
+        <div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">
+                <i class="fas fa-star text-yellow-500 mr-3"></i>
+                Quản lý đánh giá
+            </h2>
+            <p class="text-sm text-gray-600">Xem và quản lý đánh giá từ khách hàng</p>
+        </div>
+    </div>
+</div>
+
+<!-- Stats Cards -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+    <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+        <div class="flex items-center">
+            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                <i class="fas fa-star text-blue-600 text-xl"></i>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gray-600">Tổng đánh giá</p>
+                <p class="text-2xl font-bold text-gray-900">@Model.TotalCount</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+        <div class="flex items-center">
+            <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mr-4">
+                <i class="fas fa-star-half-alt text-yellow-600 text-xl"></i>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gray-600">Đánh giá TB</p>
+                <p class="text-2xl font-bold text-gray-900">
+                    @Model.AverageRating.ToString("F1")
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+        <div class="flex items-center">
+            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                <i class="fas fa-book text-green-600 text-xl"></i>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gray-600">Sách có đánh giá</p>
+                <p class="text-2xl font-bold text-gray-900">
+                    @Model.Reviews.Select(r => r.BookId).Distinct().Count()
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+        <div class="flex items-center">
+            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
+                <i class="fas fa-users text-purple-600 text-xl"></i>
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gray-600">Người đánh giá</p>
+                <p class="text-2xl font-bold text-gray-900">
+                    @Model.Reviews.Select(r => r.UserId).Distinct().Count()
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Filters -->
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+    <form method="get" class="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <!-- Rating Filter -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                <i class="fas fa-star mr-1"></i>Đánh giá
+            </label>
+            <select name="Rating" 
+                    class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500">
+                <option value="">Tất cả</option>
+                <option value="5" selected="@(Model.Rating == 5)">5 sao ⭐⭐⭐⭐⭐</option>
+                <option value="4" selected="@(Model.Rating == 4)">4 sao ⭐⭐⭐⭐</option>
+                <option value="3" selected="@(Model.Rating == 3)">3 sao ⭐⭐⭐</option>
+                <option value="2" selected="@(Model.Rating == 2)">2 sao ⭐⭐</option>
+                <option value="1" selected="@(Model.Rating == 1)">1 sao ⭐</option>
+            </select>
+        </div>
+
+        <!-- Sort -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                <i class="fas fa-sort mr-1"></i>Sắp xếp
+            </label>
+            <select name="SortBy" 
+                    class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500">
+                <option value="newest" selected="@(Model.SortBy == "newest")">Mới nhất</option>
+                <option value="oldest" selected="@(Model.SortBy == "oldest")">Cũ nhất</option>
+                <option value="highest_rating" selected="@(Model.SortBy == "highest_rating")">Đánh giá cao</option>
+                <option value="lowest_rating" selected="@(Model.SortBy == "lowest_rating")">Đánh giá thấp</option>
+            </select>
+        </div>
+
+        <!-- Search -->
+        <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                <i class="fas fa-search mr-1"></i>Tìm kiếm
+            </label>
+            <input type="text" name="SearchTerm" value="@Model.SearchTerm" placeholder="Tìm nội dung..."
+                class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500" />
+        </div>
+
+        <!-- Actions -->
+        <div class="flex items-end gap-2">
+            <button type="submit" 
+                    class="flex-1 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+                <i class="fas fa-search mr-2"></i>Tìm
+            </button>
+            <a href="@Url.Action("Reviews", "Admin")" 
+               class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                <i class="fas fa-times"></i>
+            </a>
+        </div>
+    </form>
+</div>
+
+<!-- Reviews List -->
+<div class="bg-white rounded-lg shadow-sm border border-gray-200">
+    <div class="px-6 py-4 border-b border-gray-200">
+        <div class="flex items-center justify-between">
+            <h3 class="text-lg font-semibold text-gray-900">Danh sách đánh giá</h3>
+            <span class="text-sm text-gray-600">
+                @Model.Reviews.Count() / @Model.TotalCount đánh giá
+            </span>
+        </div>
+    </div>
+
+    @if (!Model.Reviews.Any())
+    {
+        <div class="p-12 text-center">
+            <i class="fas fa-star text-gray-300 text-5xl mb-4"></i>
+            <p class="text-gray-500">Chưa có đánh giá nào</p>
+        </div>
+    }
+    else
+    {
+        <div class="divide-y divide-gray-200">
+            @foreach (var review in Model.Reviews)
+            {
+                <div class="p-6 hover:bg-gray-50 transition-colors" id="review-@review.Id">
+                    <div class="flex items-start justify-between">
+                        <div class="flex items-start space-x-4 flex-1">
+                            <div class="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="text-primary-600 font-semibold text-lg">
+                                    @(review.UserDisplayName?.Substring(0, 1).ToUpper() ?? "?")
+                                </span>
+                            </div>
+
+                            <div class="flex-1">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <h4 class="font-semibold text-gray-900">@review.UserDisplayName</h4>
+                                    <div class="flex items-center">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            <i class="fas fa-star text-sm @(i <= review.Rating ? "text-yellow-400" : "text-gray-300")"></i>
+                                        }
+                                        <span class="ml-2 text-sm text-gray-600">(@review.Rating)/5</span>
+                                    </div>
+                                </div>
+
+                                <div class="text-sm text-gray-600 mb-2">
+                                    <i class="fas fa-book mr-1"></i>
+                                    <a href="@Url.Action("Details", "Books", new { id = review.BookId })" 
+                                       class="hover:text-primary-600 font-medium" target="_blank">
+                                        @review.Book.Title
+                                    </a>
+                                </div>
+
+                                <p class="text-gray-700 mb-2 leading-relaxed">@review.Comment</p>
+
+                                <div class="flex items-center gap-4 text-xs text-gray-500">
+                                    <span>
+                                        <i class="far fa-clock mr-1"></i>
+                                        @review.CreatedAt.ToString("dd/MM/yyyy HH:mm")
+                                    </span>
+                                    @if (review.UpdatedAt != review.CreatedAt)
+                                    {
+                                        <span class="text-blue-600">
+                                            <i class="fas fa-edit mr-1"></i>
+                                            Đã chỉnh sửa
+                                        </span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-2 ml-4">
+                            <button onclick="viewReviewDetails(@review.Id)" 
+                                    class="px-3 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors">
+                                <i class="fas fa-eye mr-1"></i>Chi tiết
+                            </button>
+                            <button onclick="deleteReview(@review.Id, '@Html.Raw(review.UserDisplayName?.Replace("'", "\\'"))', '@Html.Raw(review.Book.Title?.Replace("'", "\\'"))')" 
+                                    class="px-3 py-2 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition-colors">
+                                <i class="fas fa-trash mr-1"></i>Xóa
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Pagination -->
+        @if (Model.TotalPages > 1)
+        {
+            <div class="px-6 py-4 border-t border-gray-200 bg-gray-50">
+                <div class="flex items-center justify-between">
+                    <div class="text-sm text-gray-700">
+                        Hiển thị <b>@((Model.PageNumber - 1) * Model.PageSize + 1)</b> 
+                        đến <b>@Math.Min(Model.PageNumber * Model.PageSize, Model.TotalCount)</b> 
+                        / <b>@Model.TotalCount</b> đánh giá
+                    </div>
+
+                    <nav class="flex space-x-2">
+                        @if (Model.PageNumber > 1)
+                        {
+                            <a href="@Url.Action("Reviews", new { 
+                                page = Model.PageNumber - 1,
+                                pageSize = Model.PageSize,
+                                rating = Model.RatingDistribution,
+                                sortBy = Model.SortBy,
+                                searchTerm = Model.SearchTerm
+                            })" 
+                               class="px-3 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50">
+                                <i class="fas fa-chevron-left"></i>
+                            </a>
+                        }
+
+                        @for (int i = Math.Max(1, Model.PageNumber - 2); i <= Math.Min(Model.TotalPages, Model.PageNumber + 2); i++)
+                        {
+                            <a href="@Url.Action("Reviews", new { 
+                                page = i,
+                                pageSize = Model.PageSize,
+                                rating = Model.RatingDistribution,
+                                sortBy = Model.SortBy,
+                                searchTerm = Model.SearchTerm
+                            })" 
+                               class="px-3 py-2 border rounded-lg text-sm @(i == Model.PageNumber ? "bg-primary-600 text-white border-primary-600" : "border-gray-300 hover:bg-gray-50")">
+                                @i
+                            </a>
+                        }
+
+                        @if (Model.PageNumber < Model.TotalPages)
+                        {
+                            <a href="@Url.Action("Reviews", new { 
+                                page = Model.PageNumber + 1,
+                                pageSize = Model.PageSize,
+                                rating = Model.RatingDistribution,
+                                sortBy = Model.SortBy,
+                                searchTerm = Model.SearchTerm
+                            })" 
+                               class="px-3 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50">
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        }
+                    </nav>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+@section Scripts {
+    <script>
+        function viewReviewDetails(reviewId) {
+            // Implement view details functionality
+            window.open(`/admin/reviews/details/${reviewId}`, '_blank');
+        }
+
+        function deleteReview(reviewId, userName, bookTitle) {
+            if (!confirm(`Xóa đánh giá của "${userName}" cho sách "${bookTitle}"?\n\nHành động này không thể hoàn tác!`)) {
+                return;
+            }
+
+            $.ajax({
+                url: `/admin/reviews/delete/${reviewId}`,
+                method: 'POST',
+                headers: {
+                    'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                },
+                success: function(response) {
+                    if (response.success) {
+                        showNotification(response.message, 'success');
+                        $(`#review-${reviewId}`).fadeOut(300, function() {
+                            $(this).remove();
+                            if ($('[id^="review-"]').length === 0) {
+                                location.reload();
+                            }
+                        });
+                    } else {
+                        showNotification(response.message, 'error');
+                    }
+                },
+                error: function() {
+                    showNotification('Đã xảy ra lỗi. Vui lòng thử lại.', 'error');
+                }
+            });
+        }
+
+        function showNotification(message, type = 'info') {
+            const colors = {
+                success: 'bg-green-50 border-green-200 text-green-800',
+                error: 'bg-red-50 border-red-200 text-red-800',
+                info: 'bg-blue-50 border-blue-200 text-blue-800'
+            };
+
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg border shadow-lg ${colors[type]}`;
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'times' : 'info'}-circle mr-2"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        }
+    </script>
+}

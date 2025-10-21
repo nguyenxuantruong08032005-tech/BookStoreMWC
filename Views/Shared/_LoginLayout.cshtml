@@ -1,0 +1,100 @@
+@* Views/Shared/_LoginLayout.cshtml - Login/Auth Layout for BookVerse *@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>@ViewData["Title"] - BookVerse | Đăng nhập</title>
+
+    <link rel="stylesheet" href="~/css/output.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+
+<body class="bg-gradient-to-br from-primary-600 via-secondary-600 to-primary-700">
+    <!-- Skip to main content (Accessibility) -->
+    <a href="#main-content"
+        class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary-600 text-white p-2 rounded-lg z-50">
+        Chuyển đến nội dung chính
+    </a>
+
+    <!-- Floating Background Shapes -->
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <!-- Header Bar (Minimal) -->
+    <header class="sticky top-0 w-full z-40">
+        <partial name="_Header" />
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content" class="login-container" role="main">
+        @RenderBody()
+    </main>
+
+    <!-- Footer (Minimal) -->
+    <footer class="bottom-0 w-full z-40">
+        <partial name="_Footer" />
+    </footer>
+
+    <!-- Toast Notifications Container -->
+    <div id="toast-container" class="fixed top-20 right-4 z-50 space-y-2"></div>
+
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg p-6 flex flex-col items-center">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500 mb-4"></div>
+            <p class="text-gray-600">Đang xử lý...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="~/js/bookverse-core.js" asp-append-version="true"></script>
+    <script src="~/js/auth-validation.js" asp-append-version="true"></script>
+    <script src="~/js/login.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <!-- Authentication specific scripts -->
+    <script>
+        // Enhanced security for auth pages
+        document.addEventListener('DOMContentLoaded', function () {
+            // Disable right-click and F12 in production
+            if (window.location.hostname !== 'localhost') {
+                document.addEventListener('contextmenu', e => e.preventDefault());
+                document.addEventListener('keydown', e => {
+                    if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+                        e.preventDefault();
+                    }
+                });
+            }
+
+            // Auto-focus first input
+            const firstInput = document.querySelector('input:not([type="hidden"])');
+            if (firstInput) {
+                firstInput.focus();
+            }
+
+            // Form submission tracking
+            const forms = document.querySelectorAll('form');
+            forms.forEach(form => {
+                form.addEventListener('submit', function () {
+                    const submitBtn = form.querySelector('button[type="submit"]');
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Đang xử lý...';
+                    }
+                    document.getElementById('loading-spinner').classList.remove('hidden');
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

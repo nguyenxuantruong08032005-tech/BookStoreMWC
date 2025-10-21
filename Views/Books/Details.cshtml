@@ -1,0 +1,665 @@
+@model BookStoreMVC.Models.ViewModels.BookDetailsViewModel
+
+@{
+    ViewData["Title"] = Model.Book.Title;
+}
+
+@section Meta {
+<meta name="description" content="@Model.Book.Description" />
+<meta property="og:title" content="@Model.Book.Title" />
+<meta property="og:description" content="@Model.Book.Description" />
+<meta property="og:image" content="@Model.Book.ImageUrl" />
+}
+
+@section Styles {
+<style>
+    .sticky-sidebar {
+        position: sticky;
+        top: 2rem;
+    }
+    .thumbnail-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    .thumbnail-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    .thumbnail-item.active {
+        border-color: #3b82f6 !important;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.4);
+    }
+    #lightboxModal {
+        backdrop-filter: blur(8px);
+    }
+    .lightbox-button {
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+    }
+    .lightbox-button:hover {
+        background: rgba(0, 0, 0, 0.8);
+        transform: scale(1.15);
+    }
+    .zoom-animation {
+        animation: zoomIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    @@keyframes zoomIn {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+    .fade-in {
+        animation: fadeIn 0.3s ease;
+    }
+    @@keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    .main-image-container {
+        position: relative;
+        overflow: hidden;
+        border-radius: 0.75rem;
+    }
+    .main-image-container::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.3));
+        pointer-events: none;
+    }
+</style>
+}
+
+<div class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Left Column: Images -->
+        <div class="lg:col-span-1">
+            <div class="sticky-sidebar">
+                <!-- Main Image -->
+                <div class="main-image-container group mb-4 shadow-2xl">
+                    <img id="mainImage" 
+                         src="@(Model.Book.ImageUrl ?? "/images/no-book-cover.png")" 
+                         alt="@Model.Book.Title" 
+                         class="w-full h-auto object-cover cursor-pointer hover:scale-105 transition-transform duration-500 zoom-animation"
+                         onclick="openLightbox(0)" />
+                    
+                    @if (Model.Book.HasGalleryImages)
+                    {
+                        <div class="absolute bottom-4 right-4 z-10 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg flex items-center space-x-2">
+                            <i class="fas fa-images"></i>
+                            <span id="imageCount">@(Model.Book.GalleryImageCount + 1)</span>
+                            <span>ảnh</span>
+                        </div>
+                    }
+                    
+                    <div class="absolute top-4 left-4 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                        <button onclick="openLightbox(0)" 
+                                class="bg-white hover:bg-gray-100 text-gray-800 px-4 py-2 rounded-lg shadow-xl text-sm font-semibold flex items-center space-x-2 transform hover:scale-105 transition-all">
+                            <i class="fas fa-search-plus"></i>
+                            <span>Phóng to</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Thumbnails -->
+                @if (Model.Book.HasGalleryImages)
+                {
+                    <div class="space-y-3">
+                        <h4 class="text-sm font-bold text-gray-800 flex items-center">
+                            <i class="fas fa-images mr-2 text-blue-600"></i>
+                            Thư viện ảnh
+                            <span class="ml-auto bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                @(Model.Book.GalleryImageCount + 1) ảnh
+                            </span>
+                        </h4>
+                        <div class="grid grid-cols-4 gap-2">
+                            <!-- Cover -->
+                            <div class="thumbnail-item active border-2 border-blue-600 shadow-lg"
+                                 onclick="changeMainImage('@(Model.Book.ImageUrl ?? "/images/no-book-cover.png")', 0)">
+                                <img src="@(Model.Book.ImageUrl ?? "/images/no-book-cover.png")" 
+                                     alt="Cover" 
+                                     class="w-full h-20 object-cover" />
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 hover:opacity-100 transition-opacity"></div>
+                            </div>
+                            
+                            <!-- Gallery -->
+                            @for (int i = 0; i < Model.Book.GalleryImageUrls.Count && i < 7; i++)
+                            {
+                                var index = i;
+                                <div class="thumbnail-item border-2 border-gray-200 hover:border-blue-400 shadow-md"
+                                     onclick="changeMainImage('@Model.Book.GalleryImageUrls[index]', @(index + 1))">
+                                    <img src="@Model.Book.GalleryImageUrls[index]" 
+                                         alt="Gallery @(index + 1)" 
+                                         class="w-full h-20 object-cover" />
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 hover:opacity-100 transition-opacity"></div>
+                                </div>
+                            }
+                            
+                            @if (Model.Book.GalleryImageUrls.Count > 7)
+                            {
+                                <div class="thumbnail-item border-2 border-gray-200 hover:border-blue-400 bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center shadow-md"
+                                     onclick="openLightbox(8)">
+                                    <div class="text-center">
+                                        <span class="text-blue-600 text-xl font-black">+@(Model.Book.GalleryImageUrls.Count - 7)</span>
+                                        <p class="text-blue-500 text-xs font-semibold">Xem thêm</p>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+                
+                <!-- Actions -->
+                <div class="mt-6 space-y-3">
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        @if (Model.Book.InStock)
+                        {
+                            <!-- Quantity -->
+                            <div class="flex items-center justify-between bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-4 shadow-md">
+                                <span class="text-sm font-bold text-gray-800">Số lượng:</span>
+                                <div class="flex items-center space-x-3">
+                                    <button onclick="updateQuantity(-1)" 
+                                            class="w-10 h-10 bg-white hover:bg-gray-200 border-2 border-gray-300 rounded-lg flex items-center justify-center transition-all shadow-sm hover:shadow-md transform hover:scale-105">
+                                        <i class="fas fa-minus text-gray-700"></i>
+                                    </button>
+                                    <input type="number" id="quantity" value="@(Model.CartQuantity > 0 ? Model.CartQuantity : 1)" 
+                                           min="1" max="@Math.Min(Model.Book.StockQuantity, 10)" 
+                                           class="w-16 text-center border-2 border-gray-300 rounded-lg py-2 font-bold text-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                                           onchange="validateQuantity()" />
+                                    <button onclick="updateQuantity(1)" 
+                                            class="w-10 h-10 bg-white hover:bg-gray-200 border-2 border-gray-300 rounded-lg flex items-center justify-center transition-all shadow-sm hover:shadow-md transform hover:scale-105">
+                                        <i class="fas fa-plus text-gray-700"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Add to Cart -->
+                            <button onclick="addToCart()" 
+                                    class="w-full bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 hover:from-blue-700 hover:via-blue-800 hover:to-blue-900 text-white py-4 px-6 rounded-xl font-bold text-lg transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1 flex items-center justify-center space-x-3">
+                                <i class="fas fa-shopping-cart text-xl"></i>
+                                <span>@(Model.CartQuantity > 0 ? "Cập nhật giỏ hàng" : "Thêm vào giỏ")</span>
+                            </button>
+                        }
+                        else
+                        {
+                            <div class="w-full bg-red-100 border-2 border-red-300 text-red-700 py-4 px-6 rounded-xl font-bold text-lg text-center shadow-md">
+                                <i class="fas fa-exclamation-triangle mr-2"></i>
+                                Hết hàng
+                            </div>
+                        }
+                        
+                        <!-- Wishlist -->
+                        <button onclick="toggleWishlist(@Model.Book.Id)" id="wishlist-btn"
+                                class="w-full @(Model.IsInWishlist ? "bg-gradient-to-r from-red-50 to-pink-50 hover:from-red-100 hover:to-pink-100 text-red-600 border-red-300" : "bg-white hover:bg-gray-50 text-gray-700 border-gray-300") border-2 py-3 px-6 rounded-xl font-bold transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 flex items-center justify-center space-x-2">
+                            <i class="@(Model.IsInWishlist ? "fas" : "far") fa-heart text-xl"></i>
+                            <span>@(Model.IsInWishlist ? "Đã yêu thích" : "Yêu thích")</span>
+                        </button>
+                    }
+                    else
+                    {
+                        <a asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Context.Request.Path"
+                           class="block w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-4 px-6 rounded-xl font-bold text-lg text-center transition-all shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
+                            <i class="fas fa-sign-in-alt mr-2"></i>
+                            Đăng nhập để mua
+                        </a>
+                    }
+                </div>
+
+                <!-- Meta Info -->
+                <div class="mt-6 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-5 space-y-3 shadow-md">
+                    <h4 class="text-sm font-bold text-gray-800 mb-3 flex items-center">
+                        <i class="fas fa-info-circle mr-2 text-blue-600"></i>
+                        Thông tin chi tiết
+                    </h4>
+                    <div class="flex items-center text-sm">
+                        <i class="fas fa-boxes text-gray-500 w-6"></i>
+                        <span class="text-gray-600 flex-1">Kho:</span>
+                        <span class="font-bold @(Model.Book.StockQuantity > 10 ? "text-green-600" : Model.Book.StockQuantity > 0 ? "text-yellow-600" : "text-red-600")">
+                            @if (Model.Book.StockQuantity > 10)
+                            {
+                                <text><i class="fas fa-check-circle mr-1"></i>Còn hàng</text>
+                            }
+                            else if (Model.Book.StockQuantity > 0)
+                            {
+                                <text><i class="fas fa-exclamation-circle mr-1"></i>Sắp hết</text>
+                            }
+                            else
+                            {
+                                <text><i class="fas fa-times-circle mr-1"></i>Hết hàng</text>
+                            }
+                        </span>
+                    </div>
+                    @if (Model.Book.Publisher != null)
+                    {
+                        <div class="flex items-center text-sm">
+                            <i class="fas fa-building text-gray-500 w-6"></i>
+                            <span class="text-gray-600 flex-1">NXB:</span>
+                            <span class="font-semibold text-gray-800">@Model.Book.Publisher</span>
+                        </div>
+                    }
+                    @if (Model.Book.PublishDate != null)
+                    {
+                        <div class="flex items-center text-sm">
+                            <i class="fas fa-calendar text-gray-500 w-6"></i>
+                            <span class="text-gray-600 flex-1">Xuất bản:</span>
+                            <span class="font-semibold text-gray-800">@Model.Book.PublishDate?.ToString("dd/MM/yyyy")</span>
+                        </div>
+                    }
+                    @if (Model.Book.PageCount != null)
+                    {
+                        <div class="flex items-center text-sm">
+                            <i class="fas fa-file-alt text-gray-500 w-6"></i>
+                            <span class="text-gray-600 flex-1">Số trang:</span>
+                            <span class="font-semibold text-gray-800">@Model.Book.PageCount</span>
+                        </div>
+                    }
+                    @if (Model.Book.Language != null)
+                    {
+                        <div class="flex items-center text-sm">
+                            <i class="fas fa-language text-gray-500 w-6"></i>
+                            <span class="text-gray-600 flex-1">Ngôn ngữ:</span>
+                            <span class="font-semibold text-gray-800">@Model.Book.Language</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Column: Details -->
+        <div class="lg:col-span-2">
+            <!-- Book Info -->
+            <div class="bg-white rounded-xl shadow-xl p-8 mb-6">
+                <div class="flex items-start justify-between mb-6">
+                    <div class="flex-1">
+                        <h1 class="text-4xl font-black text-gray-900 mb-3 leading-tight">@Model.Book.Title</h1>
+                        <p class="text-xl text-gray-700 mb-4 flex items-center">
+                            <i class="fas fa-user-edit mr-3 text-blue-600"></i>
+                            <span class="font-semibold">@Model.Book.Author</span>
+                        </p>
+                    </div>
+                    @if (Model.Book.Category != null)
+                    {
+                        <a asp-controller="Books" asp-action="Category" asp-route-id="@Model.Book.CategoryId"
+                           class="bg-gradient-to-r from-blue-100 to-blue-200 hover:from-blue-200 hover:to-blue-300 text-blue-800 px-4 py-2 rounded-full text-sm font-bold transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                            <i class="fas fa-tag mr-1"></i>
+                            @Model.Book.Category.Name
+                        </a>
+                    }
+                </div>
+
+                <!-- Rating -->
+                <div class="flex items-center mb-6 bg-yellow-50 rounded-xl p-4">
+                    <div class="flex text-2xl mr-3">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <i class="fas fa-star @(i <= Model.Book.AverageRating ? "text-yellow-400" : "text-gray-300")"></i>
+                        }
+                    </div>
+                    <span class="text-gray-800 text-lg">
+                        <span class="font-black text-yellow-600">@Model.Book.AverageRating.ToString("F1")</span> 
+                        <span class="text-gray-500">/ 5.0</span>
+                        <span class="text-gray-400 ml-2">(@Model.Book.ReviewCount đánh giá)</span>
+                    </span>
+                </div>
+
+                <!-- Price -->
+                <div class="bg-gradient-to-r from-green-50 via-emerald-50 to-teal-50 border-2 border-green-300 rounded-xl p-6 mb-6 shadow-lg">
+                    @if (Model.Book.HasDiscount)
+                    {
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-xl line-through mb-1">@Model.Book.Price.ToString("C0")</p>
+                                <p class="text-5xl font-black text-green-700">@Model.Book.DisplayPrice.ToString("C0")</p>
+                            </div>
+                            <div class="bg-gradient-to-r from-red-500 to-pink-600 text-white px-6 py-3 rounded-xl text-2xl font-black transform rotate-3 shadow-2xl">
+                                -@Model.Book.DiscountPercentage%
+                            </div>
+                        </div>
+                        <p class="text-sm text-green-700 font-bold mt-3 flex items-center">
+                            <i class="fas fa-check-circle mr-2"></i>
+                            Tiết kiệm @((Model.Book.Price - Model.Book.DisplayPrice).ToString("C0"))
+                        </p>
+                    }
+                    else
+                    {
+                        <p class="text-5xl font-black text-gray-900">@Model.Book.Price.ToString("C0")</p>
+                    }
+                </div>
+
+                <!-- Description -->
+                @if (!string.IsNullOrEmpty(Model.Book.Description))
+                {
+                    <div class="mb-6">
+                        <h3 class="text-2xl font-black text-gray-900 mb-4 flex items-center">
+                            <i class="fas fa-book-open mr-3 text-blue-600"></i>
+                            Mô tả sách
+                        </h3>
+                        <div class="text-gray-700 leading-relaxed bg-gray-50 rounded-xl p-6 text-base">
+                            @Model.Book.Description
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Reviews -->
+            @if (Model.Book.Reviews.Any())
+            {
+                <div class="bg-white rounded-xl shadow-xl p-8 mb-6">
+                    <h3 class="text-2xl font-black text-gray-900 mb-6 flex items-center justify-between">
+                        <span class="flex items-center">
+                            <i class="fas fa-comments mr-3 text-purple-600"></i>
+                            Đánh giá
+                        </span>
+                        <span class="text-base font-normal text-gray-500">@Model.Book.ReviewCount đánh giá</span>
+                    </h3>
+
+                    <div class="space-y-4">
+                        @foreach (var review in Model.Book.Reviews.OrderByDescending(r => r.CreatedAt).Take(5))
+                        {
+                            <div class="bg-gradient-to-r from-blue-50 to-purple-50 border-l-4 border-blue-500 rounded-lg p-5 hover:shadow-md transition-shadow">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div>
+                                        <p class="font-bold text-gray-900 text-lg">@review.User?.Name</p>
+                                        <div class="flex text-yellow-400 text-sm mt-1">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <i class="fas fa-star @(i <= review.Rating ? "" : "text-gray-300")"></i>
+                                            }
+                                        </div>
+                                    </div>
+                                    <span class="text-sm text-gray-500 font-medium">
+                                        @((DateTime.UtcNow - review.CreatedAt).Days) ngày trước
+                                    </span>
+                                </div>
+                                @if (!string.IsNullOrEmpty(review.Comment))
+                                {
+                                    <p class="text-gray-700 text-base leading-relaxed">@review.Comment</p>
+                                }
+                            </div>
+                        }
+                    </div>
+
+                    @if (Model.CanReview)
+                    {
+                        <div class="mt-6">
+                            <a asp-controller="Reviews" asp-action="Create" asp-route-bookId="@Model.Book.Id"
+                               class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                                <i class="fas fa-pen mr-2"></i>
+                                Viết đánh giá
+                            </a>
+                        </div>
+                    }
+                </div>
+            }
+
+            <!-- Related Books -->
+            @if (Model.RelatedBooks.Any())
+            {
+                <div class="bg-white rounded-xl shadow-xl p-8">
+                    <h3 class="text-2xl font-black text-gray-900 mb-6 flex items-center">
+                        <i class="fas fa-layer-group mr-3 text-orange-600"></i>
+                        Sách liên quan
+                    </h3>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        @foreach (var book in Model.RelatedBooks)
+                        {
+                            <a asp-action="Details" asp-route-id="@book.Id" class="group">
+                                <div class="bg-gray-50 rounded-xl overflow-hidden hover:shadow-2xl transition-all transform hover:-translate-y-2">
+                                    <div class="relative overflow-hidden">
+                                        <img src="@(book.ImageUrl ?? "/images/no-book-cover.png")" 
+                                             alt="@book.Title" 
+                                             class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500" />
+                                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                    </div>
+                                    <div class="p-4">
+                                        <p class="font-bold text-sm text-gray-900 line-clamp-2 mb-1">@book.Title</p>
+                                        <p class="text-xs text-gray-600 mb-2">@book.Author</p>
+                                        <p class="text-sm font-black text-green-600">@book.DisplayPrice.ToString("C0")</p>
+                                    </div>
+                                </div>
+                            </a>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Lightbox -->
+<div id="lightboxModal" class="fixed inset-0 bg-black/95 z-50 hidden flex items-center justify-center fade-in">
+    <button onclick="closeLightbox()" 
+        class="lightbox-button absolute right-4 md:right-6 top-4 md:top-6 bg-black/50 hover:bg-black/70 text-white text-2xl md:text-3xl w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center z-30 transition duration-300">
+    <i class="fas fa-times"></i>
+</button>
+
+<!-- Nút trước -->
+<button onclick="previousImage()" 
+        class="lightbox-button absolute left-4 md:left-6 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white text-2xl md:text-3xl w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center z-20 transition duration-300">
+    <i class="fas fa-chevron-left"></i>
+</button>
+
+<!-- Nút sau -->
+<button onclick="nextImage()" 
+        class="lightbox-button absolute right-4 md:right-6 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white text-2xl md:text-3xl w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center z-20 transition duration-300">
+    <i class="fas fa-chevron-right"></i>
+</button>
+    
+    <div class="max-w-7xl max-h-screen p-8 w-full">
+        <img id="lightboxImage" src="" alt="@Model.Book.Title" 
+             class="max-w-full max-h-[85vh] object-contain mx-auto rounded-lg shadow-2xl zoom-animation" />
+        
+        <div class="text-center mt-6">
+            <div class="inline-flex items-center bg-black/70 text-white px-6 py-3 rounded-full text-sm backdrop-blur-lg shadow-xl">
+                <i class="fas fa-images mr-3"></i>
+                <span id="imageCounter" class="font-bold text-lg">1 / 1</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+const galleryImages = [
+    '@(Model.Book.ImageUrl ?? "/images/no-book-cover.png")',
+    @if (Model.Book.HasGalleryImages)
+    {
+        @foreach (var url in Model.Book.GalleryImageUrls)
+        {
+            @:'@url',
+        }
+    }
+];
+
+let currentImageIndex = 0;
+
+function changeMainImage(imageUrl, index) {
+    const mainImage = document.getElementById('mainImage');
+    mainImage.classList.remove('zoom-animation');
+    mainImage.src = imageUrl;
+    void mainImage.offsetWidth;
+    mainImage.classList.add('zoom-animation');
+    currentImageIndex = index;
+    
+    document.querySelectorAll('.thumbnail-item').forEach((item, i) => {
+        if (i === index) {
+            item.classList.add('active', 'border-blue-600');
+            item.classList.remove('border-gray-200');
+        } else {
+            item.classList.remove('active', 'border-blue-600');
+            item.classList.add('border-gray-200');
+        }
+    });
+}
+
+function openLightbox(index) {
+    currentImageIndex = index;
+    updateLightboxImage();
+    document.getElementById('lightboxModal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+    document.getElementById('lightboxModal').classList.add('hidden');
+    document.body.style.overflow = 'auto';
+}
+
+function previousImage() {
+    currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+    updateLightboxImage();
+}
+
+function nextImage() {
+    currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+    updateLightboxImage();
+}
+
+function updateLightboxImage() {
+    const img = document.getElementById('lightboxImage');
+    const counter = document.getElementById('imageCounter');
+    img.classList.remove('zoom-animation');
+    img.src = galleryImages[currentImageIndex];
+    void img.offsetWidth;
+    img.classList.add('zoom-animation');
+    counter.textContent = `{currentImageIndex + 1} / {galleryImages.length}`;
+}
+
+document.addEventListener('keydown', function(e) {
+    const modal = document.getElementById('lightboxModal');
+    if (!modal.classList.contains('hidden')) {
+        if (e.key === 'Escape') closeLightbox();
+        else if (e.key === 'ArrowLeft') previousImage();
+        else if (e.key === 'ArrowRight') nextImage();
+    }
+});
+
+document.getElementById('lightboxModal').addEventListener('click', function(e) {
+    if (e.target === this) closeLightbox();
+});
+
+function updateQuantity(delta) {
+    const input = document.getElementById('quantity');
+    const newValue = parseInt(input.value) + delta;
+    const min = parseInt(input.min);
+    const max = parseInt(input.max);
+    if (newValue >= min && newValue <= max) input.value = newValue;
+}
+
+function validateQuantity() {
+    const input = document.getElementById('quantity');
+    const min = parseInt(input.min);
+    const max = parseInt(input.max);
+    let value = parseInt(input.value);
+    if (value < min) value = min;
+    if (value > max) value = max;
+    input.value = value;
+}
+
+// Thay thế hàm addToCart() trong Views/Books/Details.cshtml
+
+function addToCart() {
+    const quantity = parseInt(document.getElementById('quantity').value);
+    
+    // Lấy anti-forgery token
+    const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+    
+    fetch('/Cart/AddToCart', {  // ✅ Sửa URL từ /cart/add thành /Cart/AddToCart
+        method: 'POST',
+        headers: { 
+            'Content-Type': 'application/json',
+            'RequestVerificationToken': token || ''  // ✅ Thêm token
+        },
+        body: JSON.stringify({ 
+            bookId: @Model.Book.Id, 
+            quantity: quantity 
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showNotification('Đã thêm vào giỏ hàng!', 'success');
+            // ✅ Cập nhật số lượng giỏ hàng
+            const cartCount = document.querySelector('.cart-count');
+            if (cartCount && data.cartItemCount) {
+                cartCount.textContent = data.cartItemCount;
+            }
+        } else {
+            showNotification(data.message || 'Có lỗi xảy ra!', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('Có lỗi xảy ra!', 'error');
+    });
+}
+
+function toggleWishlist(bookId) {
+    fetch('/wishlist/toggle', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bookId: bookId })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const btn = document.getElementById('wishlist-btn');
+            const icon = btn.querySelector('i');
+            if (data.isInWishlist) {
+                btn.className = 'w-full bg-gradient-to-r from-red-50 to-pink-50 hover:from-red-100 hover:to-pink-100 text-red-600 border-red-300 border-2 py-3 px-6 rounded-xl font-bold transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 flex items-center justify-center space-x-2';
+                icon.className = 'fas fa-heart text-xl';
+                btn.querySelector('span').textContent = 'Đã yêu thích';
+                showNotification('Đã thêm vào yêu thích!', 'success');
+            } else {
+                btn.className = 'w-full bg-white hover:bg-gray-50 text-gray-700 border-gray-300 border-2 py-3 px-6 rounded-xl font-bold transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 flex items-center justify-center space-x-2';
+                icon.className = 'far fa-heart text-xl';
+                btn.querySelector('span').textContent = 'Yêu thích';
+                showNotification('Đã xóa khỏi yêu thích!', 'success');
+            }
+        } else {
+            showNotification(data.message || 'Có lỗi xảy ra!', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showNotification('Có lỗi xảy ra!', 'error');
+    });
+}
+
+function showNotification(message, type = 'info') {
+    const colors = {
+        success: 'border-green-300 bg-green-50',
+        error: 'border-red-300 bg-red-50',
+        info: 'border-blue-300 bg-blue-50'
+    };
+    const icons = {
+        success: 'fa-check-circle text-green-600',
+        error: 'fa-times-circle text-red-600',
+        info: 'fa-info-circle text-blue-600'
+    };
+    const notification = document.createElement('div');
+    notification.className = `fixed top-4 right-4 z-50 max-w-sm w-full border-2 rounded-xl shadow-2xl p-4 {colors[type]} fade-in`;
+    notification.innerHTML = `
+        <div class="flex items-start">
+            <i class="fas {icons[type]} text-2xl mr-3"></i>
+            <p class="text-sm font-bold text-gray-900 flex-1">{message}</p>
+            <button onclick="this.parentElement.parentElement.remove()" class="ml-3 text-gray-400 hover:text-gray-600">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    `;
+    document.body.appendChild(notification);
+    setTimeout(() => notification.remove(), 5000);
+}
+</script>
+}

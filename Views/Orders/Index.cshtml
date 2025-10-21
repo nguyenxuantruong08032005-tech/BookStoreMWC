@@ -1,0 +1,411 @@
+@model BookStoreMVC.Models.ViewModels.OrderListViewModel
+
+@{
+    ViewData["Title"] = "Đơn hàng của tôi";
+}
+
+@section Styles {
+    <style>
+        .order-card {
+            transition: all 0.3s ease;
+        }
+        .order-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .filter-sidebar {
+            background: #f8fafc;
+        }
+    </style>
+}
+
+<div class="max-w-7xl mx-auto">
+    <!-- Page Header -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">Đơn hàng của tôi</h1>
+        <p class="text-gray-600">
+            Quản lý và theo dõi tình trạng đơn hàng của bạn
+        </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <!-- Filter Sidebar -->
+        <div class="lg:col-span-1">
+            <div class="filter-sidebar p-6 rounded-lg shadow-sm sticky top-4">
+                <h3 class="text-lg font-semibold mb-4 text-gray-800">Bộ lọc</h3>
+                
+                <form asp-action="Index" method="get" id="filterForm">
+                    <!-- Status Filter -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Trạng thái đơn hàng</label>
+                        @* <select name="statusFilter" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" onchange="this.form.submit()">
+                            <option value="">Tất cả trạng thái</option>
+                            <option value="Pending" @(Model.StatusFilter == BookStoreMVC.Models.Entities.OrderStatus.Pending ? "selected" : "")>Chờ xử lý</option>
+                            <option value="Processing" @(Model.StatusFilter == BookStoreMVC.Models.Entities.OrderStatus.Processing ? "selected" : "")>Đang xử lý</option>
+                            <option value="Shipped" @(Model.StatusFilter == BookStoreMVC.Models.Entities.OrderStatus.Shipped ? "selected" : "")>Đã gửi hàng</option>
+                            <option value="Delivered" @(Model.StatusFilter == BookStoreMVC.Models.Entities.OrderStatus.Delivered ? "selected" : "")>Đã giao hàng</option>
+                            <option value="Cancelled" @(Model.StatusFilter == BookStoreMVC.Models.Entities.OrderStatus.Cancelled ? "selected" : "")>Đã hủy</option>
+                        </select> *@
+                    </div>
+
+                    <!-- Date Range Filter -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Khoảng thời gian</label>
+                        <div class="space-y-2">
+                            <input type="date" name="startDate" value="@Model.StartDate?.ToString("yyyy-MM-dd")" 
+                                   placeholder="Từ ngày"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+                            <input type="date" name="endDate" value="@Model.EndDate?.ToString("yyyy-MM-dd")" 
+                                   placeholder="Đến ngày"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+                        </div>
+                    </div>
+
+                    <!-- Sort By -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Sắp xếp theo</label>
+                        <select name="sortBy" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" onchange="this.form.submit()">
+                            @foreach (var option in Model.SortOptions)
+                            {
+                                @* <option value="@option.Key" @(Model.SortBy == option.Key ? "selected" : "")>
+                                    @option.Value
+                                </option> *@
+                            }
+                        </select>
+                    </div>
+
+                    <div class="space-y-2">
+                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-semibold transition-colors">
+                            Áp dụng bộ lọc
+                        </button>
+                        <a asp-action="Index" class="block w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-4 rounded-lg font-semibold text-center transition-colors">
+                            Xóa bộ lọc
+                        </a>
+                    </div>
+                </form>
+
+                <!-- Order Statistics -->
+                <div class="mt-8 space-y-4">
+                    <h4 class="font-semibold text-gray-800">Thống kê</h4>
+                    <div class="grid grid-cols-2 gap-2 text-sm">
+                        <div class="bg-yellow-100 text-yellow-800 p-2 rounded text-center">
+                            <div class="font-semibold">@Model.PendingCount</div>
+                            <div>Chờ xử lý</div>
+                        </div>
+                        <div class="bg-blue-100 text-blue-800 p-2 rounded text-center">
+                            <div class="font-semibold">@Model.ProcessingCount</div>
+                            <div>Đang xử lý</div>
+                        </div>
+                        <div class="bg-purple-100 text-purple-800 p-2 rounded text-center">
+                            <div class="font-semibold">@Model.ShippedCount</div>
+                            <div>Đã gửi</div>
+                        </div>
+                        <div class="bg-green-100 text-green-800 p-2 rounded text-center">
+                            <div class="font-semibold">@Model.DeliveredCount</div>
+                            <div>Đã giao</div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-100 text-gray-800 p-2 rounded text-center">
+                        <div class="font-semibold">@Model.TotalAmount.ToString("C0")</div>
+                        <div>Tổng giá trị</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orders List -->
+        <div class="lg:col-span-3">
+            @if (Model.Orders?.Any() == true)
+            {
+                <!-- Orders Grid -->
+                <div class="space-y-4">
+                    @foreach (var order in Model.Orders)
+                    {
+                        <div class="order-card bg-white p-6 rounded-lg shadow-md">
+                            <!-- Order Header -->
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-800 mb-1">
+                                        <a asp-action="Details" asp-route-id="@order.Id" class="hover:text-blue-600 transition-colors">
+                                            Đơn hàng #@order.OrderNumber
+                                        </a>
+                                    </h3>
+                                    <p class="text-gray-600 text-sm">
+                                        <i class="fas fa-calendar-alt mr-1"></i>
+                                        Đặt ngày @order.CreatedAt.ToString("dd/MM/yyyy HH:mm")
+                                    </p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="status-badge @order.StatusCssClass">
+                                        @order.StatusDisplayName
+                                    </div>
+                                    <div class="text-lg font-bold text-gray-800 mt-2">
+                                        @order.Total.ToString("C0")
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Order Items Preview -->
+                            <div class="border-t border-gray-200 pt-4 mb-4">
+                                <div class="flex items-center space-x-4 overflow-x-auto">
+                                    @foreach (var item in order.OrderItems.Take(3))
+                                    {
+                                        <div class="flex items-center space-x-3 min-w-0 flex-shrink-0">
+                                            <img src="@(item.BookImageUrl ?? "/images/no-book-cover.png")" 
+                                                 alt="@item.BookTitle" 
+                                                 class="w-12 h-16 object-cover rounded shadow-sm" />
+                                            <div class="min-w-0">
+                                                <h4 class="font-medium text-gray-800 text-sm line-clamp-1">@item.BookTitle</h4>
+                                                <p class="text-gray-600 text-xs">@item.BookAuthor</p>
+                                                <p class="text-gray-700 text-xs">SL: @item.Quantity × @item.UnitPrice.ToString("C0")</p>
+                                            </div>
+                                        </div>
+                                    }
+                                    
+                                    @if (order.OrderItems.Count() > 3)
+                                    {
+                                        <div class="flex-shrink-0 text-gray-500 text-sm">
+                                            và @(order.OrderItems.Count() - 3) sản phẩm khác
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <!-- Order Actions -->
+                            <div class="flex justify-between items-center border-t border-gray-200 pt-4">
+                                <div class="flex items-center space-x-4 text-sm text-gray-600">
+                                    <span>
+                                        <i class="fas fa-box mr-1"></i>
+                                        @order.ItemCount sản phẩm
+                                    </span>
+                                    @if (order.ShippingInfo != null)
+                                    {
+                                        <span>
+                                            <i class="fas fa-truck mr-1"></i>
+                                            Giao đến @order.ShippingInfo.City
+                                        </span>
+                                    }
+                                </div>
+                                
+                                <div class="flex space-x-2">
+                                    <a asp-action="Details" asp-route-id="@order.Id" 
+                                       class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
+                                        <i class="fas fa-eye mr-1"></i>
+                                        Chi tiết
+                                    </a>
+                                    
+                                    @if (order.CanCancel)
+                                    {
+                                        <button onclick="cancelOrder(@order.Id)" 
+                                                class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
+                                            <i class="fas fa-times mr-1"></i>
+                                            Hủy đơn
+                                        </button>
+                                    }
+                                    
+                                    @if (order.Status == BookStoreMVC.Models.Entities.OrderStatus.Delivered)
+                                    {
+                                        <a href="#" onclick="reorderItems(@order.Id)" 
+                                           class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
+                                            <i class="fas fa-redo mr-1"></i>
+                                            Mua lại
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <!-- Pagination -->
+                @if (Model.TotalPages > 1)
+                {
+                    <nav class="mt-8 flex justify-center" aria-label="Pagination">
+                        <div class="flex items-center space-x-1">
+                            @if (Model.HasPreviousPage)
+                            {
+                                <a asp-action="Index" 
+                                   asp-all-route-data="@(new Dictionary<string, string> {
+                                       {"pageNumber", (Model.PageNumber - 1).ToString()},
+                                       {"statusFilter", Model.StatusFilter?.ToString() ?? ""},
+                                       {"startDate", Model.StartDate?.ToString("yyyy-MM-dd") ?? ""},
+                                       {"endDate", Model.EndDate?.ToString("yyyy-MM-dd") ?? ""},
+                                       {"sortBy", Model.SortBy}
+                                   })"
+                                   class="px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
+                                    <i class="fas fa-chevron-left"></i>
+                                </a>
+                            }
+
+                            @{
+                                var startPage = Math.Max(1, Model.PageNumber - 2);
+                                var endPage = Math.Min(Model.TotalPages, Model.PageNumber + 2);
+                            }
+                            
+                            @for (int i = startPage; i <= endPage; i++)
+                            {
+                                <a asp-action="Index" 
+                                   asp-route-pageNumber="@i"
+                                   asp-route-statusFilter="@Model.StatusFilter"
+                                   asp-route-startDate="@Model.StartDate?.ToString("yyyy-MM-dd")"
+                                   asp-route-endDate="@Model.EndDate?.ToString("yyyy-MM-dd")"
+                                   asp-route-sortBy="@Model.SortBy"
+                                   class="px-3 py-2 text-sm font-medium @(i == Model.PageNumber ? "bg-blue-600 text-white" : "text-gray-500 hover:text-gray-700 hover:bg-gray-100") rounded-md transition-colors">
+                                    @i
+                                </a>
+                            }
+
+                            @if (Model.HasNextPage)
+                            {
+                                <a asp-action="Index" 
+                                   asp-all-route-data="@(new Dictionary<string, string> {
+                                       {"pageNumber", (Model.PageNumber + 1).ToString()},
+                                       {"statusFilter", Model.StatusFilter?.ToString() ?? ""},
+                                       {"startDate", Model.StartDate?.ToString("yyyy-MM-dd") ?? ""},
+                                       {"endDate", Model.EndDate?.ToString("yyyy-MM-dd") ?? ""},
+                                       {"sortBy", Model.SortBy}
+                                   })"
+                                   class="px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-md transition-colors">
+                                    <i class="fas fa-chevron-right"></i>
+                                </a>
+                            }
+                        </div>
+                    </nav>
+                }
+            }
+            else
+            {
+                <!-- Empty State -->
+                <div class="text-center py-16">
+                    <div class="w-32 h-32 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+                        <i class="fas fa-shopping-bag text-5xl text-gray-400"></i>
+                    </div>
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">
+                        @if (Model.StatusFilter.HasValue || Model.StartDate.HasValue || Model.EndDate.HasValue)
+                        {
+                            <span>Không tìm thấy đơn hàng nào</span>
+                        }
+                        else
+                        {
+                            <span>Bạn chưa có đơn hàng nào</span>
+                        }
+                    </h2>
+                    <p class="text-gray-600 mb-8">
+                        @if (Model.StatusFilter.HasValue || Model.StartDate.HasValue || Model.EndDate.HasValue)
+                        {
+                            <span>Thử điều chỉnh bộ lọc để tìm đơn hàng</span>
+                        }
+                        else
+                        {
+                            <span>Hãy bắt đầu mua sắm để có đơn hàng đầu tiên</span>
+                        }
+                    </p>
+                    <div class="space-x-4">
+                        @if (Model.StatusFilter.HasValue || Model.StartDate.HasValue || Model.EndDate.HasValue)
+                        {
+                            <a asp-action="Index" 
+                               class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                                Xem tất cả đơn hàng
+                            </a>
+                        }
+                        
+                        <a asp-controller="Books" asp-action="Index" 
+                           class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                            <i class="fas fa-book mr-2"></i>
+                            Khám phá sách hay
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function cancelOrder(orderId) {
+            if (!confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
+                return;
+            }
+
+            fetch(`/Orders/Cancel/${orderId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('[name="__RequestVerificationToken"]')?.value || ''
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification('Đơn hàng đã được hủy thành công!', 'success');
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1500);
+                } else {
+                    showNotification(data.message || 'Có lỗi xảy ra khi hủy đơn hàng!', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNotification('Có lỗi xảy ra khi hủy đơn hàng!', 'error');
+            });
+        }
+
+        function reorderItems(orderId) {
+            if (!confirm('Bạn có muốn thêm tất cả sản phẩm từ đơn hàng này vào giỏ hàng?')) {
+                return;
+            }
+
+            fetch(`/Orders/Reorder/${orderId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('[name="__RequestVerificationToken"]')?.value || ''
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification('Đã thêm sản phẩm vào giỏ hàng!', 'success');
+                    updateCartCount(data.cartItemCount);
+                } else {
+                    showNotification(data.message || 'Có lỗi xảy ra!', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNotification('Có lỗi xảy ra!', 'error');
+            });
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 px-6 py-3 rounded-lg text-white z-50 ${
+                type === 'success' ? 'bg-green-500' :
+                type === 'error' ? 'bg-red-500' :
+                type === 'info' ? 'bg-blue-500' : 'bg-gray-500'
+            }`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        function updateCartCount(count) {
+            const cartCountElements = document.querySelectorAll('.cart-count');
+            cartCountElements.forEach(element => {
+                element.textContent = count;
+            });
+        }
+    </script>
+}

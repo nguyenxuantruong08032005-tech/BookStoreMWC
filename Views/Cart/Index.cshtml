@@ -1,0 +1,390 @@
+@model BookStoreMVC.Models.ViewModels.CartViewModel
+
+@{
+    ViewData["Title"] = "Giỏ hàng";
+    var isAuthenticated = User.Identity?.IsAuthenticated == true;
+}
+
+@section Styles {
+    <style>
+        .cart-item {
+            transition: all 0.3s ease;
+        }
+
+        .cart-item:hover {
+            background-color: #f9fafb;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .quantity-input {
+            width: 80px;
+        }
+
+        .guest-notice {
+            background: linear-gradient(135deg, #FFA726 0%, #FB8C00 100%);
+        }
+    </style>
+}
+
+<div class="max-w-7xl mx-auto">
+    <!-- Guest Notice -->
+    @if (!isAuthenticated && !Model.IsEmpty)
+    {
+        <div class="guest-notice text-white p-4 rounded-lg mb-6 shadow-lg">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <i class="fas fa-info-circle text-2xl mr-3"></i>
+                    <div>
+                        <p class="font-bold">Bạn chưa đăng nhập</p>
+                        <p class="text-sm opacity-90">Đăng nhập để lưu giỏ hàng và nhận ưu đãi đặc biệt!</p>
+                    </div>
+                </div>
+                <a asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Url.Action("Index", "Cart")"
+                    class="bg-white text-orange-600 px-6 py-2 rounded-lg font-bold hover:bg-gray-100 transition-colors">
+                    Đăng nhập ngay
+                </a>
+            </div>
+        </div>
+    }
+
+    <!-- Page Header -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">Giỏ hàng của bạn</h1>
+        <p class="text-gray-600">
+            @if (Model.IsEmpty)
+            {
+                <span>Giỏ hàng trống</span>
+            }
+            else
+            {
+                <span>@Model.ItemCount sản phẩm trong giỏ hàng</span>
+            }
+        </p>
+    </div>
+
+    @if (Model.IsEmpty)
+    {
+        <!-- Empty Cart -->
+        <div class="text-center py-16">
+            <div class="w-32 h-32 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+                <i class="fas fa-shopping-cart text-5xl text-gray-400"></i>
+            </div>
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Giỏ hàng trống</h2>
+            <p class="text-gray-600 mb-8">Hãy khám phá và thêm sách vào giỏ hàng nhé!</p>
+
+            <a asp-controller="Books" asp-action="Index"
+                class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors inline-block">
+                <i class="fas fa-book mr-2"></i>
+                Khám phá sách hay
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Cart Items -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+
+
+                    <!-- Cart Items -->
+                    <div class="divide-y divide-gray-100">
+                        @foreach (var item in Model.Items)
+                        {
+                            <div id="cart-item-@item.BookId" class="cart-item p-6">
+                                <div class=" gap-4 items-center">
+                                    <!-- Product Info -->
+                                    <div class="col-span-6 flex flex-col items-center space-y-4">
+                                        <!-- Hình ảnh -->
+                                        <div class="max-w-sm max-h-96 overflow-hidden flex justify-center">
+                                            <img class="max-w-full max-h-full object-contain"
+                                                src="@(item.BookImage ?? "/images/default-book.jpg")" alt="@item.BookTitle">
+                                        </div>
+
+                                        <!-- Thông tin sách -->
+                                        <div class="flex flex-col items-center text-center">
+                                            <h3 class="font-semibold text-gray-800 mb-1">@item.BookTitle</h3>
+                                            <button onclick="removeFromCart(@item.BookId)"
+                                                class="text-red-500 hover:text-red-700 text-sm font-medium">
+                                                <i class="fas fa-trash-alt mr-1"></i>
+                                                Xóa
+                                            </button>
+                                        </div>
+                                    </div>
+
+
+
+                                    <!-- Quantity -->
+                                    <div class="col-span-2 flex justify-center">
+                                        <div class="flex items-center border border-gray-300 rounded-lg">
+                                            <button onclick="updateQuantity(@item.BookId, @item.Quantity - 1)"
+                                                class="px-3 py-2 hover:bg-gray-100 transition-colors">
+                                                <i class="fas fa-minus text-sm"></i>
+                                            </button>
+                                            <input type="number" value="@item.Quantity" min="1"
+                                                class="quantity-input text-center border-x border-gray-300 py-2 focus:outline-none"
+                                                onchange="updateQuantity(@item.BookId, this.value)">
+                                            <button onclick="updateQuantity(@item.BookId, @item.Quantity + 1)"
+                                                class="px-3 py-2 hover:bg-gray-100 transition-colors">
+                                                <i class="fas fa-plus text-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Item Total -->
+                                    <div class="col-span-2 text-right">
+                                        <span id="item-total-@item.BookId" class="font-bold text-blue-600">
+                                            @( (item.Price * item.Quantity).ToString("C0") )a
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Footer Actions -->
+                    <div class="bg-gray-50 px-6 py-4 border-t flex justify-between items-center">
+                        <button onclick="clearCart()" class="text-red-600 hover:text-red-700 font-semibold">
+                            <i class="fas fa-trash mr-2"></i>
+                            Xóa tất cả
+                        </button>
+                        <a asp-controller="Books" asp-action="Index"
+                            class="text-blue-600 hover:text-blue-700 font-semibold">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                            Tiếp tục mua sắm
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cart Summary -->
+            <div class="lg:col-span-1">
+                <div class="summary-card text-white p-6 rounded-lg shadow-lg sticky top-24">
+                    <h3 class="text-xl font-bold mb-6">Tổng đơn hàng</h3>
+
+                    <div class="space-y-4 mb-6">
+                        <div class="flex justify-between text-sm">
+                            <span class="opacity-90">Tạm tính:</span>
+                            <span id="subtotal" class="font-semibold">@Model.SubTotal.ToString("C0")</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="opacity-90">VAT (10%):</span>
+                            <span id="tax" class="font-semibold">@Model.Tax.ToString("C0")</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="opacity-90">Phí vận chuyển:</span>
+                            <span id="shipping" class="font-semibold">
+                                @if (Model.ShippingCost == 0)
+                                {
+                                    <span class="text-yellow-300">Miễn phí</span>
+                                }
+                                else
+                                {
+                                    @Model.ShippingCost.ToString("C0")
+                                }
+                            </span>
+                        </div>
+                        <div class="border-t border-white/30 pt-4 flex justify-between">
+                            <span class="text-lg font-bold">Tổng cộng:</span>
+                            <span id="total" class="text-2xl font-bold">@Model.Total.ToString("C0")</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        @if (isAuthenticated)
+                        {
+                            <a asp-controller="Orders" asp-action="Checkout"
+                                class="block w-full bg-yellow-500 hover:bg-yellow-600 text-gray-800 py-3 px-4 rounded-lg font-bold text-center transition-colors">
+                                <i class="fas fa-credit-card mr-2"></i>
+                                Thanh toán
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Account" asp-action="Login" asp-route-returnUrl="/Orders/Checkout"
+                                class="block w-full bg-yellow-500 hover:bg-yellow-600 text-gray-800 py-3 px-4 rounded-lg font-bold text-center transition-colors">
+                                <i class="fas fa-sign-in-alt mr-2"></i>
+                                Đăng nhập để thanh toán
+                            </a>
+                            <p class="text-xs text-center opacity-75">
+                                Đăng nhập để lưu giỏ hàng và thanh toán nhanh hơn
+                            </p>
+                        }
+                    </div>
+                </div>
+
+                <!-- Security Notice -->
+                <div class="mt-4 bg-white p-4 rounded-lg shadow-sm">
+                    <div class="space-y-2">
+                        <div class="flex items-center space-x-2 text-gray-600">
+                            <i class="fas fa-lock text-green-600"></i>
+                            <span class="text-sm">Thanh toán an toàn</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-gray-600">
+                            <i class="fas fa-truck text-blue-600"></i>
+                            <span class="text-sm">Giao hàng toàn quốc</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-gray-600">
+                            <i class="fas fa-undo text-orange-600"></i>
+                            <span class="text-sm">Đổi trả trong 7 ngày</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        function updateQuantity(bookId, newQuantity) {
+            if (newQuantity < 1) {
+                removeFromCart(bookId);
+                return;
+            }
+
+            fetch('/Cart/UpdateCartItem', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('[name="__RequestVerificationToken"]')?.value || ''
+                },
+                body: JSON.stringify({
+                    bookId: bookId,
+                    quantity: parseInt(newQuantity)
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update item total
+                        const itemTotal = document.getElementById(`item-total-${bookId}`);
+                        if (itemTotal && data.itemTotal) {
+                            itemTotal.textContent = data.itemTotal;
+                        }
+
+                        // Update summary
+                        updateSummary(data.cart);
+                        updateCartCount(data.cart.itemCount);
+
+                        showNotification('Đã cập nhật giỏ hàng!', 'success');
+                    } else {
+                        showNotification(data.message || 'Có lỗi xảy ra!', 'error');
+                        location.reload();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showNotification('Có lỗi xảy ra!', 'error');
+                    location.reload();
+                });
+        }
+
+        function removeFromCart(bookId) {
+            if (!confirm('Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?')) {
+                return;
+            }
+
+            fetch('/Cart/RemoveFromCart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('[name="__RequestVerificationToken"]')?.value || ''
+                },
+                body: JSON.stringify({
+                    bookId: bookId
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const itemElement = document.getElementById(`cart-item-${bookId}`);
+                        if (itemElement) {
+                            itemElement.style.transition = 'opacity 0.3s ease';
+                            itemElement.style.opacity = '0';
+                            setTimeout(() => {
+                                itemElement.remove();
+
+                                if (data.cart.itemCount === 0) {
+                                    location.reload();
+                                } else {
+                                    updateSummary(data.cart);
+                                    updateCartCount(data.cart.itemCount);
+                                }
+                            }, 300);
+                        }
+
+                        showNotification('Đã xóa khỏi giỏ hàng!', 'success');
+                    } else {
+                        showNotification(data.message || 'Có lỗi xảy ra!', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showNotification('Có lỗi xảy ra!', 'error');
+                });
+        }
+
+        function clearCart() {
+            if (!confirm('Bạn có chắc muốn xóa tất cả sản phẩm khỏi giỏ hàng?')) {
+                return;
+            }
+
+            fetch('/Cart/ClearCart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('[name="__RequestVerificationToken"]')?.value || ''
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        showNotification(data.message || 'Có lỗi xảy ra!', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showNotification('Có lỗi xảy ra!', 'error');
+                });
+        }
+
+        function updateSummary(cart) {
+            if (cart) {
+                document.getElementById('subtotal').textContent = cart.subTotal;
+                document.getElementById('tax').textContent = cart.tax;
+                document.getElementById('shipping').textContent = cart.shippingCost === '0 ₫' ? 'Miễn phí' : cart.shippingCost;
+                document.getElementById('total').textContent = cart.total;
+            }
+        }
+
+        function updateCartCount(count) {
+            const cartCountElements = document.querySelectorAll('.cart-count, [class*="bv-badge"]');
+            cartCountElements.forEach(element => {
+                element.textContent = count;
+            });
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 px-6 py-3 rounded-lg text-white z-50 shadow-lg ${type === 'success' ? 'bg-green-500' :
+                type === 'error' ? 'bg-red-500' :
+                    type === 'info' ? 'bg-blue-500' : 'bg-gray-500'
+                }`;
+            notification.textContent = message;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transition = 'opacity 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+    </script>
+}

@@ -1,0 +1,275 @@
+﻿@model BookStoreMVC.Models.ViewModels.HomeViewModel
+
+@{
+    ViewData["Title"] = "BookStore - Khám phá thế giới sách";
+    @* ViewBag.ShowBreadcrumb = false; *@
+}
+
+@section Meta {
+    <meta name="description"
+        content="Khám phá bộ sưu tập sách phong phú với hàng ngàn đầu sách từ khắp nơi trên thế giới. Mua sách online với giá tốt nhất." />
+    <meta name="keywords" content="sách, mua sách online, book store, văn học, tiểu thuyết" />
+}
+
+@section Styles {
+    <style>
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+}
+
+<!-- Hero Section -->
+<section class="hero-gradient text-white py-16 mb-8">
+    <div class="container mx-auto px-4">
+        <div class="text-center max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                Khám phá thế giới <span class="text-yellow-300">sách</span>
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 opacity-90">
+                Hàng ngàn đầu sách hay từ khắp nơi trên thế giới
+            </p>
+
+            <!-- Search Bar -->
+            <div class="max-w-2xl mx-auto">
+                <form asp-controller="Books" asp-action="Index" method="get" class="flex">
+                    <input type="text" name="searchTerm" placeholder="Tìm kiếm sách, tác giả, thể loại..."
+                        class="flex-1 px-6 py-4 rounded-l-lg text-gray-800 text-lg focus:outline-none focus:ring-2 focus:ring-yellow-300" />
+                    <button type="submit"
+                        class="bg-yellow-500 hover:bg-yellow-600 px-8 py-4 rounded-r-lg text-gray-800 font-semibold transition-colors">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Statistics Section -->
+<section class="py-8 mb-12">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="text-center">
+                <div class="text-3xl font-bold text-blue-600">@Model.TotalBooks.ToString("N0")</div>
+                <div class="text-gray-600">Đầu sách</div>
+            </div>
+            <div class="text-center">
+                <div class="text-3xl font-bold text-green-600">@Model.TotalUsers.ToString("N0")</div>
+                <div class="text-gray-600">Độc giả</div>
+            </div>
+            <div class="text-center">
+                <div class="text-3xl font-bold text-purple-600">@Model.TotalOrders.ToString("N0")</div>
+                <div class="text-gray-600">Đơn hàng</div>
+            </div>
+            <div class="text-center">
+                <div class="text-3xl font-bold text-orange-600">@Model.TotalCategories.ToString("N0")</div>
+                <div class="text-gray-600">Thể loại</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Books Section - SỬ DỤNG BOOKCARD -->
+@if (Model.FeaturedBooks.Any())
+{
+    <section class="py-12 mb-8 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-3xl font-bold text-gray-800">
+                    <i class="fas fa-star text-yellow-500 mr-2"></i>
+                    Sách nổi bật
+                </h2>
+                <a asp-controller="Books" asp-action="Index" asp-route-sortBy="featured"
+                    class="text-blue-600 hover:text-blue-800 font-semibold">
+                    Xem tất cả <i class="fas fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
+                @foreach (var book in Model.FeaturedBooks)
+                {
+                    @await Html.PartialAsync("_BookCard", book)
+                }
+            </div>
+        </div>
+    </section>
+}
+
+<!-- New Books Section - SỬ DỤNG BOOKCARD -->
+@if (Model.NewBooks.Any())
+{
+    <section class="py-12 mb-8">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-3xl font-bold text-gray-800">
+                    <i class="fas fa-fire text-orange-500 mr-2"></i>
+                    Sách mới
+                </h2>
+                <a asp-controller="Books" asp-action="Index" asp-route-sortBy="newest"
+                    class="text-blue-600 hover:text-blue-800 font-semibold">
+                    Xem tất cả <i class="fas fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
+                @foreach (var book in Model.NewBooks)
+                {
+                    @await Html.PartialAsync("_BookCard", book)
+                }
+            </div>
+        </div>
+    </section>
+}
+
+<!-- Best Sellers Section - SỬ DỤNG BOOKCARD -->
+@if (Model.BestSellers.Any())
+{
+    <section class="py-12 mb-8 bg-gradient-to-r from-blue-50 to-purple-50">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-3xl font-bold text-gray-800">
+                    <i class="fas fa-trophy text-yellow-500 mr-2"></i>
+                    Bán chạy nhất
+                </h2>
+                <a asp-controller="Books" asp-action="Index" asp-route-sortBy="bestseller"
+                    class="text-blue-600 hover:text-blue-800 font-semibold">
+                    Xem tất cả <i class="fas fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
+                @foreach (var book in Model.BestSellers)
+                {
+                    @await Html.PartialAsync("_BookCard", book)
+                }
+            </div>
+        </div>
+    </section>
+}
+
+<!-- Discounted Books Section - SỬ DỤNG BOOKCARD -->
+@if (Model.DiscountedBooks.Any())
+{
+    <section class="py-12 mb-8 bg-red-50">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-3xl font-bold text-gray-800">
+                    <i class="fas fa-tag text-red-500 mr-2"></i>
+                    Đang giảm giá
+                </h2>
+                <a asp-controller="Books" asp-action="Index" asp-route-sortBy="discount"
+                    class="text-blue-600 hover:text-blue-800 font-semibold">
+                    Xem tất cả <i class="fas fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
+                @foreach (var book in Model.DiscountedBooks)
+                {
+                    @await Html.PartialAsync("_BookCard", book)
+                }
+            </div>
+        </div>
+    </section>
+}
+
+<!-- Categories Section -->
+@if (Model.PopularCategories.Any())
+{
+    <section class="py-12 mb-8">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">
+                <i class="fas fa-list-ul text-blue-600 mr-2"></i>
+                Danh mục phổ biến
+            </h2>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-4">
+                @foreach (var category in Model.PopularCategories)
+                {
+                    <a asp-controller="Books" asp-action="Category" asp-route-id="@category.Id" asp-route-name="@category"
+                        class="bg-white rounded-lg p-4 text-center hover:shadow-lg transition-all duration-300 border border-gray-200 card-hover">
+                        <div class="text-3xl mb-2">
+                            @if (!string.IsNullOrEmpty(category.ImageUrl))
+                            {
+                                <img src="@category.ImageUrl" alt="@category.Name" class="w-12 h-12 mx-auto object-cover rounded" />
+                            }
+                            else
+                            {
+                                <i class="fas fa-book text-blue-600"></i>
+                            }
+                        </div>
+                        <h3 class="font-semibold text-gray-800 text-sm">@category.Name</h3>
+                        @* @if (category.BookCount > 0)
+                        {
+                            <p class="text-xs text-gray-500 mt-1">@category.BookCount sách</p>
+                        } *@
+                    </a>
+                }
+            </div>
+        </div>
+    </section>
+}
+
+
+@section Scripts {
+    <script>
+        // Add to cart without login
+        $(document).ready(function () {
+            $('.add-to-cart-btn').on('click', function (e) {
+                e.preventDefault();
+
+                var bookId = $(this).data('book-id');
+                var quantity = 1;
+
+                $.ajax({
+                    url: '@Url.Action("AddToCart", "Cart")',
+                    method: 'POST',
+                    data: {
+                        bookId: bookId,
+                        quantity: quantity,
+                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            // Update cart count in header
+                            $('.cart-count').text(response.cartItemCount);
+
+                            // Show success message
+                            showToast('success', response.message);
+                        } else {
+                            showToast('error', response.message);
+                        }
+                    },
+                    error: function () {
+                        showToast('error', 'Đã xảy ra lỗi khi thêm vào giỏ hàng');
+                    }
+                });
+            });
+        });
+
+        function showToast(type, message) {
+            // Simple toast notification
+            var toast = $('<div>')
+                .addClass('fixed top-4 right-4 px-6 py-3 rounded-lg shadow-lg text-white z-50')
+                .addClass(type === 'success' ? 'bg-green-500' : 'bg-red-500')
+                .text(message);
+
+            $('body').append(toast);
+
+            setTimeout(function () {
+                toast.fadeOut(300, function () {
+                    $(this).remove();
+                });
+            }, 3000);
+        }
+    </script>
+}

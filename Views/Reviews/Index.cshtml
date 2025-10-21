@@ -1,0 +1,390 @@
+@model BookStoreMVC.Models.ViewModels.ReviewListViewModel
+
+@{
+    ViewData["Title"] = "Đánh giá của tôi";
+}
+
+@section Styles {
+    <style>
+        .review-card {
+            transition: all 0.3s ease;
+        }
+
+        .review-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .rating-display {
+            font-size: 1.2rem;
+        }
+
+        .gradient-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+}
+
+<div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="gradient-header text-white p-8 rounded-lg shadow-lg mb-8">
+        <div class="text-center">
+            <h1 class="text-3xl font-bold mb-2">
+                <i class="fas fa-star mr-3 text-yellow-300"></i>
+                Đánh giá của tôi
+            </h1>
+            <p class="text-lg opacity-90">
+                @if (!Model.Reviews?.Any() == true)
+                {
+                    <span>Bạn chưa có đánh giá nào</span>
+                }
+                else
+                {
+                    <span>@Model.Reviews.Count() đánh giá từ bạn</span>
+                }
+            </p>
+        </div>
+    </div>
+
+    @if (!Model.Reviews?.Any() == true)
+    {
+        <!-- Empty Reviews -->
+        <div class="text-center py-16">
+            <div class="w-32 h-32 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+                <i class="fas fa-star text-5xl text-gray-400"></i>
+            </div>
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Bạn chưa có đánh giá nào</h2>
+            <p class="text-gray-600 mb-8">Hãy mua và đọc sách để chia sẻ cảm nhận của bạn với cộng đồng</p>
+            <div class="space-x-4">
+                <a asp-controller="Books" asp-action="Index"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors">
+                    <i class="fas fa-book mr-2"></i>
+                    Khám phá sách hay
+                </a>
+                <a asp-controller="Orders" asp-action="Index"
+                    class="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors">
+                    <i class="fas fa-shopping-bag mr-2"></i>
+                    Đơn hàng của tôi
+                </a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- Filter and Sort -->
+        <div class="bg-white p-6 rounded-lg shadow-sm mb-8">
+            <div class="flex flex-wrap justify-between items-center gap-4">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-2">
+                        <label class="text-sm font-medium text-gray-700">Lọc theo đánh giá:</label>
+                        <select onchange="filterByRating(this.value)"
+                            class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <option value="">Tất cả</option>
+                            <option value="5">5 sao</option>
+                            <option value="4">4 sao</option>
+                            <option value="3">3 sao</option>
+                            <option value="2">2 sao</option>
+                            <option value="1">1 sao</option>
+                        </select>
+                    </div>
+
+                    <div class="flex items-center space-x-2">
+                        <label class="text-sm font-medium text-gray-700">Sắp xếp:</label>
+                        <select onchange="sortReviews(this.value)"
+                            class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                            <option value="date_desc">Mới nhất</option>
+                            <option value="date_asc">Cũ nhất</option>
+                            <option value="rating_desc">Đánh giá cao</option>
+                            <option value="rating_asc">Đánh giá thấp</option>
+                            <option value="book_title">Tên sách A-Z</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <div class="text-sm text-gray-600">
+                        Hiển thị @Model.Reviews.Count() đánh giá
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" id="reviewsContainer">
+            @foreach (var review in Model.Reviews)
+            {
+                <div class="review-card bg-white rounded-lg shadow-md overflow-hidden" data-rating="@review.Rating">
+                    <div class="p-6">
+                        <!-- Review Header -->
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex items-center space-x-3">
+                                <a asp-controller="Books" asp-action="Details" asp-route-id="@review.BookId">
+                                    @* <img src="@(review.BookImageUrl ?? "/images/no-book-cover.png")" alt="@review.BookTitle"
+                                        class="w-12 h-16 object-cover rounded shadow-sm hover:opacity-90 transition-opacity" /> *@
+                                </a>
+                                <div>
+                                    <h3 class="font-semibold text-gray-800 line-clamp-2">
+                                        <a asp-controller="Books" asp-action="Details" asp-route-id="@review.BookId"
+                                            class="hover:text-blue-600 transition-colors">
+                                            @review.Book.Title
+                                        </a>
+                                    </h3>
+                                    <p class="text-gray-600 text-sm">@review.Book.Author</p>
+                                </div>
+                            </div>
+
+                            <!-- Action Menu -->
+                            <div class="relative" x-data="{ open: false }">
+                                @* <button @click="open = !open"
+                                    class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button> *@
+                                @* <div x-show="open" @click.away="open = false"
+                                    class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-10 py-2">
+                                    <a asp-controller="Reviews" asp-action="Edit" asp-route-id="@review.Id"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                        <i class="fas fa-edit mr-2"></i>
+                                        Chỉnh sửa đánh giá
+                                    </a>
+                                    <button onclick="deleteReview(@review.Id)"
+                                        class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 transition-colors">
+                                        <i class="fas fa-trash-alt mr-2"></i>
+                                        Xóa đánh giá
+                                    </button>
+                                </div> *@
+                            </div>
+                        </div>
+
+                        <!-- Rating -->
+                        <div class="flex items-center mb-3">
+                            <div class="flex rating-display text-yellow-500 mr-3">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <i class="fas fa-star @(i <= review.Rating ? "text-yellow-500" : "text-gray-300")"></i>
+                                }
+                            </div>
+                            <span class="text-sm text-gray-600">
+                                @review.CreatedAt.ToString("dd/MM/yyyy HH:mm")
+                            </span>
+                        </div>
+
+                        <!-- Review Content -->
+                        <div class="mb-4">
+                            <p class="text-gray-700 leading-relaxed">@review.Comment</p>
+                        </div>
+
+                        <!-- Review Footer -->
+                        <div class="border-t pt-4">
+                            <div class="flex justify-between items-center text-sm text-gray-600">
+                                <div class="flex items-center space-x-4">
+                                    @if (review.IsVerifiedPurchase)
+                                    {
+                                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-semibold">
+                                            <i class="fas fa-check-circle mr-1"></i>
+                                            Đã mua hàng
+                                        </span>
+                                    }
+                                    @if (review.IsApproved)
+                                    {
+                                        <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-semibold">
+                                            <i class="fas fa-eye mr-1"></i>
+                                            Đã duyệt
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-semibold">
+                                            <i class="fas fa-clock mr-1"></i>
+                                            Chờ duyệt
+                                        </span>
+                                    }
+                                </div>
+
+                                <div class="flex items-center space-x-2">
+                                    @* <span>@review.HelpfulCount người thấy hữu ích</span> *@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Reviews Statistics -->
+        <div class="mt-12 bg-white p-8 rounded-lg shadow-sm">
+            <h3 class="text-xl font-semibold text-gray-800 mb-6 text-center">Thống kê đánh giá của bạn</h3>
+
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+                @{
+                    var ratingCounts = Model.Reviews.GroupBy(r => r.Rating).ToDictionary(g => g.Key, g => g.Count());
+                    var totalReviews = Model.Reviews.Count();
+                    var averageRating = Model.Reviews.Any() ? Model.Reviews.Average(r => r.Rating) : 0;
+                }
+
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-blue-600">@totalReviews</div>
+                    <div class="text-gray-600 text-sm">Tổng đánh giá</div>
+                </div>
+
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-yellow-500">@averageRating.ToString("F1")</div>
+                    <div class="text-gray-600 text-sm">Điểm trung bình</div>
+                </div>
+
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-green-600">@(ratingCounts.GetValueOrDefault(5, 0))</div>
+                    <div class="text-gray-600 text-sm">5 sao</div>
+                </div>
+
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-blue-500">@(ratingCounts.GetValueOrDefault(4, 0))</div>
+                    <div class="text-gray-600 text-sm">4 sao</div>
+                </div>
+
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-orange-500">@(ratingCounts.GetValueOrDefault(3, 0) +
+                                            ratingCounts.GetValueOrDefault(2, 0) + ratingCounts.GetValueOrDefault(1, 0))</div>
+                    <div class="text-gray-600 text-sm">≤ 3 sao</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Helpful Tips -->
+        <div class="mt-8 bg-blue-50 p-6 rounded-lg">
+            <h3 class="text-lg font-semibold text-blue-800 mb-3">
+                <i class="fas fa-lightbulb mr-2"></i>
+                Mẹo viết đánh giá tốt
+            </h3>
+            <ul class="text-blue-700 space-y-2 text-sm">
+                <li><i class="fas fa-check mr-2"></i>Chia sẻ cảm nhận chân thực về nội dung sách</li>
+                <li><i class="fas fa-check mr-2"></i>Đề cập đến điểm nổi bật hoặc hạn chế của tác phẩm</li>
+                <li><i class="fas fa-check mr-2"></i>Tránh tiết lộ cốt truyện quan trọng</li>
+                <li><i class="fas fa-check mr-2"></i>Viết với ngôn ngữ lịch sự và tôn trọng</li>
+            </ul>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        // Initialize Alpine.js for dropdown menus
+        document.addEventListener('alpine:init', () => {
+            // Alpine.js is already initialized
+        });
+
+        function filterByRating(rating) {
+            const cards = document.querySelectorAll('.review-card');
+
+            cards.forEach(card => {
+                if (!rating || card.dataset.rating === rating) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            updateDisplayCount();
+        }
+
+        function sortReviews(sortBy) {
+            const container = document.getElementById('reviewsContainer');
+            const cards = Array.from(container.querySelectorAll('.review-card'));
+
+            cards.sort((a, b) => {
+                switch (sortBy) {
+                    case 'date_desc':
+                        // Default order (newest first)
+                        return 0;
+                    case 'date_asc':
+                        // Oldest first - would need actual dates
+                        return 0;
+                    case 'rating_desc':
+                        return parseInt(b.dataset.rating) - parseInt(a.dataset.rating);
+                    case 'rating_asc':
+                        return parseInt(a.dataset.rating) - parseInt(b.dataset.rating);
+                    case 'book_title':
+                        const titleA = a.querySelector('h3 a').textContent.toLowerCase();
+                        const titleB = b.querySelector('h3 a').textContent.toLowerCase();
+                        return titleA.localeCompare(titleB);
+                    default:
+                        return 0;
+                }
+            });
+
+            // Re-append sorted cards
+            cards.forEach(card => container.appendChild(card));
+        }
+
+        function updateDisplayCount() {
+            const visibleCards = document.querySelectorAll('.review-card:not([style*="display: none"])');
+            const countElement = document.querySelector('.text-sm.text-gray-600');
+            if (countElement) {
+                countElement.textContent = `Hiển thị ${visibleCards.length} đánh giá`;
+            }
+        }
+
+        function deleteReview(reviewId) {
+            if (!confirm('Bạn có chắc chắn muốn xóa đánh giá này?')) {
+                return;
+            }
+
+            fetch(`/Reviews/Delete/${reviewId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('[name="__RequestVerificationToken"]')?.value || ''
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Remove the review card with animation
+                        const reviewCard = document.querySelector(`[data-review-id="${reviewId}"]`) ||
+                            event.target.closest('.review-card');
+
+                        if (reviewCard) {
+                            reviewCard.style.transition = 'opacity 0.5s ease';
+                            reviewCard.style.opacity = '0';
+
+                            setTimeout(() => {
+                                reviewCard.remove();
+                                updateDisplayCount();
+
+                                // Check if no reviews left
+                                const remainingCards = document.querySelectorAll('.review-card');
+                                if (remainingCards.length === 0) {
+                                    location.reload();
+                                }
+                            }, 500);
+                        }
+
+                        showNotification('Đã xóa đánh giá thành công!', 'success');
+                    } else {
+                        showNotification(data.message || 'Có lỗi xảy ra khi xóa đánh giá!', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showNotification('Có lỗi xảy ra khi xóa đánh giá!', 'error');
+                });
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 px-6 py-3 rounded-lg text-white z-50 ${type === 'success' ? 'bg-green-500' :
+                type === 'error' ? 'bg-red-500' :
+                    type === 'info' ? 'bg-blue-500' : 'bg-gray-500'
+                }`;
+            notification.textContent = message;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+    </script>
+
+    <!-- Alpine.js for dropdown functionality -->
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+}

@@ -1,0 +1,250 @@
+@* Views/Account/Login.cshtml *@
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Đăng nhập";
+    ViewData["Description"] = "Đăng nhập vào BookVerse để trải nghiệm mua sách trực tuyến tuyệt vời";
+    Layout = "_LoginLayout";
+}
+
+<div class="w-full max-w-6xl mx-auto grid lg:grid-cols-2 gap-8 items-center">
+    <!-- Left Side - Welcome Content (Hidden on mobile) -->
+    <div class="hidden lg:block space-y-8 text-white">
+        <!-- Welcome Header -->
+        <div class="space-y-4">
+            <h1 class="text-4xl xl:text-5xl font-bold text-shadow leading-tight">
+                Chào mừng trở lại
+                <span class="block text-3xl xl:text-4xl text-white text-opacity-90">BookVerse!</span>
+            </h1>
+            <p class="text-lg xl:text-xl text-white text-opacity-80 leading-relaxed">
+                Khám phá hàng ngàn cuốn sách hay, cập nhật xu hướng đọc mới nhất và tận hưởng trải nghiệm mua sắm tuyệt
+                vời.
+            </p>
+        </div>
+
+        <!-- Features List -->
+        <div class="space-y-6">
+            <div
+                class="flex items-center space-x-4 bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-lg p-4 hover:bg-opacity-20 transition-all duration-300">
+                <div class="bg-white bg-opacity-20 p-3 rounded-full">
+                    <i class="fas fa-book-open text-white text-lg"></i>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-white">Hàng ngàn đầu sách</h3>
+                    <p class="text-white text-opacity-70 text-sm">Đa dạng thể loại từ văn học đến chuyên ngành</p>
+                </div>
+            </div>
+
+            <div
+                class="flex items-center space-x-4 bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-lg p-4 hover:bg-opacity-20 transition-all duration-300">
+                <div class="bg-white bg-opacity-20 p-3 rounded-full">
+                    <i class="fas fa-shipping-fast text-white text-lg"></i>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-white">Giao hàng nhanh chóng</h3>
+                    <p class="text-white text-opacity-70 text-sm">Miễn phí ship toàn quốc từ 299k</p>
+                </div>
+            </div>
+
+            <div
+                class="flex items-center space-x-4 bg-white bg-opacity-10 backdrop-filter backdrop-blur-sm rounded-lg p-4 hover:bg-opacity-20 transition-all duration-300">
+                <div class="bg-white bg-opacity-20 p-3 rounded-full">
+                    <i class="fas fa-crown text-white text-lg"></i>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-white">Ưu đãi độc quyền</h3>
+                    <p class="text-white text-opacity-70 text-sm">Khuyến mãi và quà tặng dành riêng cho thành viên</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-3 gap-4 pt-8 border-t border-white border-opacity-20">
+            <div class="text-center">
+                <div class="text-2xl font-bold text-white">50K+</div>
+                <div class="text-white text-opacity-70 text-sm">Khách hàng</div>
+            </div>
+            <div class="text-center">
+                <div class="text-2xl font-bold text-white">100K+</div>
+                <div class="text-white text-opacity-70 text-sm">Đầu sách</div>
+            </div>
+            <div class="text-center">
+                <div class="text-2xl font-bold text-white">99%</div>
+                <div class="text-white text-opacity-70 text-sm">Hài lòng</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Side - Login Form -->
+    <div class="w-full max-w-md mx-auto lg:max-w-lg">
+        <div class="auth-card p-6 md:p-8 lg:p-10">
+            <!-- Form Header -->
+            <div class="text-center mb-8">
+                <!-- Mobile Logo (Visible only on mobile) -->
+                <div class="lg:hidden mb-6">
+                    <div
+                        class="bg-gradient-to-br from-primary-500 to-secondary-500 p-4 rounded-xl shadow-lg mx-auto w-16 h-16 flex items-center justify-center mb-4">
+                        <i class="fas fa-book-reader text-white text-2xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold bv-gradient-text">BookVerse</h2>
+                </div>
+
+                <h1 class="text-2xl lg:text-3xl font-bold text-gray-800 mb-2">Đăng nhập</h1>
+                <p class="text-gray-600">Chào mừng bạn quay trở lại!</p>
+            </div>
+
+            <!-- Login Form -->
+            <form asp-action="Login" asp-controller="Account" method="post" class="space-y-6" novalidate>
+                <div asp-validation-summary="All" class="text-red-600 text-sm mb-4"></div>
+
+                @if (!string.IsNullOrEmpty(ViewBag.ReturnUrl))
+                {
+                    <input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl" />
+                }
+
+                <!-- Email Field -->
+                <div class="relative">
+
+                    <input asp-for="Email" type="email" class="bv-icon-input" placeholder="Email hoặc số điện thoại"
+                        autocomplete="username" required />
+                    <div class="absolute right-3 top-3 text-gray-400">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <span asp-validation-for="Email" class="text-red-500 text-sm mt-1 block"></span>
+                </div>
+
+                <!-- Password Field -->
+                <div class="relative">
+                    @* <label asp-for="Password"
+                        class="absolute left-3 top-3 text-gray-500 transition-all duration-300 pointer-events-none bg-white px-1">
+                        
+                    </label> *@
+                    <input asp-for="Password" type="password" class="bv-icon-input" placeholder="Mật khẩu "
+                        autocomplete="current-password" required />
+                    <button type="button"
+                        class="absolute right-3 top-3 text-gray-400 hover:text-gray-600 transition-colors"
+                        onclick="togglePassword(this)">
+                        <i class="fas fa-eye" data-show="fas fa-eye" data-hide="fas fa-eye-slash"></i>
+                    </button>
+                    <span asp-validation-for="Password" class="text-red-500 text-sm mt-1 block"></span>
+                </div>
+
+                <!-- Remember Me & Forgot Password -->
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center space-x-2 cursor-pointer">
+                        <input asp-for="RememberMe" type="checkbox"
+                            class="w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 rounded focus:ring-primary-500 focus:ring-2 transition-colors" />
+                        <span class="text-sm text-gray-600">Ghi nhớ đăng nhập</span>
+                    </label>
+                    <a asp-action="ForgotPassword" asp-controller="Account"
+                        class="text-sm text-primary-600 hover:text-primary-700 hover:underline transition-colors">
+                        Quên mật khẩu?
+                    </a>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit"
+                    class="btn-ripple w-full bg-gradient-to-r from-primary-500 via-secondary-500 to-primary-600 hover:from-primary-600 hover:via-secondary-600 hover:to-primary-700 text-white py-3.5 px-6 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-primary-200 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <span class="flex items-center justify-center space-x-2">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Đăng nhập</span>
+                    </span>
+                </button>
+
+                <!-- Divider -->
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-4 bg-white text-gray-500">Hoặc đăng nhập với</span>
+                    </div>
+                </div>
+
+                <!-- Social Login -->
+                <div class="grid grid-cols-2 gap-4">
+                    <button type="button"
+                        class="btn-ripple flex items-center justify-center space-x-2 py-3 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition-all duration-200 hover:shadow-md">
+                        <i class="fab fa-google text-red-500"></i>
+                        <span class="text-gray-700 font-medium">Google</span>
+                    </button>
+                    <button type="button"
+                        class="btn-ripple flex items-center justify-center space-x-2 py-3 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition-all duration-200 hover:shadow-md">
+                        <i class="fab fa-facebook text-blue-600"></i>
+                        <span class="text-gray-700 font-medium">Facebook</span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Register Link -->
+            <div class="mt-8 text-center">
+                <p class="text-gray-600">
+                    Chưa có tài khoản?
+                    <a asp-action="Register" asp-controller="Account"
+                        class="text-primary-600 hover:text-primary-700 font-semibold hover:underline transition-colors">
+                        Đăng ký ngay
+                    </a>
+                </p>
+            </div>
+
+            <!-- Security Notice -->
+            <div class="mt-6 p-4 bg-gray-50 rounded-lg border-l-4 border-primary-500">
+                <div class="flex items-start space-x-3">
+                    <i class="fas fa-shield-alt text-primary-500 mt-0.5"></i>
+                    <div>
+                        <p class="text-sm text-gray-700">
+                            <strong>Bảo mật thông tin:</strong> Thông tin của bạn được mã hóa và bảo vệ an toàn.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Styles {
+    <style>
+        /* Enhanced floating label styles */
+        .auth-input:focus+.absolute,
+        .auth-input:not(:placeholder-shown)+.absolute {
+            transform: translateY(-1.5rem) scale(0.75);
+            color: rgb(37, 99, 235);
+            background-color: white;
+            padding: 0 0.25rem;
+        }
+
+        /* Custom checkbox styles */
+        input[type="checkbox"]:checked {
+            background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='m13.854 3.646-7.5 7.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6 10.293l7.146-7.147a.5.5 0 0 1 .708.708z'/%3e%3c/svg%3e");
+        }
+
+        /* Loading state */
+        .loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        /* Success/Error field states */
+        .border-green-500:focus {
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+        }
+
+        .border-red-500:focus {
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+
+        /* Social button hover effects */
+        .btn-ripple:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Responsive adjustments */
+        @@media (max-width: 768px) {
+            .auth-card {
+                margin: 1rem;
+                border-radius: 1rem;
+            }
+        }
+    </style>
+}

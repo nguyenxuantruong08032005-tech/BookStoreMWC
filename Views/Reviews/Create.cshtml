@@ -1,0 +1,488 @@
+@model BookStoreMVC.Models.ViewModels.ReviewCreateViewModel
+
+@{
+    ViewData["Title"] = $"Đánh giá: {Model.Book?.Title}";
+}
+
+@section Styles {
+    <style>
+        .rating-stars {
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        .rating-stars .fa-star {
+            color: #e5e7eb;
+            transition: color 0.2s ease;
+        }
+
+        .rating-stars .fa-star.active {
+            color: #fbbf24;
+        }
+
+        .rating-stars .fa-star:hover,
+        .rating-stars .fa-star.hover {
+            color: #f59e0b;
+        }
+
+        .book-preview {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .review-form {
+            background: #f9fafb;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .character-counter {
+            font-size: 0.875rem;
+        }
+
+        .character-counter.warning {
+            color: #f59e0b;
+        }
+
+        .character-counter.error {
+            color: #ef4444;
+        }
+    </style>
+}
+
+<div class="max-w-4xl mx-auto">
+    <!-- Breadcrumb -->
+    <nav class="mb-6">
+        <ol class="flex items-center space-x-2 text-sm text-gray-600">
+            <li><a asp-controller="Books" asp-action="Details" asp-route-id="@Model.BookId"
+                    class="hover:text-blue-600 transition-colors">@Model.Book?.Title</a></li>
+            <li><i class="fas fa-chevron-right text-gray-400"></i></li>
+            <li class="text-gray-800 font-semibold">Viết đánh giá</li>
+        </ol>
+    </nav>
+
+    <!-- Book Preview -->
+    <div class="book-preview text-white p-6 rounded-lg shadow-lg mb-8">
+        <div class="flex items-center space-x-6">
+            <div class="flex-shrink-0">
+                <img src="@(Model.Book?.ImageUrl ?? "/images/no-book-cover.png")" alt="@Model.Book?.Title"
+                    class="w-24 h-32 object-cover rounded-lg shadow-md" />
+            </div>
+            <div>
+                <h1 class="text-2xl font-bold mb-2">@Model.Book?.Title</h1>
+                <p class="text-lg opacity-90 mb-2">bởi @Model.Book?.Author</p>
+                <div class="flex items-center space-x-4 text-sm opacity-80">
+                    @if (Model.Book != null)
+                    {
+                        <span>
+                            <i class="fas fa-star mr-1"></i>
+                            @Model.Book.AverageRating.ToString("F1") (@Model.Book.ReviewCount đánh giá)
+                        </span>
+                        <span>
+                            <i class="fas fa-tag mr-1"></i>
+                            @Model.Book.Category?.Name
+                        </span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Review Form -->
+    <div class="review-form p-8 rounded-lg shadow-sm">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">
+            <i class="fas fa-edit mr-3 text-blue-600"></i>
+            Chia sẻ đánh giá của bạn
+        </h2>
+
+        <form asp-action="Create" method="post" id="reviewForm">
+            <input asp-for="BookId" type="hidden" />
+
+            <!-- Rating Section -->
+            <div class="mb-8">
+                <label class="block text-lg font-semibold text-gray-800 mb-4">
+                    Đánh giá tổng thể <span class="text-red-500">*</span>
+                </label>
+                <div class="flex items-center space-x-4">
+                    <div class="rating-stars flex space-x-1" id="ratingStars">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <i class="fas fa-star" data-rating="@i" onclick="setRating(@i)" onmouseover="hoverRating(@i)"
+                                onmouseout="resetHover()"></i>
+                        }
+                    </div>
+                    <div class="text-gray-600" id="ratingText">Chọn số sao</div>
+                </div>
+                <input asp-for="Rating" type="hidden" id="ratingInput" />
+                <span asp-validation-for="Rating" class="text-red-600 text-sm"></span>
+            </div>
+
+            <!-- Review Title (Optional) -->
+            <div class="mb-6">
+                @* <label asp-for="Title" class="block text-lg font-semibold text-gray-800 mb-2">
+                    Tiêu đề đánh giá (tùy chọn)
+                </label>
+                <input asp-for="Title" placeholder="Ví dụ: Cuốn sách tuyệt vời không thể bỏ lỡ!"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    maxlength="100" />
+                <span asp-validation-for="Title" class="text-red-600 text-sm"></span> *@
+            </div>
+
+            <!-- Review Content -->
+            <div class="mb-6">
+                <label asp-for="Comment" class="block text-lg font-semibold text-gray-800 mb-2">
+                    Nội dung đánh giá <span class="text-red-500">*</span>
+                </label>
+                <div class="relative">
+                    <textarea asp-for="Comment"
+                        placeholder="Chia sẻ cảm nhận của bạn về cuốn sách này. Điều gì làm bạn thích hoặc không thích? Bạn có muốn giới thiệu cho người khác không?"
+                        rows="8"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                        maxlength="2000" oninput="updateCharacterCount(this)"></textarea>
+                    <div class="absolute bottom-3 right-3 character-counter" id="characterCounter">
+                        0 / 2000 ký tự
+                    </div>
+                </div>
+                <span asp-validation-for="Comment" class="text-red-600 text-sm"></span>
+
+                <!-- Writing Tips -->
+                <div class="mt-3 bg-blue-50 p-4 rounded-lg">
+                    <h4 class="text-sm font-semibold text-blue-800 mb-2">
+                        <i class="fas fa-lightbulb mr-1"></i>
+                        Mẹo viết đánh giá hay:
+                    </h4>
+                    <ul class="text-blue-700 text-xs space-y-1">
+                        <li>• Chia sẻ cảm xúc và suy nghĩ chân thực của bạn</li>
+                        <li>• Đề cập đến những điểm nổi bật của cuốn sách</li>
+                        <li>• Tránh spoiler - không tiết lộ nội dung quan trọng</li>
+                        <li>• Viết bằng ngôn ngữ lịch sự và tôn trọng</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Additional Options -->
+            <div class="mb-8 space-y-4">
+                <h3 class="text-lg font-semibold text-gray-800">Thông tin bổ sung</h3>
+
+                <!-- Recommend to others -->
+                <div class="flex items-center space-x-3">
+                    @* <input type="checkbox" asp-for="WouldRecommend"
+                        class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" />
+                    <label asp-for="WouldRecommend" class="text-gray-700">
+                        Tôi sẽ giới thiệu cuốn sách này cho người khác
+                    </label> *@
+                </div>
+
+                <!-- Reading context -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Bạn đọc cuốn sách này trong hoàn cảnh nào?
+                    </label>
+                    <select name="ReadingContext"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        <option value="">Chọn (tùy chọn)</option>
+                        <option value="leisure">Đọc giải trí</option>
+                        <option value="study">Học tập, nghiên cứu</option>
+                        <option value="work">Công việc</option>
+                        <option value="gift">Được tặng</option>
+                        <option value="recommendation">Theo giới thiệu</option>
+                        <option value="other">Khác</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Guidelines -->
+            <div class="mb-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                <h4 class="text-sm font-semibold text-yellow-800 mb-2">
+                    <i class="fas fa-exclamation-triangle mr-1"></i>
+                    Quy định đánh giá
+                </h4>
+                <ul class="text-yellow-700 text-xs space-y-1">
+                    <li>• Đánh giá sẽ được kiểm duyệt trước khi hiển thị công khai</li>
+                    <li>• Không được sử dụng ngôn ngữ thô tục, xúc phạm</li>
+                    <li>• Không được đăng thông tin cá nhân hoặc liên hệ</li>
+                    <li>• Đánh giá phải liên quan đến nội dung sách</li>
+                </ul>
+            </div>
+
+            <!-- Submit Buttons -->
+            <div class="flex justify-between items-center pt-6 border-t border-gray-200">
+                <a asp-controller="Books" asp-action="Details" asp-route-id="@Model.BookId"
+                    class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-lg font-semibold transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Quay lại
+                </a>
+
+                <div class="space-x-3">
+                    <button type="button" onclick="saveDraft()"
+                        class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                        <i class="fas fa-save mr-2"></i>
+                        Lưu nháp
+                    </button>
+
+                    <button type="submit"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                        id="submitBtn">
+                        <i class="fas fa-paper-plane mr-2"></i>
+                        Gửi đánh giá
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Preview Modal -->
+    <div id="previewModal"
+        class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-800">Xem trước đánh giá</h3>
+                    <button onclick="closePreview()" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+
+                <div id="previewContent" class="border border-gray-200 rounded-lg p-4">
+                    <!-- Preview content will be inserted here -->
+                </div>
+
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button onclick="closePreview()"
+                        class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-lg font-semibold transition-colors">
+                        Chỉnh sửa
+                    </button>
+                    <button onclick="submitFromPreview()"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                        Xác nhận gửi
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let currentRating = @(Model.Rating);
+        let isDraftSaved = false;
+
+        // Initialize rating if editing
+        if (currentRating > 0) {
+            setRating(currentRating);
+        }
+
+        // Load draft if exists
+        document.addEventListener('DOMContentLoaded', function () {
+            loadDraft();
+        });
+
+        function setRating(rating) {
+            currentRating = rating;
+            document.getElementById('ratingInput').value = rating;
+
+            updateStarDisplay(rating);
+            updateRatingText(rating);
+        }
+
+        function hoverRating(rating) {
+            updateStarDisplay(rating);
+        }
+
+        function resetHover() {
+            updateStarDisplay(currentRating);
+        }
+
+        function updateStarDisplay(rating) {
+            const stars = document.querySelectorAll('#ratingStars .fa-star');
+            stars.forEach((star, index) => {
+                const starRating = index + 1;
+                star.classList.remove('active', 'hover');
+
+                if (starRating <= rating) {
+                    if (starRating <= currentRating) {
+                        star.classList.add('active');
+                    } else {
+                        star.classList.add('hover');
+                    }
+                }
+            });
+        }
+
+        function updateRatingText(rating) {
+            const texts = {
+                1: 'Rất không hài lòng',
+                2: 'Không hài lòng',
+                3: 'Bình thường',
+                4: 'Hài lòng',
+                5: 'Rất hài lòng'
+            };
+
+            document.getElementById('ratingText').textContent = texts[rating] || 'Chọn số sao';
+        }
+
+        function updateCharacterCount(textarea) {
+            const current = textarea.value.length;
+            const max = 2000;
+            const counter = document.getElementById('characterCounter');
+
+            counter.textContent = `${current} / ${max} ký tự`;
+
+            // Update styling based on character count
+            counter.classList.remove('warning', 'error');
+            if (current > max * 0.9) {
+                counter.classList.add('warning');
+            }
+            if (current > max) {
+                counter.classList.add('error');
+            }
+        }
+
+        function saveDraft() {
+            const formData = {
+                bookId: document.querySelector('[name="BookId"]').value,
+                rating: currentRating,
+                title: document.querySelector('[name="Title"]').value,
+                comment: document.querySelector('[name="Comment"]').value,
+                wouldRecommend: document.querySelector('[name="WouldRecommend"]').checked,
+                readingContext: document.querySelector('[name="ReadingContext"]').value
+            };
+
+            localStorage.setItem(`review_draft_${formData.bookId}`, JSON.stringify(formData));
+            isDraftSaved = true;
+
+            showNotification('Đã lưu nháp thành công!', 'success');
+        }
+
+        function loadDraft() {
+            const bookId = document.querySelector('[name="BookId"]').value;
+            const draft = localStorage.getItem(`review_draft_${bookId}`);
+
+            if (draft && confirm('Bạn có muốn tải nháp đã lưu không?')) {
+                const data = JSON.parse(draft);
+
+                if (data.rating) setRating(data.rating);
+                if (data.title) document.querySelector('[name="Title"]').value = data.title;
+                if (data.comment) {
+                    const commentField = document.querySelector('[name="Comment"]');
+                    commentField.value = data.comment;
+                    updateCharacterCount(commentField);
+                }
+                if (data.wouldRecommend) document.querySelector('[name="WouldRecommend"]').checked = data.wouldRecommend;
+                if (data.readingContext) document.querySelector('[name="ReadingContext"]').value = data.readingContext;
+
+                showNotification('Đã tải nháp thành công!', 'info');
+            }
+        }
+
+        function showPreview() {
+            const rating = currentRating;
+            const title = document.querySelector('[name="Title"]').value;
+            const comment = document.querySelector('[name="Comment"]').value;
+            const wouldRecommend = document.querySelector('[name="WouldRecommend"]').checked;
+
+            if (!rating || !comment.trim()) {
+                showNotification('Vui lòng điền đầy đủ đánh giá và nội dung!', 'error');
+                return;
+            }
+
+            const starsHtml = Array.from({ length: 5 }, (_, i) =>
+                `<i class="fas fa-star ${i < rating ? 'text-yellow-500' : 'text-gray-300'}"></i>`
+            ).join('');
+
+            const previewHtml = `
+                                    <div class="space-y-4">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="flex text-lg">${starsHtml}</div>
+                                            <span class="text-gray-600">${rating}/5 sao</span>
+                                        </div>
+                    
+                                        ${title ? `<h4 class="text-lg font-semibold text-gray-800">${title}</h4>` : ''}
+                    
+                                        <div class="text-gray-700 whitespace-pre-wrap">${comment}</div>
+                    
+                                        ${wouldRecommend ? '<div class="text-green-600 text-sm"><i class="fas fa-thumbs-up mr-1"></i>Tác giả giới thiệu cuốn sách này</div>' : ''}
+                    
+                                        <div class="text-sm text-gray-500">
+                                            <i class="fas fa-user mr-1"></i>
+                                            Bởi bạn • ${new Date().toLocaleDateString('vi-VN')}
+                                        </div>
+                                    </div>
+                                `;
+
+            document.getElementById('previewContent').innerHTML = previewHtml;
+            document.getElementById('previewModal').classList.remove('hidden');
+        }
+
+        function closePreview() {
+            document.getElementById('previewModal').classList.add('hidden');
+        }
+
+        function submitFromPreview() {
+            closePreview();
+            document.getElementById('reviewForm').submit();
+        }
+
+        // Form validation and submission
+        document.getElementById('reviewForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            if (!currentRating) {
+                showNotification('Vui lòng chọn số sao đánh giá!', 'error');
+                return;
+            }
+
+            const comment = document.querySelector('[name="Comment"]').value.trim();
+            if (!comment) {
+                showNotification('Vui lòng viết nội dung đánh giá!', 'error');
+                return;
+            }
+
+            if (comment.length > 2000) {
+                showNotification('Nội dung đánh giá quá dài!', 'error');
+                return;
+            }
+
+            // Show preview instead of direct submission
+            showPreview();
+        });
+
+        // Auto-save draft every 30 seconds
+        setInterval(() => {
+            if (!isDraftSaved) {
+                const comment = document.querySelector('[name="Comment"]').value.trim();
+                if (comment || currentRating) {
+                    saveDraft();
+                }
+            }
+        }, 30000);
+
+        // Warn user about unsaved changes
+        window.addEventListener('beforeunload', function (e) {
+            const comment = document.querySelector('[name="Comment"]').value.trim();
+            if ((comment || currentRating) && !isDraftSaved) {
+                e.preventDefault();
+                e.returnValue = 'Bạn có thay đổi chưa lưu. Bạn có chắc muốn rời khỏi trang?';
+            }
+        });
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 px-6 py-3 rounded-lg text-white z-50 ${type === 'success' ? 'bg-green-500' :
+                type === 'error' ? 'bg-red-500' :
+                    type === 'info' ? 'bg-blue-500' : 'bg-gray-500'
+                }`;
+            notification.textContent = message;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Initialize character counter
+        const commentField = document.querySelector('[name="Comment"]');
+        if (commentField.value) {
+            updateCharacterCount(commentField);
+        }
+    </script>
+}

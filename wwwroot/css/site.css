@@ -1,0 +1,438 @@
+/* ======================================================================== */
+/* site.css - Input file for Tailwind CSS compilation                       */
+/* ======================================================================== */
+
+/* ------------------------------ Base Tailwind --------------------------- */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------ Fonts ----------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* ------------------------------ CSS Variables --------------------------- */
+:root {
+  /* Primary Palette */
+  --primary-50: #eff6ff;
+  --primary-100: #dbeafe;
+  --primary-500: #3b82f6;
+  --primary-600: #2563eb;
+  --primary-700: #1d4ed8;
+  --primary-800: #1e40af;
+  --primary-900: #1e3a8a;
+
+  /* Secondary & Accent Colors */
+  --secondary-500: #8b5cf6;
+  --secondary-600: #7c3aed;
+  --accent-orange: #f97316;
+  --accent-green: #10b981;
+  --accent-pink: #ec4899;
+  --accent-yellow: #f59e0b;
+  --accent-red: #ef4444;
+
+  /* Shadows */
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* ------------------------------ Base Elements --------------------------- */
+body {
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow-x: hidden;
+}
+
+/* ======================================================================== */
+/* Animations                                                               */
+/* ======================================================================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bounceSoft {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* ======================================================================== */
+/* Component Layer (Custom Tailwind Components)                             */
+/* ======================================================================== */
+@layer components {
+
+  /* ---------------------------- Layout Helpers -------------------------- */
+  .bv-container { @apply container mx-auto px-4; }
+  .bv-scrollbar::-webkit-scrollbar { width: 6px; }
+  .bv-scrollbar::-webkit-scrollbar-track { @apply bg-gray-100 rounded-full; }
+  .bv-scrollbar::-webkit-scrollbar-thumb { @apply bg-blue-300 rounded-full hover:bg-blue-400; }
+  .bv-hide-mobile {
+    @apply hidden md:flex;
+  }
+  
+  .bv-show-mobile {
+    @apply flex md:hidden;
+  }
+
+  /* ---------------------------- Logo & Branding ------------------------- */
+  .bv-logo { @apply bg-gradient-to-br from-blue-500 via-purple-500 to-blue-600 p-3 rounded-xl shadow-lg; }
+  .bv-logo-text { @apply text-2xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 bg-clip-text text-transparent; }
+  .bv-gradient-text { @apply bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 bg-clip-text text-transparent; }
+
+  /* ---------------------------- Buttons --------------------------------- */
+  .bv-btn-primary {
+    @apply bg-gradient-to-r from-blue-500 via-purple-500 to-blue-600 hover:from-blue-600 hover:via-purple-600 hover:to-blue-700 
+           text-white px-6 py-2.5 rounded-lg font-medium transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105;
+  }
+  
+  .bv-btn-secondary {
+    @apply bg-white border border-blue-200 text-blue-600 hover:bg-blue-50 px-3 py-2 rounded-lg text-sm font-medium transition-colors;
+  }
+  
+  .bv-btn-action {
+    @apply relative p-3 text-gray-600 hover:bg-gray-50 rounded-full transition-all duration-200;
+  }
+  
+  .bv-btn-action:hover {
+    transform: scale(1.1);
+  }
+
+  .bv-tooltip {
+    @apply absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs 
+           rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap;
+  }
+  /* ---------------------------- Badges ---------------------------------- */
+  .bv-badge { @apply absolute -top-1 -right-1 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium; }
+  .bv-badge-danger { @apply bg-red-500; }
+  .bv-badge-warning { @apply bg-yellow-500; }
+
+  /* ---------------------------- Search ---------------------------------- */
+  .bv-search-input {
+    @apply w-full pl-12 pr-32 py-3.5 text-gray-700 bg-gray-50 border-2 border-transparent rounded-full focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-100 focus:outline-none transition-all duration-300 placeholder-gray-400;
+  }
+  
+  .bv-search-button {
+    @apply ml-1 mr-1 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 
+           text-white px-6 py-2 rounded-full transition-all duration-200 hover:shadow-lg transform hover:scale-105;
+  }
+
+  /* ---------------------------- Dropdowns ------------------------------- */
+  .bv-dropdown {
+    @apply absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 
+           opacity-0 invisible group-hover:opacity-100 group-hover:visible 
+           transition-all duration-200 transform translate-y-2 group-hover:translate-y-0;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  .bv-dropdown-item {
+    @apply flex items-center px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors;
+  }
+
+  /* ---------------------------- Navigation ------------------------------ */
+  .bv-nav {
+    @apply bg-white border-b border-gray-200 shadow-sm;
+  }
+  
+  .bv-nav-link {
+    @apply text-gray-700 font-medium transition-colors relative;
+  }
+  
+  .bv-nav-link::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300;
+  }
+  
+  .bv-nav-link:hover::after {
+    @apply w-full;
+  }
+  
+  .bv-nav-link-primary:hover {
+    @apply text-blue-600;
+  }
+  
+  .bv-nav-link-primary::after {
+    @apply bg-gradient-to-r from-blue-500 to-purple-500;
+  }
+  
+  .bv-nav-link-green:hover {
+    @apply text-green-600;
+  }
+  
+  .bv-nav-link-green::after {
+    @apply bg-green-500;
+  }
+  
+  .bv-nav-link-yellow:hover {
+    @apply text-yellow-600;
+  }
+  
+  .bv-nav-link-yellow::after {
+    @apply bg-yellow-500;
+  }
+  
+  .bv-nav-link-orange:hover {
+    @apply text-orange-600;
+  }
+  
+  .bv-nav-link-orange::after {
+    @apply bg-orange-500;
+  }
+
+  /* ---------------------------- Mega Menu ------------------------------- */
+  .bv-mega-menu {
+    @apply absolute top-full left-0 mt-1 w-[650px] bg-white rounded-xl shadow-2xl border border-gray-100 
+           opacity-0 invisible group-hover:opacity-100 group-hover:visible 
+           transition-all duration-300 transform translate-y-4 group-hover:translate-y-0;
+    animation: slideUp 0.3s ease-out;
+  }
+  
+  .bv-mega-menu-item {
+    @apply text-gray-600 transition-colors flex items-center py-1;
+  }
+  
+  .bv-mega-menu-item:hover {
+    @apply text-blue-600;
+  }
+  .bv-animate-slide-up { animation: slideUp 0.3s ease-out; }
+
+  /* ---------------------------- Special Sections ------------------------ */
+  .bv-flash-sale {
+    @apply flex items-center space-x-2 bg-gradient-to-r from-red-500 via-pink-500 to-orange-500 
+           text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg;
+    animation: pulse-slow 2s infinite;
+  }
+
+  .bv-free-shipping{ 
+    @apply xl:flex items-center space-x-2 text-green-600 bg-green-50 px-3 py-1.5 rounded-full text-sm 
+            font-medium border border-green-200 
+  }
+
+  .bv-user-section {
+    @apply p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-100;
+  }
+
+  /* ---------------------------- Mobile Menu ----------------------------- */
+  .bv-mobile-menu {
+    @apply fixed top-0 left-0 w-80 max-w-sm h-full bg-white z-50 transform -translate-x-full 
+           transition-transform duration-300 shadow-2xl overflow-y-auto;
+  }
+  
+  .bv-mobile-menu.active {
+    @apply translate-x-0;
+  }
+  
+  .bv-mobile-overlay {
+    @apply fixed inset-0 bg-black bg-opacity-50 z-40 opacity-0 invisible transition-all duration-300;
+  }
+  
+  .bv-mobile-overlay.active {
+    @apply opacity-100 visible;
+  }
+  
+  .bv-mobile-menu-item {
+    @apply flex items-center py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors;
+  }
+
+/* ======================================================================== */
+/* Style login                                                            */
+/* ======================================================================== */
+  .auth-input {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  .auth-input:focus {
+    @apply ring-4 ring-primary-100 ring-opacity-50;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+
+  .auth-input.border-green-500:focus {
+    @apply ring-green-100;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+  }
+
+  .auth-input.border-red-500:focus {
+    @apply ring-red-100;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+  }
+
+  /* Floating label animation */
+  .auth-input + label {
+    @apply transition-all duration-300 ease-in-out;
+    transform-origin: top left;
+  }
+
+  /* Password strength bars */
+  .password-strength-bar {
+    @apply transition-all duration-300 ease-in-out;
+    height: 3px;
+  }
+
+  /* Custom checkbox styling */
+  input[type="checkbox"]:focus {
+    @apply ring-2 ring-primary-500 ring-offset-2;
+  }
+
+  /* Button ripple effect */
+  .btn-ripple {
+    @apply relative overflow-hidden;
+  }
+
+  .ripple {
+    @apply absolute rounded-full bg-white bg-opacity-60 pointer-events-none;
+    transform: scale(0);
+    animation: ripple 600ms linear;
+  }
+
+  /* Social buttons hover effect */
+  .btn-ripple:hover {
+    @apply transform -translate-y-1 shadow-md;
+  }
+
+  /* Loading spinner */
+  .loading-spinner {
+    @apply animate-spin rounded-full border-2 border-gray-300 border-t-primary-500;
+  }
+
+  /* Form error state */
+  .form-error {
+    @apply border-red-500 bg-red-50;
+  }
+
+  /* Form success state */
+  .form-success {
+    @apply border-green-500 bg-green-50;
+  }
+
+  /* Accessibility focus styles */
+  .user-is-tabbing *:focus {
+    @apply ring-2 ring-primary-500 ring-offset-2;
+  }
+
+  .bv-icon-input{
+    @apply w-full px-4 py-3 pr-10 border-2 border-gray-200 rounded-lg 
+            focus:border-2 focus:border-primary-500 focus:outline-none 
+            transition-colors duration-300 bg-white
+  }
+
+
+}
+
+/* ======================================================================== */
+/* Utilities Layer (Custom Tailwind Utilities)                              */
+/* ======================================================================== */
+@layer utilities {
+  .text-shadow-sm {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+  
+  .text-shadow {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  }
+  
+  .bg-glass {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+  }
+  
+  .border-gradient {
+    border-image: linear-gradient(45deg, #3b82f6, #8b5cf6) 1;
+  }
+}
+
+/* ======================================================================== */
+/* Responsive Tweaks                                                        */
+/* ======================================================================== */
+@media (max-width: 768px) {
+  .bv-mega-menu {
+    @apply w-full;
+  }
+  
+  .bv-search-input {
+    @apply pl-10 pr-4 text-base;
+  }
+  
+  .bv-logo-text {
+    @apply text-lg;
+  }
+}
+
+@media (max-width: 640px) {
+  .bv-container {
+    @apply px-2;
+  }
+  
+  .bv-mobile-menu {
+    @apply w-full max-w-none;
+  }
+}
+
+/* ======================================================================== */
+/* Print Styles                                                             */
+/* ======================================================================== */
+
+@media print {
+  .bv-header,
+  .bv-nav,
+  .bv-mobile-menu,
+  .bv-mobile-overlay {
+    @apply hidden;
+  }
+}
+
+
+@keyframes ripple {
+  to {
+      transform: scale(4);
+      opacity: 0;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .auth-card {
+      @apply mx-2 p-4;
+  }
+  
+  .auth-input {
+      @apply text-base; /* Prevents zoom on iOS */
+  }
+}
+
+/* Print styles */
+@media print {
+  .auth-card {
+      @apply shadow-none border border-gray-300;
+  }
+  
+  .floating-shapes {
+      @apply hidden;
+  }
+}

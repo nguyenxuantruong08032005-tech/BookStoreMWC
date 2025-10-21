@@ -1,0 +1,231 @@
+@* Views/Admin/Settings.cshtml *@
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Cài đặt hệ thống";
+    ViewBag.PageTitle = "Cài đặt hệ thống";
+    ViewBag.ActiveMenu = "Settings";
+}
+
+<!-- Page Header -->
+<div class="mb-6">
+    <h2 class="text-2xl font-bold text-gray-900 mb-2">
+        <i class="fas fa-cog text-primary-600 mr-3"></i>
+        Cài đặt hệ thống
+    </h2>
+    <p class="text-sm text-gray-600">Quản lý các cài đặt chung của hệ thống</p>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- General Settings -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900">
+                <i class="fas fa-info-circle text-blue-600 mr-2"></i>
+                Cài đặt chung
+            </h3>
+        </div>
+        <div class="p-6">
+            <form class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Tên cửa hàng</label>
+                    <input type="text" value="BookStore"
+                        class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Email liên hệ</label>
+                    <input type="email" value="contact@bookstore.com"
+                        class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Số điện thoại</label>
+                    <input type="tel" value="0123456789"
+                        class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Địa chỉ</label>
+                    <textarea rows="3"
+                        class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">123 Nguyễn Huệ, Quận 1, TP.HCM</textarea>
+                </div>
+
+                <button type="submit"
+                    class="w-full px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+                    <i class="fas fa-save mr-2"></i>Lưu thay đổi
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- System Maintenance -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900">
+                <i class="fas fa-tools text-orange-600 mr-2"></i>
+                Bảo trì hệ thống
+            </h3>
+        </div>
+        <div class="p-6">
+            <form method="post" asp-action="Settings">
+                @Html.AntiForgeryToken()
+
+                <div class="space-y-3">
+                    <button type="submit" name="action" value="clearcache"
+                        class="w-full px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-between">
+                        <span><i class="fas fa-broom mr-2"></i>Xóa cache hệ thống</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+
+                    <button type="submit" name="action" value="backup"
+                        class="w-full px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center justify-between">
+                        <span><i class="fas fa-database mr-2"></i>Sao lưu dữ liệu</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+
+                    <button type="button" onclick="optimizeDatabase()"
+                        class="w-full px-4 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors flex items-center justify-between">
+                        <span><i class="fas fa-cogs mr-2"></i>Tối ưu cơ sở dữ liệu</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+
+                    <button type="button" onclick="clearLogs()"
+                        class="w-full px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center justify-between">
+                        <span><i class="fas fa-trash mr-2"></i>Xóa log cũ</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Email Settings -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900">
+                <i class="fas fa-envelope text-purple-600 mr-2"></i>
+                Cài đặt Email
+            </h3>
+        </div>
+        <div class="p-6">
+            <form class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">SMTP Host</label>
+                    <input type="text" placeholder="smtp.gmail.com"
+                        class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">SMTP Port</label>
+                    <input type="number" placeholder="587"
+                        class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Email gửi</label>
+                    <input type="email" placeholder="noreply@bookstore.com"
+                        class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Mật khẩu</label>
+                    <input type="password"
+                        class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                </div>
+
+                <button type="button" onclick="testEmail()"
+                    class="w-full px-4 py-2 border border-primary-600 text-primary-600 rounded-lg hover:bg-primary-50 transition-colors">
+                    <i class="fas fa-paper-plane mr-2"></i>Gửi email thử nghiệm
+                </button>
+
+                <button type="submit"
+                    class="w-full px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+                    <i class="fas fa-save mr-2"></i>Lưu cài đặt
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Security Settings -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900">
+                <i class="fas fa-shield-alt text-red-600 mr-2"></i>
+                Bảo mật
+            </h3>
+        </div>
+        <div class="p-6 space-y-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="font-medium text-gray-900">Xác thực 2 yếu tố</p>
+                    <p class="text-sm text-gray-500">Bật xác thực 2 bước cho admin</p>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" class="sr-only peer">
+                    <div
+                        class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600">
+                    </div>
+                </label>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="font-medium text-gray-900">Đăng nhập SSL</p>
+                    <p class="text-sm text-gray-500">Bắt buộc HTTPS cho admin</p>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" checked class="sr-only peer">
+                    <div
+                        class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600">
+                    </div>
+                </label>
+            </div>
+
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="font-medium text-gray-900">Auto Logout</p>
+                    <p class="text-sm text-gray-500">Tự động đăng xuất sau 30 phút</p>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" checked class="sr-only peer">
+                    <div
+                        class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600">
+                    </div>
+                </label>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Thời gian timeout (phút)</label>
+                <input type="number" value="30"
+                    class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+            </div>
+
+            <button type="submit"
+                class="w-full px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+                <i class="fas fa-save mr-2"></i>Lưu cài đặt
+            </button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function optimizeDatabase() {
+            if (!confirm('Bạn có chắc muốn tối ưu cơ sở dữ liệu? Quá trình này có thể mất vài phút.')) {
+                return;
+            }
+            alert('Chức năng đang được phát triển...');
+        }
+
+        function clearLogs() {
+            if (!confirm('Bạn có chắc muốn xóa tất cả log cũ?')) {
+                return;
+            }
+            alert('Chức năng đang được phát triển...');
+        }
+
+        function testEmail() {
+            alert('Đang gửi email thử nghiệm...\nChức năng đang được phát triển.');
+        }
+    </script>
+}

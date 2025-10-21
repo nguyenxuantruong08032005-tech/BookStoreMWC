@@ -1,0 +1,408 @@
+@* Views/Admin/Books.cshtml *@
+@model BookStoreMVC.Models.ViewModels.BookListViewModel
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Quản lý sách";
+    ViewBag.PageTitle = "Quản lý sách";
+    ViewBag.ActiveMenu = "Books";
+}
+
+<!-- Page Header with Actions -->
+<div class="mb-6">
+    <div class="sm:flex sm:items-center sm:justify-between">
+        <div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">
+                <i class="fas fa-books text-primary-600 mr-3"></i>
+                Quản lý sách
+            </h2>
+            <p class="text-sm text-gray-600">
+                Tổng cộng: <span class="font-semibold text-primary-600">@(Model?.TotalCount ?? 0)</span> cuốn sách
+            </p>
+        </div>
+        <div class="mt-4 sm:mt-0 flex gap-3">
+            <a href="@Url.Action("ImportBooks", "Admin")" 
+               class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors">
+                <i class="fas fa-upload mr-2"></i>
+                Import sách
+            </a>
+            <a href="@Url.Action("CreateBook", "Admin")" 
+               class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors shadow-sm">
+                <i class="fas fa-plus mr-2"></i>
+                Thêm sách mới
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Stats -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div class="flex items-center">
+            <div class="p-3 rounded-full bg-blue-100 text-blue-600">
+                <i class="fas fa-book text-xl"></i>
+            </div>
+            <div class="ml-4">
+                <p class="text-sm font-medium text-gray-600">Tổng sách</p>
+                <p class="text-2xl font-bold text-gray-900">@(Model?.TotalCount ?? 0)</p>
+            </div>
+        </div>
+    </div>
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div class="flex items-center">
+            <div class="p-3 rounded-full bg-green-100 text-green-600">
+                <i class="fas fa-check-circle text-xl"></i>
+            </div>
+            <div class="ml-4">
+                <p class="text-sm font-medium text-gray-600">Còn hàng</p>
+                <p class="text-2xl font-bold text-gray-900">@(ViewBag.InStockCount ?? 0)</p>
+            </div>
+        </div>
+    </div>
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div class="flex items-center">
+            <div class="p-3 rounded-full bg-yellow-100 text-yellow-600">
+                <i class="fas fa-exclamation-triangle text-xl"></i>
+            </div>
+            <div class="ml-4">
+                <p class="text-sm font-medium text-gray-600">Sắp hết</p>
+                <p class="text-2xl font-bold text-gray-900">@(ViewBag.LowStockCount ?? 0)</p>
+            </div>
+        </div>
+    </div>
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div class="flex items-center">
+            <div class="p-3 rounded-full bg-red-100 text-red-600">
+                <i class="fas fa-times-circle text-xl"></i>
+            </div>
+            <div class="ml-4">
+                <p class="text-sm font-medium text-gray-600">Hết hàng</p>
+                <p class="text-2xl font-bold text-gray-900">@(ViewBag.OutOfStockCount ?? 0)</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Search and Filter Section -->
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
+    <div class="p-6">
+        <form method="get" id="search-form" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
+                <!-- Search Input -->
+                <div class="md:col-span-2">
+                    <label for="SearchTerm" class="block text-sm font-medium text-gray-700 mb-1">
+                        <i class="fas fa-search mr-1"></i>Tìm kiếm
+                    </label>
+                    <div class="relative">
+                        <input type="text" id="SearchTerm" name="SearchTerm" value="@Model.SearchTerm"
+                               placeholder="Tên sách, tác giả, ISBN..."
+                               class="block w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-search text-gray-400 text-sm"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category Filter -->
+                <div>
+                    <label for="CategoryId" class="block text-sm font-medium text-gray-700 mb-1">
+                        <i class="fas fa-tags mr-1"></i>Danh mục
+                    </label>
+                    <select id="CategoryId" name="CategoryId" 
+                            class="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
+                        <option value="">Tất cả</option>
+                        @if (Model?.Categories != null)
+                        {
+                            foreach (var category in Model.Categories)
+                            {
+                                <option value="@category.Id" selected="@(Model.CategoryId == category.Id)">
+                                    @category.Name
+                                </option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <!-- Price Range -->
+                <div>
+                    <label for="MinPrice" class="block text-sm font-medium text-gray-700 mb-1">
+                        <i class="fas fa-dollar-sign mr-1"></i>Giá từ
+                    </label>
+                    <input type="number" id="MinPrice" name="MinPrice" value="@Model.MinPrice" 
+                           placeholder="0" min="0" step="1000"
+                           class="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
+                </div>
+
+                <div>
+                    <label for="MaxPrice" class="block text-sm font-medium text-gray-700 mb-1">
+                        <i class="fas fa-dollar-sign mr-1"></i>Đến
+                    </label>
+                    <input type="number" id="MaxPrice" name="MaxPrice" value="@Model.MaxPrice" 
+                           placeholder="999999" min="0" step="1000"
+                           class="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
+                </div>
+
+                <!-- Sort By -->
+                <div>
+                    <label for="SortBy" class="block text-sm font-medium text-gray-700 mb-1">
+                        <i class="fas fa-sort mr-1"></i>Sắp xếp
+                    </label>
+                    <select id="SortBy" name="SortBy" 
+                            class="block w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
+                        <option value="title" selected="@(Model.SortBy == "title")">Tên A-Z</option>
+                        <option value="title_desc" selected="@(Model.SortBy == "title_desc")">Tên Z-A</option>
+                        <option value="price" selected="@(Model.SortBy == "price")">Giá thấp - cao</option>
+                        <option value="price_desc" selected="@(Model.SortBy == "price_desc")">Giá cao - thấp</option>
+                        <option value="created" selected="@(Model.SortBy == "created")">Mới nhất</option>
+                        <option value="created_desc" selected="@(Model.SortBy == "created_desc")">Cũ nhất</option>
+                        <option value="stock" selected="@(Model.SortBy == "stock")">Tồn kho</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-4">
+                <div class="flex items-center gap-4">
+                    <button type="submit" 
+                            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors">
+                        <i class="fas fa-search mr-2"></i>
+                        Tìm kiếm
+                    </button>
+                    <a href="@Url.Action("Books", "Admin")" 
+                       class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors">
+                        <i class="fas fa-times mr-2"></i>
+                        Xóa bộ lọc
+                    </a>
+                </div>
+                <div class="flex items-center gap-2 text-sm text-gray-600">
+                    <span>Hiển thị:</span>
+                    <select name="PageSize" 
+                            onchange="this.form.submit()" 
+                            class="border border-gray-300 rounded px-2 py-1 text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                        <option value="10" selected="@(Model.PageSize == 10)">10</option>
+                        <option value="25" selected="@(Model.PageSize == 25)">25</option>
+                        <option value="50" selected="@(Model.PageSize == 50)">50</option>
+                        <option value="100" selected="@(Model.PageSize == 100)">100</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Books Table / Cards -->
+<div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+    @if (Model?.Books != null && Model.Books.Any())
+    {
+        <!-- Table Header -->
+        <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+            <div class="flex items-center justify-between">
+                <h3 class="text-lg font-semibold text-gray-900">Danh sách sách</h3>
+                <div class="flex items-center gap-4">
+                    <!-- View Mode Toggle -->
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm text-gray-600">Xem:</span>
+                        <div class="flex rounded-lg border border-gray-300 overflow-hidden">
+                            <button type="button" onclick="switchViewMode('grid')" 
+                                    class="view-mode-btn px-3 py-1 text-sm font-medium transition-colors @(Model.ViewMode == "grid" ? "bg-primary-100 text-primary-700" : "bg-white text-gray-700 hover:bg-gray-50")" 
+                                    data-mode="grid" title="Xem dạng lưới">
+                                <i class="fas fa-th mr-1"></i>
+                                Lưới
+                            </button>
+                            <button type="button" onclick="switchViewMode('list')"
+                                    class="view-mode-btn px-3 py-1 text-sm font-medium transition-colors @(Model.ViewMode == "list" ? "bg-primary-100 text-primary-700" : "bg-white text-gray-700 hover:bg-gray-50")"
+                                    data-mode="list" title="Xem dạng danh sách">
+                                <i class="fas fa-list mr-1"></i>
+                                Danh sách
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Select All -->
+                    <div class="flex items-center">
+                        <label class="inline-flex items-center">
+                            <input type="checkbox" id="select-all" class="rounded border-gray-300 text-primary-600 focus:ring-primary-500">
+                            <span class="ml-2 text-sm text-gray-600">Chọn tất cả</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Books Content -->
+        <div id="books-container" class="p-6">
+            @if (Model.ViewMode == "list")
+            {
+                <!-- List View -->
+                <div class="space-y-3" id="books-list-view">
+                    @foreach (var book in Model.Books)
+                    {
+                        <div class="flex items-center">
+                            <input type="checkbox" name="selectedBooks" value="@book.Id" class="book-checkbox rounded border-gray-300 text-primary-600 focus:ring-primary-500 mr-4">
+                            <div class="flex-1">
+                                @Html.Partial("_BookCard", book)
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <!-- Grid View -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="books-grid-view">
+                    @foreach (var book in Model.Books)
+                    {
+                        <div class="relative">
+                            <input type="checkbox" name="selectedBooks" value="@book.Id" class="book-checkbox absolute top-2 left-2 z-10 rounded border-gray-300 text-primary-600 focus:ring-primary-500 bg-white shadow-sm">
+                            @Html.Partial("_BookCard", book)
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+        <!-- Pagination -->
+        @if (Model.TotalPages > 1)
+        {
+            <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center text-sm text-gray-700">
+                        <span>Hiển thị <span class="font-medium">@((Model.CurrentPage - 1) * Model.PageSize + 1)</span> đến <span class="font-medium">@Math.Min(Model.CurrentPage * Model.PageSize, Model.TotalCount)</span> trong tổng số <span class="font-medium">@Model.TotalCount</span> kết quả</span>
+                    </div>
+                    
+                    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                        @if (Model.CurrentPage > 1)
+                        {
+                            <a href="@Url.Action("Books", "Admin", new { 
+                                page = Model.CurrentPage - 1, 
+                                pageSize = Model.PageSize, 
+                                searchTerm = Model.SearchTerm, 
+                                categoryId = Model.CategoryId, 
+                                sortBy = Model.SortBy,
+                                minPrice = Model.MinPrice,
+                                maxPrice = Model.MaxPrice,
+                                viewMode = Model.ViewMode
+                            })" 
+                               class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500">
+                                <i class="fas fa-chevron-left"></i>
+                            </a>
+                        }
+
+                        @for (int i = Math.Max(1, Model.CurrentPage - 2); i <= Math.Min(Model.TotalPages, Model.CurrentPage + 2); i++)
+                        {
+                            if (i == Model.CurrentPage)
+                            {
+                                <span class="relative inline-flex items-center px-4 py-2 border border-primary-500 bg-primary-50 text-sm font-medium text-primary-600">
+                                    @i
+                                </span>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Books", "Admin", new { 
+                                    page = i, 
+                                    pageSize = Model.PageSize, 
+                                    searchTerm = Model.SearchTerm, 
+                                    categoryId = Model.CategoryId, 
+                                    sortBy = Model.SortBy,
+                                    minPrice = Model.MinPrice,
+                                    maxPrice = Model.MaxPrice,
+                                    viewMode = Model.ViewMode
+                                })" 
+                                   class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500">
+                                    @i
+                                </a>
+                            }
+                        }
+
+                        @if (Model.CurrentPage < Model.TotalPages)
+                        {
+                            <a href="@Url.Action("Books", "Admin", new { 
+                                page = Model.CurrentPage + 1, 
+                                pageSize = Model.PageSize, 
+                                searchTerm = Model.SearchTerm, 
+                                categoryId = Model.CategoryId, 
+                                sortBy = Model.SortBy,
+                                minPrice = Model.MinPrice,
+                                maxPrice = Model.MaxPrice,
+                                viewMode = Model.ViewMode
+                            })" 
+                               class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500">
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        }
+                    </nav>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <!-- Empty State -->
+        <div class="text-center py-12">
+            <div class="mx-auto h-24 w-24 text-gray-400 mb-4">
+                <i class="fas fa-books text-6xl"></i>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">Không tìm thấy sách nào</h3>
+            <p class="text-gray-500 mb-6">Không có sách nào phù hợp với tiêu chí tìm kiếm của bạn.</p>
+            <div class="flex justify-center gap-3">
+                <a href="@Url.Action("Books", "Admin")" 
+                   class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                    <i class="fas fa-refresh mr-2"></i>
+                    Xem tất cả
+                </a>
+                <a href="@Url.Action("CreateBook", "Admin")" 
+                   class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
+                    <i class="fas fa-plus mr-2"></i>
+                    Thêm sách đầu tiên
+                </a>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        function switchViewMode(mode) {
+            const url = new URL(window.location.href);
+            url.searchParams.set("viewMode", mode);
+            window.location.href = url.toString();
+        }
+
+        // Select all functionality
+        document.getElementById('select-all')?.addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll('.book-checkbox');
+            checkboxes.forEach(cb => cb.checked = this.checked);
+        });
+
+        // Notification function
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 max-w-sm w-full bg-white border rounded-lg shadow-lg transform transition-all duration-300 ${
+                type === 'success' ? 'border-green-200' : 
+                type === 'error' ? 'border-red-200' : 'border-blue-200'
+            }`;
+            
+            notification.innerHTML = `
+                <div class="p-4">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <i class="fas ${
+                                type === 'success' ? 'fa-check-circle text-green-400' : 
+                                type === 'error' ? 'fa-times-circle text-red-400' : 'fa-info-circle text-blue-400'
+                            }"></i>
+                        </div>
+                        <div class="ml-3 w-0 flex-1 pt-0.5">
+                            <p class="text-sm font-medium text-gray-900">${message}</p>
+                        </div>
+                        <div class="ml-4 flex-shrink-0 flex">
+                            <button class="inline-flex text-gray-400 hover:text-gray-500" onclick="this.parentElement.parentElement.parentElement.parentElement.remove()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 5000);
+        }
+    </script>
+}

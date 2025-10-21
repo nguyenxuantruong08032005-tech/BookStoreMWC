@@ -1,0 +1,606 @@
+@model BookStoreMVC.Models.ViewModels.WishlistViewModel
+
+@{
+    ViewData["Title"] = "Danh sách yêu thích";
+}
+
+@section Styles {
+    <style>
+        .wishlist-item {
+            transition: all 0.3s ease;
+        }
+        .wishlist-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .heart-animation {
+            animation: heartBeat 0.6s ease-in-out;
+        }
+        @@keyframes heartBeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .gradient-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+}
+
+<div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="gradient-header text-white p-8 rounded-lg shadow-lg mb-8">
+        <div class="text-center">
+            <h1 class="text-3xl font-bold mb-2">
+                <i class="fas fa-heart mr-3 text-red-300"></i>
+                Danh sách yêu thích
+            </h1>
+            <p class="text-lg opacity-90">
+                @if (Model.IsEmpty)
+                {
+                    <span>Chưa có sách nào trong danh sách yêu thích</span>
+                }
+                else
+                {
+                    <span>@Model.ItemCount cuốn sách yêu thích của bạn</span>
+                }
+            </p>
+        </div>
+    </div>
+
+    @if (Model.IsEmpty)
+    {
+        <!-- Empty Wishlist -->
+        <div class="text-center py-16">
+            <div class="w-32 h-32 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+                <i class="fas fa-heart text-5xl text-gray-400"></i>
+            </div>
+            <h2 class="text-2xl font-semibold text-gray-800 mb-4">Danh sách yêu thích trống</h2>
+            <p class="text-gray-600 mb-8">Hãy khám phá và thêm những cuốn sách yêu thích vào danh sách của bạn</p>
+            <div class="space-x-4">
+                <a asp-controller="Books" asp-action="Index" 
+                   class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors">
+                    <i class="fas fa-book mr-2"></i>
+                    Khám phá sách hay
+                </a>
+                <a asp-controller="Books" asp-action="Index" asp-route-featured="true"
+                   class="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors">
+                    <i class="fas fa-star mr-2"></i>
+                    Sách nổi bật
+                </a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- Wishlist Actions -->
+        <div class="flex justify-between items-center mb-6">
+            <div class="flex items-center space-x-4">
+                <button onclick="selectAll()" id="selectAllBtn"
+                        class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg font-semibold transition-colors">
+                    <i class="fas fa-check-square mr-2"></i>
+                    Chọn tất cả
+                </button>
+                <button onclick="removeSelected()" id="removeSelectedBtn" style="display: none;"
+                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                    <i class="fas fa-trash-alt mr-2"></i>
+                    Xóa đã chọn
+                </button>
+                <button onclick="addSelectedToCart()" id="addToCartBtn" style="display: none;"
+                        class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors">
+                    <i class="fas fa-shopping-cart mr-2"></i>
+                    Thêm vào giỏ hàng
+                </button>
+            </div>
+            
+            <div class="flex items-center space-x-2">
+                <span class="text-gray-600">Hiển thị:</span>
+                <select onchange="changeView(this.value)" class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    <option value="grid">Lưới</option>
+                    <option value="list">Danh sách</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Wishlist Items Grid View -->
+        <div id="gridView" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            @foreach (var item in Model.Items)
+            {
+                <div class="wishlist-item bg-white rounded-lg shadow-md overflow-hidden" id="item-@item.BookId">
+                    <!-- Selection Checkbox -->
+                    <div class="relative">
+                        <input type="checkbox" class="item-checkbox absolute top-3 left-3 z-10 rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" 
+                               value="@item.BookId" onchange="updateSelectionButtons()" />
+                        
+                        <!-- Book Image -->
+                        <a asp-controller="Books" asp-action="Details" asp-route-id="@item.BookId">
+                            <img src="@(item.Book.ImageUrl ?? "/images/no-book-cover.png")" 
+                                 alt="@item.Book.Title" 
+                                 class="w-full h-64 object-cover hover:opacity-90 transition-opacity" />
+                        </a>
+
+                        <!-- Remove Button -->
+                        <button onclick="removeFromWishlist(@item.BookId)" 
+                                class="absolute top-3 right-3 w-8 h-8 bg-red-500 hover:bg-red-600 text-white rounded-full shadow-md flex items-center justify-center transition-colors">
+                            <i class="fas fa-times text-sm"></i>
+                        </button>
+
+                        <!-- Stock Status -->
+                        @if (!item.Book.InStock)
+                        {
+                            <div class="absolute bottom-3 left-3 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                                Hết hàng
+                            </div>
+                        }
+                        else if (item.Book.StockQuantity < 5)
+                        {
+                            <div class="absolute bottom-3 left-3 bg-orange-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                                Sắp hết
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Book Info -->
+                    <div class="p-4">
+                        <h3 class="font-semibold text-gray-800 mb-2 line-clamp-2" title="@item.Book.Title">
+                            <a asp-controller="Books" asp-action="Details" asp-route-id="@item.BookId" 
+                               class="hover:text-blue-600 transition-colors">
+                                @item.Book.Title
+                            </a>
+                        </h3>
+                        <p class="text-gray-600 text-sm mb-2">@item.Book.Author</p>
+                        <p class="text-gray-500 text-xs mb-3">@item.Book.Category?.Name</p>
+                        
+                        <!-- Rating -->
+                        <div class="flex items-center mb-3">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <i class="fas fa-star @(i <= item.Book.AverageRating ? "text-yellow-500" : "text-gray-300") text-sm"></i>
+                            }
+                            <span class="text-gray-600 text-sm ml-2">(@item.Book.ReviewCount)</span>
+                        </div>
+                        
+                        <!-- Price and Actions -->
+                        <div class="flex justify-between items-center mb-3">
+                            <div>
+                                @if (item.Book.DiscountPrice.HasValue && item.Book.DiscountPrice < item.Book.Price)
+                                {
+                                    <div class="text-lg font-bold text-red-600">@item.Book.DiscountPrice.Value.ToString("C0")</div>
+                                    <div class="text-sm text-gray-500 line-through">@item.Book.Price.ToString("C0")</div>
+                                }
+                                else
+                                {
+                                    <div class="text-lg font-bold text-blue-600">@item.Book.DisplayPrice.ToString("C0")</div>
+                                }
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex space-x-2">
+                            @if (item.Book.InStock)
+                            {
+                                <button onclick="addToCart(@item.BookId)" 
+                                        class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-3 rounded-lg text-sm font-semibold transition-colors">
+                                    <i class="fas fa-shopping-cart mr-1"></i>
+                                    Thêm vào giỏ
+                                </button>
+                            }
+                            else
+                            {
+                                <button disabled 
+                                        class="flex-1 bg-gray-400 text-white py-2 px-3 rounded-lg text-sm font-semibold cursor-not-allowed">
+                                    Hết hàng
+                                </button>
+                            }
+                        </div>
+
+                        <!-- Added Date -->
+                        <div class="mt-3 text-xs text-gray-500 flex items-center">
+                            <i class="fas fa-calendar-alt mr-1"></i>
+                            Thêm ngày @item.CreatedAt.ToString("dd/MM/yyyy")
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Wishlist Items List View -->
+        <div id="listView" class="space-y-4" style="display: none;">
+            @foreach (var item in Model.Items)
+            {
+                <div class="wishlist-item bg-white p-6 rounded-lg shadow-md" id="list-item-@item.BookId">
+                    <div class="flex items-center space-x-6">
+                        <!-- Selection Checkbox -->
+                        <input type="checkbox" class="item-checkbox rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50" 
+                               value="@item.BookId" onchange="updateSelectionButtons()" />
+
+                        <!-- Book Image -->
+                        <div class="flex-shrink-0">
+                            <a asp-controller="Books" asp-action="Details" asp-route-id="@item.BookId">
+                                <img src="@(item.Book.ImageUrl ?? "/images/no-book-cover.png")" 
+                                     alt="@item.Book.Title" 
+                                     class="w-20 h-28 object-cover rounded shadow-sm hover:opacity-90 transition-opacity" />
+                            </a>
+                        </div>
+
+                        <!-- Book Info -->
+                        <div class="flex-1 min-w-0">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-2">
+                                <a asp-controller="Books" asp-action="Details" asp-route-id="@item.BookId" 
+                                   class="hover:text-blue-600 transition-colors">
+                                    @item.Book.Title
+                                </a>
+                            </h3>
+                            <p class="text-gray-600 mb-2">bởi <span class="font-medium">@item.Book.Author</span></p>
+                            <p class="text-gray-500 text-sm mb-3">Danh mục: @item.Book.Category?.Name</p>
+                            
+                            <!-- Rating -->
+                            <div class="flex items-center mb-3">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <i class="fas fa-star @(i <= item.Book.AverageRating ? "text-yellow-500" : "text-gray-300")"></i>
+                                }
+                                <span class="text-gray-600 ml-2">(@item.Book.ReviewCount đánh giá)</span>
+                            </div>
+
+                            <!-- Description -->
+                            @if (!string.IsNullOrEmpty(item.Book.Description))
+                            {
+                                <p class="text-gray-700 text-sm line-clamp-2 mb-3">@item.Book.Description</p>
+                            }
+
+                            <div class="flex items-center text-xs text-gray-500">
+                                <i class="fas fa-calendar-alt mr-1"></i>
+                                Thêm vào danh sách ngày @item.CreatedAt.ToString("dd/MM/yyyy")
+                            </div>
+                        </div>
+
+                        <!-- Price and Actions -->
+                        <div class="flex-shrink-0 text-right">
+                            <div class="mb-4">
+                                @if (item.Book.DiscountPrice.HasValue && item.Book.DiscountPrice < item.Book.Price)
+                                {
+                                    <div class="text-xl font-bold text-red-600">@item.Book.DiscountPrice.Value.ToString("C0")</div>
+                                    <div class="text-sm text-gray-500 line-through">@item.Book.Price.ToString("C0")</div>
+                                    <div class="text-xs text-green-600 font-semibold">
+                                        Giảm @(((item.Book.Price - item.Book.DiscountPrice.Value) / item.Book.Price * 100))%
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="text-xl font-bold text-blue-600">@item.Book.DisplayPrice.ToString("C0")</div>
+                                }
+                            </div>
+
+                            <!-- Stock Status -->
+                            <div class="mb-3">
+                                @if (!item.Book.InStock)
+                                {
+                                    <span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-semibold">
+                                        Hết hàng
+                                    </span>
+                                }
+                                else if (item.Book.StockQuantity < 5)
+                                {
+                                    <span class="bg-orange-100 text-orange-800 px-2 py-1 rounded-full text-xs font-semibold">
+                                        Chỉ còn @item.Book.StockQuantity
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-semibold">
+                                        Còn hàng
+                                    </span>
+                                }
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="space-y-2">
+                                @if (item.Book.InStock)
+                                {
+                                    <button onclick="addToCart(@item.BookId)" 
+                                            class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-sm font-semibold transition-colors">
+                                        <i class="fas fa-shopping-cart mr-2"></i>
+                                        Thêm vào giỏ hàng
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button disabled 
+                                            class="w-full bg-gray-400 text-white py-2 px-4 rounded-lg text-sm font-semibold cursor-not-allowed">
+                                        Hết hàng
+                                    </button>
+                                }
+                                
+                                <button onclick="removeFromWishlist(@item.BookId)" 
+                                        class="w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg text-sm font-semibold transition-colors">
+                                    <i class="fas fa-heart-broken mr-2"></i>
+                                    Xóa khỏi yêu thích
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Share Wishlist -->
+        <div class="mt-12 bg-gray-50 p-8 rounded-lg text-center">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Chia sẻ danh sách yêu thích</h3>
+            <p class="text-gray-600 mb-6">Chia sẻ những cuốn sách yêu thích của bạn với bạn bè và gia đình</p>
+            <div class="flex justify-center space-x-4">
+                <button onclick="shareWishlist('facebook')" 
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                    <i class="fab fa-facebook-f mr-2"></i>
+                    Facebook
+                </button>
+                <button onclick="shareWishlist('twitter')" 
+                        class="bg-blue-400 hover:bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                    <i class="fab fa-twitter mr-2"></i>
+                    Twitter
+                </button>
+                <button onclick="copyWishlistLink()" 
+                        class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
+                    <i class="fas fa-link mr-2"></i>
+                    Sao chép liên kết
+                </button>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        function changeView(view) {
+            const gridView = document.getElementById('gridView');
+            const listView = document.getElementById('listView');
+            
+            if (view === 'list') {
+                gridView.style.display = 'none';
+                listView.style.display = 'block';
+            } else {
+                gridView.style.display = 'grid';
+                listView.style.display = 'none';
+            }
+        }
+
+        function selectAll() {
+            const checkboxes = document.querySelectorAll('.item-checkbox');
+            const selectAllBtn = document.getElementById('selectAllBtn');
+            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+            
+            checkboxes.forEach(cb => {
+                cb.checked = !allChecked;
+            });
+            
+            selectAllBtn.innerHTML = allChecked 
+                ? '<i class="fas fa-check-square mr-2"></i>Chọn tất cả'
+                : '<i class="fas fa-square mr-2"></i>Bỏ chọn tất cả';
+            
+            updateSelectionButtons();
+        }
+
+        function updateSelectionButtons() {
+            const checkboxes = document.querySelectorAll('.item-checkbox');
+            const selectedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+            
+            const removeBtn = document.getElementById('removeSelectedBtn');
+            const addToCartBtn = document.getElementById('addToCartBtn');
+            
+            if (selectedCount > 0) {
+                removeBtn.style.display = 'block';
+                addToCartBtn.style.display = 'block';
+                removeBtn.innerHTML = `<i class="fas fa-trash-alt mr-2"></i>Xóa ${selectedCount} sản phẩm`;
+                addToCartBtn.innerHTML = `<i class="fas fa-shopping-cart mr-2"></i>Thêm ${selectedCount} vào giỏ`;
+            } else {
+                removeBtn.style.display = 'none';
+                addToCartBtn.style.display = 'none';
+            }
+        }
+
+        function removeSelected() {
+            const selectedIds = Array.from(document.querySelectorAll('.item-checkbox:checked')).map(cb => cb.value);
+            
+            if (selectedIds.length === 0) {
+                showNotification('Vui lòng chọn sản phẩm cần xóa!', 'error');
+                return;
+            }
+            
+            if (!confirm(`Bạn có chắc muốn xóa ${selectedIds.length} sản phẩm khỏi danh sách yêu thích?`)) {
+                return;
+            }
+
+            Promise.all(selectedIds.map(bookId => 
+                fetch('/Wishlist/RemoveFromWishlist', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('[name="__RequestVerificationToken"]')?.value || ''
+                    },
+                    body: JSON.stringify({ bookId: parseInt(bookId) })
+                })
+            )).then(responses => {
+                const successCount = responses.filter(r => r.ok).length;
+                if (successCount === selectedIds.length) {
+                    selectedIds.forEach(bookId => {
+                        const item = document.getElementById(`item-${bookId}`);
+                        const listItem = document.getElementById(`list-item-${bookId}`);
+                        if (item) item.remove();
+                        if (listItem) listItem.remove();
+                    });
+                    
+                    showNotification(`Đã xóa ${successCount} sản phẩm khỏi danh sách yêu thích!`, 'success');
+                    updateSelectionButtons();
+                    
+                    // Check if wishlist is now empty
+                    const remainingItems = document.querySelectorAll('.wishlist-item');
+                    if (remainingItems.length === 0) {
+                        location.reload();
+                    }
+                } else {
+                    showNotification('Có lỗi xảy ra khi xóa một số sản phẩm!', 'error');
+                }
+            });
+        }
+
+        function addSelectedToCart() {
+            const selectedIds = Array.from(document.querySelectorAll('.item-checkbox:checked')).map(cb => cb.value);
+            
+            if (selectedIds.length === 0) {
+                showNotification('Vui lòng chọn sản phẩm cần thêm vào giỏ!', 'error');
+                return;
+            }
+
+            let successCount = 0;
+            const promises = selectedIds.map(bookId => 
+                fetch('/Cart/AddToCart', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('[name="__RequestVerificationToken"]')?.value || ''
+                    },
+                    body: JSON.stringify({ bookId: parseInt(bookId), quantity: 1 })
+                }).then(response => response.json())
+                .then(data => {
+                    if (data.success) successCount++;
+                    return data;
+                })
+            );
+
+            Promise.all(promises).then(() => {
+                if (successCount === selectedIds.length) {
+                    showNotification(`Đã thêm ${successCount} sản phẩm vào giỏ hàng!`, 'success');
+                    
+                    // Clear selections
+                    document.querySelectorAll('.item-checkbox:checked').forEach(cb => cb.checked = false);
+                    updateSelectionButtons();
+                } else {
+                    showNotification(`Đã thêm ${successCount}/${selectedIds.length} sản phẩm vào giỏ hàng!`, 'info');
+                }
+            });
+        }
+
+        function addToCart(bookId) {
+            fetch('/Cart/AddToCart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('[name="__RequestVerificationToken"]')?.value || ''
+                },
+                body: JSON.stringify({ bookId: bookId, quantity: 1 })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification('Đã thêm vào giỏ hàng!', 'success');
+                    updateCartCount(data.cartItemCount);
+                } else {
+                    showNotification(data.message || 'Có lỗi xảy ra!', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNotification('Có lỗi xảy ra!', 'error');
+            });
+        }
+
+        function removeFromWishlist(bookId) {
+            if (!confirm('Bạn có chắc muốn xóa sản phẩm này khỏi danh sách yêu thích?')) {
+                return;
+            }
+
+            fetch('/Wishlist/RemoveFromWishlist', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('[name="__RequestVerificationToken"]')?.value || ''
+                },
+                body: JSON.stringify({ bookId: bookId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Add heart animation before removing
+                    const item = document.getElementById(`item-${bookId}`);
+                    const listItem = document.getElementById(`list-item-${bookId}`);
+                    
+                    if (item) {
+                        item.classList.add('heart-animation');
+                        setTimeout(() => {
+                            item.remove();
+                            checkEmptyWishlist();
+                        }, 600);
+                    }
+                    
+                    if (listItem) {
+                        listItem.classList.add('heart-animation');
+                        setTimeout(() => {
+                            listItem.remove();
+                            checkEmptyWishlist();
+                        }, 600);
+                    }
+                    
+                    showNotification('Đã xóa khỏi danh sách yêu thích!', 'success');
+                } else {
+                    showNotification(data.message || 'Có lỗi xảy ra!', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNotification('Có lỗi xảy ra!', 'error');
+            });
+        }
+
+        function checkEmptyWishlist() {
+            const remainingItems = document.querySelectorAll('.wishlist-item');
+            if (remainingItems.length === 0) {
+                setTimeout(() => location.reload(), 1000);
+            }
+        }
+
+        function shareWishlist(platform) {
+            const url = window.location.href;
+            const text = 'Xem danh sách sách yêu thích của tôi!';
+            
+            switch (platform) {
+                case 'facebook':
+                    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+                    break;
+                case 'twitter':
+                    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+                    break;
+            }
+        }
+
+        function copyWishlistLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                showNotification('Đã sao chép liên kết!', 'success');
+            }).catch(() => {
+                showNotification('Không thể sao chép liên kết!', 'error');
+            });
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 px-6 py-3 rounded-lg text-white z-50 ${
+                type === 'success' ? 'bg-green-500' :
+                type === 'error' ? 'bg-red-500' :
+                type === 'info' ? 'bg-blue-500' : 'bg-gray-500'
+            }`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        function updateCartCount(count) {
+            const cartCountElements = document.querySelectorAll('.cart-count');
+            cartCountElements.forEach(element => {
+                element.textContent = count;
+            });
+        }
+    </script>
+}

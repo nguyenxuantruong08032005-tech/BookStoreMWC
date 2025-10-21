@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="vi" class="h-full">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - BookStore</title>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="~/css/output.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    @RenderSection("Styles", required: false)
+    @RenderSection("Meta", required: false)
+
+</head>
+
+<body class="h-full bg-gray-50 flex flex-col">
+    <!-- Header -->
+    <partial name="_Header" />
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        <!-- Breadcrumb -->
+        @* @if (ViewBag.ShowBreadcrumb != false)
+        {
+            <partial name="_Breadcrumb" />
+        } *@
+
+        <!-- Alert Messages -->
+        <partial name="_AlertMessages" />
+
+        <!-- Page Content -->
+        <div class="container mx-auto px-4 py-6">
+            @RenderBody()
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <partial name="_Footer.cshtml" />
+
+    <!-- Scripts -->
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/bookcard-functions.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

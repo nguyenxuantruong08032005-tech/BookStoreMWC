@@ -1,0 +1,169 @@
+﻿@* ===================================================================== *@
+@* Views/Home/Privacy.cshtml *@
+@{
+    ViewData["Title"] = "Chính sách bảo mật";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <!-- Breadcrumb -->
+    @await Html.PartialAsync("_Breadcrumb", new List<(string, string)> {
+    ("Trang chủ", Url.Action("Index", "Home")),
+        ("Chính sách bảo mật", "")
+        })
+
+    <div class="row">
+        <div class="col-lg-9 mx-auto">
+            <div class="card shadow-sm">
+                <div class="card-body p-5">
+                    <h1 class="text-center mb-5">Chính sách bảo mật</h1>
+
+                    <div class="privacy-content">
+                        <p class="lead text-muted mb-4">
+                            BookStore cam kết bảo vệ quyền riêng tư và thông tin cá nhân của khách hàng.
+                            Chính sách này mô tả cách chúng tôi thu thập, sử dụng và bảo vệ thông tin của bạn.
+                        </p>
+
+                        <h3>1. Thông tin chúng tôi thu thập</h3>
+                        <p>Chúng tôi có thể thu thập các loại thông tin sau:</p>
+                        <ul>
+                            <li><strong>Thông tin cá nhân:</strong> Họ tên, địa chỉ email, số điện thoại, địa chỉ</li>
+                            <li><strong>Thông tin đăng nhập:</strong> Tên đăng nhập, mật khẩu</li>
+                            <li><strong>Thông tin giao dịch:</strong> Lịch sử mua hàng, phương thức thanh toán</li>
+                            <li><strong>Thông tin kỹ thuật:</strong> Địa chỉ IP, loại trình duyệt, hệ điều hành</li>
+                            <li><strong>Thông tin hành vi:</strong> Các trang đã xem, thời gian truy cập</li>
+                        </ul>
+
+                        <h3>2. Mục đích sử dụng thông tin</h3>
+                        <p>Chúng tôi sử dụng thông tin của bạn để:</p>
+                        <ul>
+                            <li>Xử lý đơn hàng và giao hàng</li>
+                            <li>Cung cấp dịch vụ khách hàng</li>
+                            <li>Gửi thông báo về đơn hàng và cập nhật tài khoản</li>
+                            <li>Cải thiện website và trải nghiệm người dùng</li>
+                            <li>Gửi email marketing (chỉ khi được đồng ý)</li>
+                            <li>Phòng chống gian lận và bảo mật</li>
+                            <li>Tuân thủ các yêu cầu pháp lý</li>
+                        </ul>
+
+                        <h3>3. Chia sẻ thông tin</h3>
+                        <p>Chúng tôi không bán hoặc cho thuê thông tin cá nhân của bạn cho bên thứ ba.
+                            Chúng tôi chỉ chia sẻ thông tin trong các trường hợp sau:</p>
+                        <ul>
+                            <li>Với các đối tác vận chuyển để giao hàng</li>
+                            <li>Với các nhà cung cấp dịch vụ thanh toán</li>
+                            <li>Với cơ quan chức năng khi có yêu cầu pháp lý</li>
+                            <li>Trong trường hợp sáp nhập hoặc mua bán công ty</li>
+                        </ul>
+
+                        <h3>4. Bảo mật thông tin</h3>
+                        <p>Chúng tôi áp dụng các biện pháp bảo mật sau:</p>
+                        <ul>
+                            <li><strong>Mã hóa SSL:</strong> Bảo vệ dữ liệu truyền tải</li>
+                            <li><strong>Tường lửa:</strong> Ngăn chặn truy cập trái phép</li>
+                            <li><strong>Kiểm soát truy cập:</strong> Chỉ nhân viên được ủy quyền mới có thể truy cập
+                            </li>
+                            <li><strong>Sao lưu định kỳ:</strong> Đảm bảo không mất dữ liệu</li>
+                            <li><strong>Cập nhật bảo mật:</strong> Thường xuyên cập nhật hệ thống</li>
+                        </ul>
+
+                        <h3>5. Cookie và công nghệ theo dõi</h3>
+                        <p>Website của chúng tôi sử dụng cookie để:</p>
+                        <ul>
+                            <li>Ghi nhớ thông tin đăng nhập</li>
+                            <li>Duy trì giỏ hàng</li>
+                            <li>Phân tích lưu lượng truy cập</li>
+                            <li>Cá nhân hóa nội dung</li>
+                            <li>Hiển thị quảng cáo phù hợp</li>
+                        </ul>
+                        <p>Bạn có thể tắt cookie trong cài đặt trình duyệt, nhưng điều này có thể ảnh hưởng đến trải
+                            nghiệm sử dụng.</p>
+
+                        <h3>6. Quyền của khách hàng</h3>
+                        <p>Bạn có các quyền sau đối với thông tin cá nhân:</p>
+                        <ul>
+                            <li><strong>Quyền truy cập:</strong> Xem thông tin chúng tôi đang lưu trữ</li>
+                            <li><strong>Quyền chỉnh sửa:</strong> Cập nhật thông tin không chính xác</li>
+                            <li><strong>Quyền xóa:</strong> Yêu cầu xóa thông tin cá nhân</li>
+                            <li><strong>Quyền phản đối:</strong> Từ chối việc xử lý dữ liệu</li>
+                            <li><strong>Quyền di chuyển:</strong> Nhận bản sao dữ liệu</li>
+                            <li><strong>Quyền rút lại đồng ý:</strong> Hủy đồng ý đã cấp trước đó</li>
+                        </ul>
+
+                        <h3>7. Lưu trữ dữ liệu</h3>
+                        <p>Chúng tôi lưu trữ thông tin của bạn trong thời gian:</p>
+                        <ul>
+                            <li>Thông tin tài khoản: Cho đến khi bạn yêu cầu xóa</li>
+                            <li>Lịch sử giao dịch: 7 năm (theo quy định pháp luật)</li>
+                            <li>Thông tin marketing: Cho đến khi bạn hủy đăng ký</li>
+                            <li>Log truy cập: 12 tháng</li>
+                        </ul>
+
+                        <h3>8. Chính sách đối với trẻ em</h3>
+                        <p>Website của chúng tôi không dành cho trẻ em dưới 13 tuổi.
+                            Chúng tôi không cố ý thu thập thông tin từ trẻ em dưới 13 tuổi.
+                            Nếu phát hiện, chúng tôi sẽ xóa thông tin ngay lập tức.</p>
+
+                        <h3>9. Liên kết đến website khác</h3>
+                        <p>Website của chúng tôi có thể chứa liên kết đến các website khác.
+                            Chúng tôi không chịu trách nhiệm về chính sách bảo mật của các website này.
+                            Bạn nên đọc chính sách bảo mật của từng website trước khi cung cấp thông tin.</p>
+
+                        <h3>10. Cập nhật chính sách</h3>
+                        <p>Chính sách này có thể được cập nhật định kỳ.
+                            Phiên bản mới nhất sẽ được đăng tải trên website với ngày cập nhật.
+                            Việc tiếp tục sử dụng dịch vụ đồng nghĩa với việc bạn chấp nhận chính sách mới.</p>
+
+                        <h3>11. Liên hệ</h3>
+                        <p>Nếu bạn có câu hỏi về chính sách bảo mật này, vui lòng liên hệ:</p>
+                        <div class="contact-info bg-light p-3 rounded">
+                            <p class="mb-1"><strong>Email:</strong> privacy@bookstore.vn</p>
+                            <p class="mb-1"><strong>Điện thoại:</strong> (+84) 123 456 789</p>
+                            <p class="mb-0"><strong>Địa chỉ:</strong> 123 Đường Nguyễn Huệ, Quận 1, TP.HCM</p>
+                        </div>
+
+                        <div class="alert alert-info mt-4">
+                            <h6><i class="fas fa-info-circle"></i> Thông tin quan trọng</h6>
+                            <p class="mb-0">
+                                Chính sách này có hiệu lực từ ngày 01/01/2024.
+                                Bằng việc sử dụng website BookStore, bạn đồng ý với các điều khoản trong chính sách này.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .privacy-content h3 {
+        color: #007bff;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid #e9ecef;
+        padding-bottom: 0.5rem;
+    }
+
+    .privacy-content ul {
+        margin-bottom: 1.5rem;
+    }
+
+    .privacy-content li {
+        margin-bottom: 0.5rem;
+    }
+
+    .contact-info {
+        border-left: 4px solid #007bff;
+    }
+
+    @@media print {
+        .breadcrumb {
+            display: none;
+        }
+
+        .privacy-content {
+            font-size: 12px;
+        }
+    }
+</style>

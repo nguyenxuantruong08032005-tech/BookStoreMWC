@@ -1,0 +1,407 @@
+@* Views/Shared/_FooterPartial.cshtml - BookVerse Footer Component *@
+
+<!-- Main Footer -->
+<footer class="bg-gray-900 text-white">
+    <!-- Newsletter Section -->
+    <div class="bg-gradient-to-r from-primary-600 to-secondary-600 py-12">
+        <div class="bv-container">
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h3 class="text-2xl font-bold mb-2">📧 Đăng ký nhận tin</h3>
+                    <p class="text-blue-100">Nhận thông báo về sách mới, khuyến mãi và xu hướng đọc hàng tuần</p>
+                </div>
+                <div>
+                    <form asp-action="Subscribe" asp-controller="Newsletter" method="post"
+                        class="flex flex-col sm:flex-row gap-3">
+                        <div class="flex-1 relative">
+                            <input type="email" name="email" placeholder="Nhập email của bạn..."
+                                class="w-full px-4 py-3 rounded-lg border-0 text-gray-800 focus:ring-4 focus:ring-white focus:ring-opacity-50 focus:outline-none"
+                                required>
+                            <div class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                        </div>
+                        <button type="submit"
+                            class="bg-white text-primary-600 hover:bg-gray-100 px-6 py-3 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg transform hover:scale-105">
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            Đăng ký
+                        </button>
+                    </form>
+                    <p class="text-xs text-blue-100 mt-2">
+                        <i class="fas fa-shield-alt mr-1"></i>
+                        Chúng tôi tôn trọng quyền riêng tư của bạn
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Footer Content -->
+    <div class="py-16">
+        <div class="bv-container">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div class="lg:col-span-2">
+                    <!-- Logo -->
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="bg-gradient-to-br from-primary-500 to-secondary-500 p-3 rounded-xl">
+                            <i class="fas fa-book-reader text-white text-2xl"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold bv-gradient-text">BookVerse</h2>
+                            <p class="text-gray-400 text-sm">Thế giới sách số</p>
+                        </div>
+                    </div>
+
+                    <p class="text-gray-300 mb-6 leading-relaxed max-w-md">
+                        BookVerse là nền tảng mua sách trực tuyến hàng đầu Việt Nam, mang đến cho bạn hàng ngàn đầu sách
+                        chất lượng với trải nghiệm mua sắm tuyệt vời.
+                    </p>
+
+                    <!-- Contact Info -->
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-3 text-gray-300">
+                            <div class="bg-primary-600 p-2 rounded-lg">
+                                <i class="fas fa-map-marker-alt text-white"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">123 Đường ABC, Quận 1</p>
+                                <p class="text-sm text-gray-400">TP. Hồ Chí Minh, Việt Nam</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-3 text-gray-300">
+                            <div class="bg-green-600 p-2 rounded-lg">
+                                <i class="fas fa-phone text-white"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">Hotline: 1900-1234</p>
+                                <p class="text-sm text-gray-400">7:30 - 22:00 (Hàng ngày)</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-3 text-gray-300">
+                            <div class="bg-blue-600 p-2 rounded-lg">
+                                <i class="fas fa-envelope text-white"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">support@bookverse.vn</p>
+                                <p class="text-sm text-gray-400">Hỗ trợ 24/7</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-6 text-white">Liên kết nhanh</h3>
+                    <ul class="space-y-3">
+                        <li>
+                            <a asp-action="Index" asp-controller="Home"
+                                class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group">
+                                <i class="fas fa-home mr-2 text-primary-500 group-hover:text-primary-400"></i>
+                                Trang chủ
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-action="About" asp-controller="Home"
+                                class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group">
+                                <i class="fas fa-info-circle mr-2 text-blue-500 group-hover:text-blue-400"></i>
+                                Giới thiệu
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-action="NewBooks" asp-controller="Book"
+                                class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group">
+                                <i class="fas fa-star mr-2 text-green-500 group-hover:text-green-400"></i>
+                                Sách mới
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-action="Bestseller" asp-controller="Book"
+                                class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group">
+                                <i class="fas fa-crown mr-2 text-yellow-500 group-hover:text-yellow-400"></i>
+                                Bestseller
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-action="Promotions" asp-controller="Book"
+                                class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group">
+                                <i class="fas fa-tags mr-2 text-red-500 group-hover:text-red-400"></i>
+                                Khuyến mãi
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-action="Contact" asp-controller="Home"
+                                class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group">
+                                <i class="fas fa-phone mr-2 text-purple-500 group-hover:text-purple-400"></i>
+                                Liên hệ
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Customer Support -->
+                <div>
+                    <h3 class="text-lg font-semibold mb-6 text-white">Hỗ trợ khách hàng</h3>
+                    <ul class="space-y-3">
+                        <li>
+                            <a asp-action="Help" asp-controller="Support"
+                                class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group">
+                                <i class="fas fa-question-circle mr-2 text-blue-500 group-hover:text-blue-400"></i>
+                                Trung tâm trợ giúp
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-action="Shipping" asp-controller="Support"
+                                class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group">
+                                <i class="fas fa-shipping-fast mr-2 text-green-500 group-hover:text-green-400"></i>
+                                Chính sách giao hàng
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-action="Returns" asp-controller="Support"
+                                class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group">
+                                <i class="fas fa-undo mr-2 text-orange-500 group-hover:text-orange-400"></i>
+                                Đổi trả & Hoàn tiền
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-action="Privacy" asp-controller="Legal"
+                                class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group">
+                                <i class="fas fa-shield-alt mr-2 text-purple-500 group-hover:text-purple-400"></i>
+                                Chính sách bảo mật
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-action="Terms" asp-controller="Legal"
+                                class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group">
+                                <i class="fas fa-file-contract mr-2 text-red-500 group-hover:text-red-400"></i>
+                                Điều khoản sử dụng
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-action="FAQ" asp-controller="Support"
+                                class="text-gray-300 hover:text-white transition-colors duration-200 flex items-center group">
+                                <i class="fas fa-comments mr-2 text-yellow-500 group-hover:text-yellow-400"></i>
+                                Câu hỏi thường gặp
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Social Media & Awards -->
+            <div class="mt-12 pt-8 border-t border-gray-700">
+                <div class="flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0">
+                    <!-- Social Media -->
+                    <div class="text-center md:text-left">
+                        <h4 class="text-white font-semibold mb-4">Kết nối với chúng tôi</h4>
+                        <div class="flex space-x-4 justify-center md:justify-start">
+                            <a href="#"
+                                class="bg-blue-600 hover:bg-blue-700 p-3 rounded-full transition-colors duration-200 group">
+                                <i class="fab fa-facebook text-white group-hover:scale-110 transition-transform"></i>
+                            </a>
+                            <a href="#"
+                                class="bg-pink-600 hover:bg-pink-700 p-3 rounded-full transition-colors duration-200 group">
+                                <i class="fab fa-instagram text-white group-hover:scale-110 transition-transform"></i>
+                            </a>
+                            <a href="#"
+                                class="bg-blue-400 hover:bg-blue-500 p-3 rounded-full transition-colors duration-200 group">
+                                <i class="fab fa-twitter text-white group-hover:scale-110 transition-transform"></i>
+                            </a>
+                            <a href="#"
+                                class="bg-red-600 hover:bg-red-700 p-3 rounded-full transition-colors duration-200 group">
+                                <i class="fab fa-youtube text-white group-hover:scale-110 transition-transform"></i>
+                            </a>
+                            <a href="#"
+                                class="bg-blue-800 hover:bg-blue-900 p-3 rounded-full transition-colors duration-200 group">
+                                <i class="fab fa-linkedin text-white group-hover:scale-110 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Awards & Certifications -->
+                    <div class="text-center md:text-right">
+                        <h4 class="text-white font-semibold mb-4">Chứng nhận & Giải thưởng</h4>
+                        <div class="flex space-x-4 justify-center md:justify-end items-center">
+                            @* <div class="bg-white p-2 rounded-lg">
+                                <img src="~/images/dmca-protected.png" alt="DMCA Protected" class="h-8 w-auto">
+                            </div>
+                            <div class="bg-white p-2 rounded-lg">
+                                <img src="~/images/ssl-secured.png" alt="SSL Secured" class="h-8 w-auto">
+                            </div>
+                            <div class="bg-white p-2 rounded-lg">
+                                <img src="~/images/trusted-shop.png" alt="Trusted Shop" class="h-8 w-auto">
+                            </div> *@
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- App Download -->
+            @* <div class="mt-8 pt-8 border-t border-gray-700">
+                <div class="text-center">
+                    <h4 class="text-white font-semibold mb-4">📱 Tải ứng dụng BookVerse</h4>
+                    <p class="text-gray-300 mb-6">Trải nghiệm mua sắm tuyệt vời trên điện thoại</p>
+                    <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 justify-center">
+                        <a href="#"
+                            class="inline-flex items-center bg-black hover:bg-gray-800 text-white px-6 py-3 rounded-lg transition-colors duration-200 group">
+                            <i class="fab fa-apple text-2xl mr-3 group-hover:scale-110 transition-transform"></i>
+                            <div class="text-left">
+                                <div class="text-xs">Tải trên</div>
+                                <div class="font-semibold">App Store</div>
+                            </div>
+                        </a>
+                        <a href="#"
+                            class="inline-flex items-center bg-black hover:bg-gray-800 text-white px-6 py-3 rounded-lg transition-colors duration-200 group">
+                            <i class="fab fa-google-play text-2xl mr-3 group-hover:scale-110 transition-transform"></i>
+                            <div class="text-left">
+                                <div class="text-xs">Tải trên</div>
+                                <div class="font-semibold">Google Play</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div> *@
+        </div>
+    </div>
+
+    <!-- Bottom Footer -->
+    <div class="bg-gray-800 py-6">
+        <div class="bv-container">
+            <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                <!-- Copyright -->
+                <div class="text-center md:text-left">
+                    <p class="text-gray-400 text-sm">
+                        © @DateTime.Now.Year <span class="text-white font-semibold">BookVerse</span>.
+                        Bảo lưu mọi quyền.
+                        <span class="text-primary-400">Made with ❤️ in Vietnam</span>
+                    </p>
+                </div>
+
+                <!-- Payment Methods -->
+                @* <div class="text-center md:text-right">
+                    <p class="text-gray-400 text-sm mb-2">Phương thức thanh toán</p>
+                    <div class="flex space-x-2 justify-center md:justify-end">
+                        <div class="bg-white p-1 rounded">
+                            <img src="~/images/payment/visa.png" alt="Visa" class="h-6 w-auto">
+                        </div>
+                        <div class="bg-white p-1 rounded">
+                            <img src="~/images/payment/mastercard.png" alt="Mastercard" class="h-6 w-auto">
+                        </div>
+                        <div class="bg-white p-1 rounded">
+                            <img src="~/images/payment/momo.png" alt="MoMo" class="h-6 w-auto">
+                        </div>
+                        <div class="bg-white p-1 rounded">
+                            <img src="~/images/payment/zalopay.png" alt="ZaloPay" class="h-6 w-auto">
+                        </div>
+                        <div class="bg-white p-1 rounded">
+                            <img src="~/images/payment/vnpay.png" alt="VNPay" class="h-6 w-auto">
+                        </div>
+                    </div>
+                </div> *@
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Cookie Consent Banner -->
+<div id="cookie-banner"
+    class="fixed bottom-0 left-0 right-0 bg-gray-900 text-white p-4 z-50 transform translate-y-full transition-transform duration-300">
+    <div class="bv-container">
+        <div class="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
+            <div class="flex-1">
+                <p class="text-sm">
+                    <i class="fas fa-cookie-bite mr-2 text-yellow-500"></i>
+                    Chúng tôi sử dụng cookie để cải thiện trải nghiệm của bạn.
+                    <a asp-action="Privacy" asp-controller="Legal"
+                        class="text-primary-400 hover:text-primary-300 underline">
+                        Tìm hiểu thêm
+                    </a>
+                </p>
+            </div>
+            <div class="flex space-x-3">
+                <button id="cookie-accept"
+                    class="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                    Chấp nhận
+                </button>
+                <button id="cookie-decline"
+                    class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                    Từ chối
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+
+    </script>
+}
+
+<style>
+    /* Footer specific styles */
+    .bv-gradient-text {
+        background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    /* Hover effects for footer links */
+    footer a:hover {
+        transform: translateX(4px);
+    }
+
+    /* Social media hover effects */
+    footer .fab:hover {
+        animation: bounce 0.6s ease-in-out;
+    }
+
+    @@keyframes bounce {
+
+        0%,
+        20%,
+        60%,
+        100% {
+            transform: translateY(0);
+        }
+
+        40% {
+            transform: translateY(-10px);
+        }
+
+        80% {
+            transform: translateY(-5px);
+        }
+    }
+
+    /* Newsletter form enhancements */
+    .newsletter-form input:focus {
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    /* Cookie banner styling */
+    #cookie-banner {
+        box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    /* App download buttons */
+    footer .inline-flex:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Responsive adjustments */
+    @@media (max-width: 640px) {
+        footer .grid {
+            gap: 2rem;
+        }
+
+        footer .space-x-4>*+* {
+            margin-left: 0.75rem;
+        }
+    }
+</style>
