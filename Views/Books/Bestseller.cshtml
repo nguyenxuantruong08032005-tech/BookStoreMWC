@@ -1,0 +1,461 @@
+@using System
+@using System.Collections.Generic
+@using System.Linq
+@using Microsoft.AspNetCore.Routing
+@model BookStoreMVC.Models.ViewModels.BookListViewModel
+
+@{
+    var viewModel = Model ?? new BookStoreMVC.Models.ViewModels.BookListViewModel();
+
+    var pageTitle = ViewBag.PageTitle as string ?? "Top sách bán chạy";
+    var pageDescription = ViewBag.PageDescription as string
+        ?? "Tuyển chọn những tựa sách được độc giả yêu thích và đặt mua nhiều nhất.";
+    ViewData["Title"] = pageTitle;
+
+    var books = viewModel.Books?.ToList() ?? new List<BookStoreMVC.Models.ViewModels.BookViewModel>();
+    var normalizedSortBy = string.IsNullOrWhiteSpace(viewModel.SortBy) ? "bestseller" : viewModel.SortBy;
+    var normalizedSortOrder = string.IsNullOrWhiteSpace(viewModel.SortOrder) ? "desc" : viewModel.SortOrder;
+    var spotlightBooks = books.Take(3).ToList();
+    var popularCategories = books
+        .Where(b => b.Category != null)
+        .GroupBy(b => b.Category!.Name)
+        .Select(g => new { Name = g.Key, Count = g.Count() })
+        .OrderByDescending(g => g.Count)
+        .Take(4)
+        .ToList();
+
+    var ratedBooks = books.Where(b => b.AverageRating > 0).ToList();
+    var averageRating = ratedBooks.Any() ? ratedBooks.Average(b => b.AverageRating) : 0;
+    var minPrice = books.Any() ? books.Min(b => b.Price) : 0;
+    var maxPrice = books.Any() ? books.Max(b => b.Price) : 0;
+
+    var queryParameters = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+    if (ViewContext?.HttpContext?.Request?.Query is { Count: > 0 } query)
+    {
+        foreach (var kvp in query)
+        {
+            queryParameters[kvp.Key] = kvp.Value.ToString();
+        }
+        
+    }
+
+    queryParameters.Remove("pageNumber");
+    queryParameters.Remove("pageSize");
+
+    var baseRouteValues = new RouteValueDictionary(queryParameters)
+    {
+        ["pageSize"] = viewModel.PageSize,
+        ["sortBy"] = normalizedSortBy,
+        ["sortOrder"] = normalizedSortOrder
+    };
+}
+
+@section Styles {
+    <style>
+        .bs-hero {
+            background: radial-gradient(circle at top right, rgba(255, 215, 0, 0.15), transparent 55%),
+                        radial-gradient(circle at bottom left, rgba(59, 130, 246, 0.2), transparent 45%),
+                        linear-gradient(135deg, #1f2937 0%, #111827 55%, #0f172a 100%);
+        }
+
+        .bs-hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" fill="none"%3E%3Cpath d="M80 0L88.9443 28.7162H119.213L94.1345 46.5676L103.079 75.2838L80 57.4324L56.9206 75.2838L65.865 46.5676L40.7871 28.7162H71.0557L80 0Z" fill="rgba(255,255,255,0.03)"/%3E%3C/svg%3E');
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .bs-hero-badge {
+            background: linear-gradient(90deg, rgba(251, 191, 36, 0.12), rgba(251, 191, 36, 0));
+        }
+
+        .bs-stat-card {
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .bs-stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 35px rgba(15, 23, 42, 0.12);
+        }
+
+        .bs-tab {
+            transition: all 0.2s ease;
+        }
+
+        .bs-tab:hover {
+            transform: translateY(-2px);
+        }
+
+        .bs-highlight-card {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.12), rgba(37, 99, 235, 0.05));
+            border: 1px solid rgba(37, 99, 235, 0.15);
+        }
+
+        .bs-divider {
+            background: linear-gradient(90deg, rgba(30, 64, 175, 0), rgba(30, 64, 175, 0.2), rgba(30, 64, 175, 0));
+        }
+    </style>
+}
+
+<section class="bs-hero relative text-white rounded-3xl shadow-2xl overflow-hidden mb-12">
+    <div class="relative px-6 sm:px-10 md:px-16 lg:px-20 py-14">
+        <div class="max-w-4xl space-y-6">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold text-amber-300 bs-hero-badge">
+                <i class="fas fa-crown"></i>
+                Bestseller Collection
+            </div>
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-black leading-tight">@pageTitle</h1>
+            <p class="text-base sm:text-lg md:text-xl text-white/80 max-w-3xl">@pageDescription</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
+                <div class="bs-stat-card bg-white/10 backdrop-blur rounded-2xl p-5 border border-white/10">
+                    <p class="text-xs uppercase tracking-[0.3em] text-white/60 font-semibold">Tổng số tựa sách</p>
+                    <p class="text-2xl sm:text-3xl font-bold text-white mt-2">@viewModel.TotalCount.ToString("N0")</p>
+                    <p class="text-sm text-white/70 flex items-center gap-1 mt-2">
+                        <i class="fas fa-layer-group"></i>
+                        Đa dạng thể loại
+                    </p>
+                </div>
+                <div class="bs-stat-card bg-white/10 backdrop-blur rounded-2xl p-5 border border-white/10">
+                    <p class="text-xs uppercase tracking-[0.3em] text-white/60 font-semibold">Đánh giá trung bình</p>
+                    <p class="text-2xl sm:text-3xl font-bold text-white mt-2">@(averageRating > 0 ? averageRating.ToString("0.0") : "4.8")</p>
+                    <p class="text-sm text-white/70 flex items-center gap-1 mt-2">
+                        <i class="fas fa-star text-yellow-300"></i>
+                        Từ cộng đồng độc giả
+                    </p>
+                </div>
+                <div class="bs-stat-card bg-white/10 backdrop-blur rounded-2xl p-5 border border-white/10">
+                    <p class="text-xs uppercase tracking-[0.3em] text-white/60 font-semibold">Mức giá phổ biến</p>
+                    <p class="text-2xl sm:text-3xl font-bold text-white mt-2">
+                        @if (books.Any())
+                        {
+                            <text>@minPrice.ToString("N0")₫ - @maxPrice.ToString("N0")₫</text>
+                        }
+                        else
+                        {
+                            <text>Đa dạng lựa chọn</text>
+                        }
+                    </p>
+                    <p class="text-sm text-white/70 flex items-center gap-1 mt-2">
+                        <i class="fas fa-wallet"></i>
+                        Nhiều ưu đãi hấp dẫn
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="space-y-16">
+    <section class="container mx-auto px-4">
+        <div class="grid lg:grid-cols-[360px,1fr] gap-8">
+            <aside class="bg-white shadow-xl rounded-3xl border border-gray-100 p-6 lg:sticky lg:top-6 h-max">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <p class="text-xs uppercase tracking-wide text-blue-500 font-semibold">Cá nhân hóa</p>
+                        <h2 class="text-xl font-bold text-gray-900">Bộ lọc yêu thích</h2>
+                    </div>
+                    <a asp-action="Bestseller" class="text-sm font-semibold text-blue-600 hover:text-blue-800">Đặt lại</a>
+                </div>
+
+                <form asp-action="Bestseller" method="get" class="space-y-6" id="filterForm">
+                    <input type="hidden" name="pageNumber" value="1" />
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tìm nhanh</label>
+                        <div class="relative">
+                            <input type="text" name="searchTerm" value="@viewModel.SearchTerm"
+                                   class="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-400 focus:border-transparent text-sm"
+                                   placeholder="Tên sách, tác giả, chủ đề..." />
+                            <span class="absolute inset-y-0 left-4 flex items-center text-gray-400">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Danh mục nổi bật</label>
+                        <select name="categoryId"
+                                class="w-full border border-gray-200 rounded-2xl py-3 px-4 text-sm focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                            <option value="">Tất cả danh mục</option>
+                            @foreach (var category in viewModel.Categories)
+                            {
+                                var selected = viewModel.CategoryId == category.Id ? "selected" : null;
+                                <option value="@category.Id" selected="@selected">@category.Name</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Giá tối thiểu</label>
+                            <input type="number" name="minPrice" value="@(viewModel.MinPrice?.ToString("0") ?? string.Empty)" min="0" step="1000"
+                                   class="w-full border border-gray-200 rounded-2xl py-3 px-4 text-sm focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                                   placeholder="0" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Giá tối đa</label>
+                            <input type="number" name="maxPrice" value="@(viewModel.MaxPrice?.ToString("0") ?? string.Empty)" min="0" step="1000"
+                                   class="w-full border border-gray-200 rounded-2xl py-3 px-4 text-sm focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+                                   placeholder="Không giới hạn" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Đánh giá tối thiểu</label>
+                        <select name="minRating"
+                                class="w-full border border-gray-200 rounded-2xl py-3 px-4 text-sm focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                            <option value="">Không giới hạn</option>
+                            @for (var rating = 5; rating >= 1; rating--)
+                            {
+                                var selected = viewModel.MinRating == rating ? "selected" : null;
+                                <option value="@rating" selected="@selected">@rating sao trở lên</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" name="inStock" value="true" @(viewModel.InStock ? "checked" : null)
+                               class="rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
+                        <span class="text-sm text-gray-700">Chỉ hiển thị sách còn hàng</span>
+                    </div>
+
+                    <div class="space-y-3">
+                        <button type="submit"
+                                class="w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm py-3 rounded-2xl shadow">
+                            <i class="fas fa-filter"></i>
+                            Áp dụng bộ lọc
+                        </button>
+                        <a asp-action="Bestseller"
+                           class="w-full inline-flex items-center justify-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-sm py-3 rounded-2xl">
+                            <i class="fas fa-undo"></i>
+                            Xóa bộ lọc
+                        </a>
+                    </div>
+                </form>
+
+                @if (popularCategories.Any())
+                {
+                    <div class="mt-8">
+                        <h3 class="text-sm font-semibold text-gray-800 mb-3 uppercase tracking-wide">Danh mục thịnh hành</h3>
+                        <div class="flex flex-wrap gap-2">
+                            @foreach (var cat in popularCategories)
+                            {
+                                <span class="bs-tab inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold">
+                                    <i class="fas fa-hashtag"></i>
+                                    @cat.Name
+                                    <span class="text-blue-400">@cat.Count</span>
+                                </span>
+                            }
+                        </div>
+                    </div>
+                }
+            </aside>
+
+            <div class="space-y-10">
+                <div class="bg-white shadow-lg rounded-3xl border border-gray-100 p-6">
+                    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                        <div>
+                            <p class="text-sm text-gray-500">@viewModel.TotalCount.ToString("N0") tựa sách được yêu thích nhất</p>
+                            <h2 class="text-2xl font-semibold text-gray-900">Khám phá những cuốn sách không thể bỏ lỡ</h2>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-3">
+                            <div>
+                                <label class="block text-xs uppercase tracking-wide text-gray-500 font-semibold mb-1" for="sortBy">Sắp xếp</label>
+                                <select id="sortBy" name="sortBy" form="filterForm"
+                                        class="border border-gray-200 rounded-2xl py-2.5 px-4 text-sm focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                                    @{
+                                        var sortOptions = new Dictionary<string, string>
+                                        {
+                                            { "bestseller", "Bán chạy" },
+                                            { "rating_desc", "Đánh giá cao" },
+                                            { "price", "Giá tăng dần" },
+                                            { "price_desc", "Giá giảm dần" },
+                                            { "newest", "Mới phát hành" },
+                                        };
+                                    }
+                                    @foreach (var option in sortOptions)
+                                    {
+                                        var selected = normalizedSortBy.Equals(option.Key, StringComparison.OrdinalIgnoreCase) ? "selected" : null;
+                                        <option value="@option.Key" selected="@selected">@option.Value</option>
+                                    }
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase tracking-wide text-gray-500 font-semibold mb-1" for="sortOrder">Thứ tự</label>
+                                <select id="sortOrder" name="sortOrder" form="filterForm"
+                                        class="border border-gray-200 rounded-2xl py-2.5 px-4 text-sm focus:ring-2 focus:ring-blue-400 focus:border-transparent">
+                                    @{
+                                        var orderOptions = new Dictionary<string, string>
+                                        {
+                                            { "desc", "Giảm dần" },
+                                            { "asc", "Tăng dần" }
+                                        };
+                                    }
+                                    @foreach (var option in orderOptions)
+                                    {
+                                        var selected = normalizedSortOrder.Equals(option.Key, StringComparison.OrdinalIgnoreCase) ? "selected" : null;
+                                        <option value="@option.Key" selected="@selected">@option.Value</option>
+                                    }
+                                </select>
+                            </div>
+                            <button type="submit" form="filterForm"
+                                    class="inline-flex items-center gap-2 bg-blue-50 hover:bg-blue-100 text-blue-700 px-4 py-2 rounded-2xl text-sm font-semibold transition">
+                                <i class="fas fa-sync-alt"></i>
+                                Cập nhật
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                @if (spotlightBooks.Any())
+                {
+                    <section class="bg-white rounded-3xl shadow-lg border border-gray-100 p-6">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+                            <div>
+                                <p class="text-sm text-blue-500 font-semibold uppercase tracking-wide">Top 3 bán chạy trong tuần</p>
+                                <h3 class="text-2xl font-bold text-gray-900">Được độc giả săn đón nhất</h3>
+                                <p class="text-sm text-gray-500">Cập nhật theo lượt đặt mua và đánh giá thực tế</p>
+                            </div>
+                            <a asp-action="Index" asp-route-sortBy="bestseller" class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-semibold">
+                                Xem tất cả sách nổi bật
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+
+                        <div class="grid gap-6 md:grid-cols-3">
+                            @foreach (var book in spotlightBooks)
+                            {
+                                <a asp-action="Details" asp-route-id="@book.Id"
+                                   class="bs-highlight-card rounded-2xl p-5 flex flex-col gap-4 hover:border-blue-300 hover:shadow-xl transition">
+                                    <div class="flex items-start gap-4">
+                                        <div class="w-24 h-32 rounded-xl overflow-hidden shadow-inner bg-white">
+                                            <img src="@(!string.IsNullOrEmpty(book.ImageUrl) ? book.ImageUrl : book.DefaultImageUrl)"
+                                                 alt="@book.ImageAlt" class="w-full h-full object-cover" />
+                                        </div>
+                                        <div class="flex-1 space-y-2">
+                                            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">
+                                                <i class="fas fa-fire text-orange-500"></i>
+                                                Hạng @((spotlightBooks.IndexOf(book) + 1))
+                                            </span>
+                                            <h4 class="text-lg font-semibold text-gray-900 leading-snug line-clamp-2">@book.Title</h4>
+                                            <p class="text-sm text-gray-600 flex items-center gap-2">
+                                                <i class="fas fa-pen-nib text-blue-400"></i>
+                                                @book.Author
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between text-sm text-gray-600">
+                                        <span class="flex items-center gap-1 text-amber-500 font-semibold">
+                                            <i class="fas fa-star"></i>
+                                            @(book.AverageRating > 0 ? book.AverageRating.ToString("0.0") : "Chưa có")
+                                        </span>
+                                        <span class="text-base font-bold text-blue-600">@book.Price.ToString("N0") ₫</span>
+                                    </div>
+                                </a>
+                            }
+                        </div>
+                    </section>
+                }
+
+                <div class="bs-divider h-[1px]"></div>
+
+                @if (books.Any())
+                {
+                    <section class="space-y-6">
+                        <header class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                            <div>
+                                <h3 class="text-2xl font-bold text-gray-900">Tất cả sách bán chạy</h3>
+                                <p class="text-gray-500">Chọn ngay tựa sách yêu thích và thêm vào giỏ hàng của bạn</p>
+                            </div>
+                            <div class="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold">
+                                <i class="fas fa-shipping-fast"></i>
+                                Giao nhanh trong 24h tại nội thành
+                            </div>
+                        </header>
+
+                        <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+                            @foreach (var book in books)
+                            {
+                                @await Html.PartialAsync("~/Views/Shared/_BookCard.cshtml", book)
+                            }
+                        </div>
+                    </section>
+
+                    @if (viewModel.TotalPages > 1)
+                    {
+                        <nav class="flex justify-center mt-10" aria-label="Pagination">
+                            <ul class="inline-flex items-center space-x-2">
+                                <li>
+                                    @if (viewModel.HasPreviousPage)
+                                    {
+                                        var prevRoute = new RouteValueDictionary(baseRouteValues) { ["pageNumber"] = viewModel.PageNumber - 1 };
+                                        <a asp-action="Bestseller"
+                                           asp-all-route-data="@prevRoute"
+                                           class="px-4 py-2 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100"
+                                           aria-label="Trang trước">
+                                            <i class="fas fa-angle-left"></i>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <span class="px-4 py-2 rounded-full border border-gray-200 text-gray-300 cursor-not-allowed">
+                                            <i class="fas fa-angle-left"></i>
+                                        </span>
+                                    }
+                                </li>
+
+                                @for (var page = 1; page <= viewModel.TotalPages; page++)
+                                {
+                                    var isActive = page == viewModel.PageNumber;
+                                    <li>
+                                        <a asp-action="Bestseller"
+                                           asp-all-route-data="@(new RouteValueDictionary(baseRouteValues) { ["pageNumber"] = page })"
+                                           class="px-4 py-2 rounded-full text-sm font-semibold @(isActive ? "bg-blue-600 text-white shadow" : "border border-gray-200 text-gray-700 hover:bg-gray-100")">
+                                            @page
+                                        </a>
+                                    </li>
+                                }
+
+                                <li>
+                                    @if (viewModel.HasNextPage)
+                                    {
+                                        var nextRoute = new RouteValueDictionary(baseRouteValues) { ["pageNumber"] = viewModel.PageNumber + 1 };
+                                        <a asp-action="Bestseller"
+                                           asp-all-route-data="@nextRoute"
+                                           class="px-4 py-2 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100"
+                                           aria-label="Trang tiếp">
+                                            <i class="fas fa-angle-right"></i>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <span class="px-4 py-2 rounded-full border border-gray-200 text-gray-300 cursor-not-allowed">
+                                            <i class="fas fa-angle-right"></i>
+                                        </span>
+                                    }
+                                </li>
+                            </ul>
+                        </nav>
+                    }
+                }
+                else
+                {
+                    <div class="bg-white rounded-3xl shadow-lg border border-gray-100 p-12 text-center">
+                        <div class="mx-auto w-16 h-16 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center mb-4">
+                            <i class="fas fa-book-dead text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-2">Chưa có dữ liệu bán chạy</h3>
+                        <p class="text-gray-500 mb-6">Hãy quay lại sau để khám phá những tựa sách bán chạy nhất trên hệ thống.</p>
+                        <a asp-action="Index" class="inline-flex items-center gap-2 px-5 py-3 bg-blue-600 text-white rounded-2xl font-semibold hover:bg-blue-700 transition">
+                            <i class="fas fa-store"></i>
+                            Khám phá thêm sách
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+</div>
