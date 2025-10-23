@@ -1,7 +1,7 @@
 @using System
 @using System.Collections.Generic
 @using System.Linq
-@using Microsoft.AspNetCore.Routing
+@using System.Globalization
 @model BookStoreMVC.Models.ViewModels.BookListViewModel
 
 @{
@@ -29,7 +29,7 @@
     var minPrice = books.Any() ? books.Min(b => b.Price) : 0;
     var maxPrice = books.Any() ? books.Max(b => b.Price) : 0;
 
-    var queryParameters = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        var queryParameters = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
     if (ViewContext?.HttpContext?.Request?.Query is { Count: > 0 } query)
     {
         foreach (var kvp in query)
@@ -42,9 +42,9 @@
     queryParameters.Remove("pageNumber");
     queryParameters.Remove("pageSize");
 
-    var baseRouteValues = new RouteValueDictionary(queryParameters)
+    var baseRouteValues = new Dictionary<string, string>(queryParameters, StringComparer.OrdinalIgnoreCase)
     {
-        ["pageSize"] = viewModel.PageSize,
+       ["pageSize"] = viewModel.PageSize.ToString(CultureInfo.InvariantCulture),
         ["sortBy"] = normalizedSortBy,
         ["sortOrder"] = normalizedSortOrder
     };
@@ -391,7 +391,10 @@
                                 <li>
                                     @if (viewModel.HasPreviousPage)
                                     {
-                                        var prevRoute = new RouteValueDictionary(baseRouteValues) { ["pageNumber"] = viewModel.PageNumber - 1 };
+                                       var prevRoute = new Dictionary<string, string>(baseRouteValues, StringComparer.OrdinalIgnoreCase)
+                                        {
+                                            ["pageNumber"] = (viewModel.PageNumber - 1).ToString(CultureInfo.InvariantCulture)
+                                        };
                                         <a asp-action="Bestseller"
                                            asp-all-route-data="@prevRoute"
                                            class="px-4 py-2 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100"
@@ -411,10 +414,11 @@
                                 {
                                     var isActive = page == viewModel.PageNumber;
                                     <li>
-                                        <a asp-action="Bestseller"
-                                           asp-all-route-data="@(new RouteValueDictionary(baseRouteValues) { ["pageNumber"] = page })"
-                                           class="px-4 py-2 rounded-full text-sm font-semibold @(isActive ? "bg-blue-600 text-white shadow" : "border border-gray-200 text-gray-700 hover:bg-gray-100")">
-                                            @page
+                                        <a asp-action="Bestseller">
+                                             asp-all-route-data="@(new Dictionary<string, string>(baseRouteValues, StringComparer.OrdinalIgnoreCase)
+                                               {
+                                                   ["pageNumber"] = page.ToString(CultureInfo.InvariantCulture)
+                                               })"
                                         </a>
                                     </li>
                                 }
@@ -422,7 +426,10 @@
                                 <li>
                                     @if (viewModel.HasNextPage)
                                     {
-                                        var nextRoute = new RouteValueDictionary(baseRouteValues) { ["pageNumber"] = viewModel.PageNumber + 1 };
+                                        var nextRoute = new Dictionary<string, string>(baseRouteValues, StringComparer.OrdinalIgnoreCase)
+                                        {
+                                            ["pageNumber"] = (viewModel.PageNumber + 1).ToString(CultureInfo.InvariantCulture)
+                                        };
                                         <a asp-action="Bestseller"
                                            asp-all-route-data="@nextRoute"
                                            class="px-4 py-2 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100"
