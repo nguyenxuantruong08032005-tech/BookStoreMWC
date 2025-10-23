@@ -112,7 +112,7 @@
                         <span asp-validation-for="ShippingAddress" class="text-red-600 text-sm"></span>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                         <div>
                             <label asp-for="ShippingCity" class="block text-sm font-medium text-gray-700 mb-2"></label>
                             <input asp-for="ShippingCity"
@@ -121,86 +121,25 @@
                         </div>
 
                         <div>
-                            @* <label asp-for="ShippingProvince"
-                                class="block text-sm font-medium text-gray-700 mb-2"></label>
-                            <select asp-for="ShippingProvince"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                                <option value="">Chọn tỉnh/thành</option>
-                                <option value="Hồ Chí Minh">Hồ Chí Minh</option>
-                                <option value="Hà Nội">Hà Nội</option>
-                                <option value="Đà Nẵng">Đà Nẵng</option>
-                                <option value="Cần Thơ">Cần Thơ</option>
-                                <option value="An Giang">An Giang</option>
-                                <option value="Bà Rịa - Vũng Tàu">Bà Rịa - Vũng Tàu</option>
-                                <option value="Bắc Giang">Bắc Giang</option>
-                                <option value="Bắc Kạn">Bắc Kạn</option>
-                                <option value="Bạc Liêu">Bạc Liêu</option>
-                                <option value="Bắc Ninh">Bắc Ninh</option>
-                                <option value="Bến Tre">Bến Tre</option>
-                                <option value="Bình Định">Bình Định</option>
-                                <option value="Bình Dương">Bình Dương</option>
-                                <option value="Bình Phước">Bình Phước</option>
-                                <option value="Bình Thuận">Bình Thuận</option>
-                                <option value="Cà Mau">Cà Mau</option>
-                                <option value="Cao Bằng">Cao Bằng</option>
-                                <option value="Đắk Lắk">Đắk Lắk</option>
-                                <option value="Đắk Nông">Đắk Nông</option>
-                                <option value="Điện Biên">Điện Biên</option>
-                                <option value="Đồng Nai">Đồng Nai</option>
-                                <option value="Đồng Tháp">Đồng Tháp</option>
-                                <option value="Gia Lai">Gia Lai</option>
-                                <option value="Hà Giang">Hà Giang</option>
-                                <option value="Hà Nam">Hà Nam</option>
-                                <option value="Hà Tĩnh">Hà Tĩnh</option>
-                                <option value="Hải Dương">Hải Dương</option>
-                                <option value="Hải Phòng">Hải Phòng</option>
-                                <option value="Hậu Giang">Hậu Giang</option>
-                                <option value="Hòa Bình">Hòa Bình</option>
-                                <option value="Hưng Yên">Hưng Yên</option>
-                                <option value="Khánh Hòa">Khánh Hòa</option>
-                                <option value="Kiên Giang">Kiên Giang</option>
-                                <option value="Kon Tum">Kon Tum</option>
-                                <option value="Lai Châu">Lai Châu</option>
-                                <option value="Lâm Đồng">Lâm Đồng</option>
-                                <option value="Lạng Sơn">Lạng Sơn</option>
-                                <option value="Lào Cai">Lào Cai</option>
-                                <option value="Long An">Long An</option>
-                                <option value="Nam Định">Nam Định</option>
-                                <option value="Nghệ An">Nghệ An</option>
-                                <option value="Ninh Bình">Ninh Bình</option>
-                                <option value="Ninh Thuận">Ninh Thuận</option>
-                                <option value="Phú Thọ">Phú Thọ</option>
-                                <option value="Phú Yên">Phú Yên</option>
-                                <option value="Quảng Bình">Quảng Bình</option>
-                                <option value="Quảng Nam">Quảng Nam</option>
-                                <option value="Quảng Ngãi">Quảng Ngãi</option>
-                                <option value="Quảng Ninh">Quảng Ninh</option>
-                                <option value="Quảng Trị">Quảng Trị</option>
-                                <option value="Sóc Trăng">Sóc Trăng</option>
-                                <option value="Sơn La">Sơn La</option>
-                                <option value="Tây Ninh">Tây Ninh</option>
-                                <option value="Thái Bình">Thái Bình</option>
-                                <option value="Thái Nguyên">Thái Nguyên</option>
-                                <option value="Thanh Hóa">Thanh Hóa</option>
-                                <option value="Thừa Thiên Huế">Thừa Thiên Huế</option>
-                                <option value="Tiền Giang">Tiền Giang</option>
-                                <option value="Trà Vinh">Trà Vinh</option>
-                                <option value="Tuyên Quang">Tuyên Quang</option>
-                                <option value="Vĩnh Long">Vĩnh Long</option>
-                                <option value="Vĩnh Phúc">Vĩnh Phúc</option>
-                                <option value="Yên Bái">Yên Bái</option>
-                            </select>
-                            <span asp-validation-for="ShippingProvince" class="text-red-600 text-sm"></span>
-                        </div>
-
-                        <div>
-                            <label asp-for="ShippingZipCode"
-                                class="block text-sm font-medium text-gray-700 mb-2"></label>
-                            <input asp-for="ShippingZipCode"
+                     <label asp-for="ShippingPostalCode" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                            <input asp-for="ShippingPostalCode"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
-                            <span asp-validation-for="ShippingZipCode" class="text-red-600 text-sm"></span>
-                        </div> *@
+                            <span asp-validation-for="ShippingPostalCode" class="text-red-600 text-sm"></span>
+                        </div>
                     </div>
+
+                         <div class="mt-4">
+                        <label asp-for="ShippingCountry" class="block text-sm font-medium text-gray-700 mb-2"></label>
+                        <select asp-for="ShippingCountry"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <option value="">Chọn quốc gia</option>
+                            @foreach (var country in Model.AvailableCountries)
+                            {
+                                <option value="@country">@country</option>
+                            }
+                        </select>
+                        <span asp-validation-for="ShippingCountry" class="text-red-600 text-sm"></span>
+                         </div>
                 </div>
 
                 <!-- Payment Information -->
@@ -409,22 +348,30 @@
         function toggleProfileAddress() {
             const useProfile = document.querySelector('input[name="UseProfileAddress"]').checked;
             const fields = [
-                'ShippingFirstName', 'ShippingLastName', 'ShippingEmail', 'ShippingPhone',
-                'ShippingAddress', 'ShippingCity', 'ShippingProvince', 'ShippingZipCode'
+                'ShippingFirstName', 'ShippingLastName', 'ShippingPhone',
+                'ShippingAddress', 'ShippingCity', 'ShippingPostalCode'
             ];
 
             fields.forEach(field => {
-                const input = document.querySelector(`input[name="${field}"], select[name="${field}"]`);
+                const input = document.querySelector(`[name="${field}"]`);
                 if (input) {
-                    input.disabled = useProfile;
-                    if (useProfile) {
-                        input.classList.add('bg-gray-100');
+                    if (useProfile && (input.tagName === 'INPUT' || input.tagName === 'TEXTAREA')) {
+                           input.readOnly = true;
+                            input.classList.add('bg-gray-100');
                     } else {
+                         input.readOnly = false;
                         input.classList.remove('bg-gray-100');
                     }
                 }
             });
-
+const countrySelect = document.querySelector('select[name="ShippingCountry"]');
+            if (countrySelect) {
+                if (useProfile) {
+                    countrySelect.classList.add('bg-gray-100');
+                } else {
+                    countrySelect.classList.remove('bg-gray-100');
+                }
+            }
             if (useProfile) {
                 // Load profile data via AJAX
                 loadProfileData();
@@ -474,14 +421,21 @@
                 .then(data => {
                     if (data.success) {
                         const profile = data.profile;
-                        document.querySelector('input[name="ShippingFirstName"]').value = profile.firstName || '';
-                        document.querySelector('input[name="ShippingLastName"]').value = profile.lastName || '';
-                        document.querySelector('input[name="ShippingEmail"]').value = profile.email || '';
-                        document.querySelector('input[name="ShippingPhone"]').value = profile.phone || '';
-                        document.querySelector('input[name="ShippingAddress"]').value = profile.address || '';
-                        document.querySelector('input[name="ShippingCity"]').value = profile.city || '';
-                        document.querySelector('select[name="ShippingProvince"]').value = profile.province || '';
-                        document.querySelector('input[name="ShippingZipCode"]').value = profile.zipCode || '';
+                          const firstNameInput = document.querySelector('input[name="ShippingFirstName"]');
+                        const lastNameInput = document.querySelector('input[name="ShippingLastName"]');
+                        const phoneInput = document.querySelector('input[name="ShippingPhone"]');
+                        const addressInput = document.querySelector('input[name="ShippingAddress"]');
+                        const cityInput = document.querySelector('input[name="ShippingCity"]');
+                        const postalCodeInput = document.querySelector('input[name="ShippingPostalCode"]');
+                        const countrySelect = document.querySelector('select[name="ShippingCountry"]');
+
+                        if (firstNameInput) firstNameInput.value = profile.firstName || '';
+                        if (lastNameInput) lastNameInput.value = profile.lastName || '';
+                        if (phoneInput) phoneInput.value = profile.phone || '';
+                        if (addressInput) addressInput.value = profile.address || '';
+                        if (cityInput) cityInput.value = profile.city || '';
+                        if (postalCodeInput) postalCodeInput.value = profile.postalCode || '';
+                        if (countrySelect) countrySelect.value = profile.country || '';
                     }
                 })
                 .catch(error => {
@@ -510,10 +464,11 @@ const formData = new FormData(this);
             // Submit form
             fetch(this.action, {
                 method: 'POST',
-                 body: formData,
+                body: formData,
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json'
+                     'Accept': 'application/json',
+                    'RequestVerificationToken': tokenInput ? tokenInput.value : ''
                 },
                 credentials: 'same-origin'
             })
@@ -542,20 +497,20 @@ const formData = new FormData(this);
                         // Redirect to order confirmation
                         window.location.href = data.redirectUrl || '/Orders/Confirmation/' + data.orderId;
                     } else {
-                       const errorMessage = data.message || 'Có lỗi xảy ra khi đặt hàng!';
-                    showNotification(errorMessage, 'error');
+                        const errorMessage = data.message || 'Có lỗi xảy ra khi đặt hàng!';
+                        showNotification(errorMessage, 'error');
 
-                    if (data.errors) {
-                        Object.keys(data.errors).forEach(key => {
-                            const field = document.querySelector(`[name="${key}"]`);
-                            if (field) {
-                                field.classList.add('border-red-500');
-                            }
-                        });
-                    }
+                        if (data.errors) {
+                            Object.keys(data.errors).forEach(key => {
+                                const field = document.querySelector(`[name="${key}"]`);
+                                if (field) {
+                                    field.classList.add('border-red-500');
+                                }
+                            });
+                        }
 
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalText;
                         return;
                     }
                 })
@@ -570,8 +525,9 @@ const formData = new FormData(this);
         function validateForm() {
             // Basic client-side validation
             const requiredFields = [
-                'ShippingFirstName', 'ShippingLastName', 'ShippingEmail', 'ShippingPhone',
-                'ShippingAddress', 'ShippingCity', 'ShippingProvince', 'PaymentMethod'
+               'ShippingFirstName', 'ShippingLastName',
+                'ShippingAddress', 'ShippingCity', 'ShippingPostalCode', 'ShippingCountry',
+                'PaymentMethod'
             ];
 
             let isValid = true;
@@ -637,5 +593,9 @@ const formData = new FormData(this);
                 togglePaymentFields();
             }
         });
+        const useProfileCheckbox = document.querySelector('input[name="UseProfileAddress"]');
+            if (useProfileCheckbox && useProfileCheckbox.checked) {
+                toggleProfileAddress();
+            }
     </script>
 }
