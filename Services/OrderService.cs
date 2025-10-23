@@ -283,6 +283,7 @@ namespace BookStoreMVC.Services
                         Total = oi.Total,
                         BookTitle = oi.Book.Title,
                         BookAuthor = oi.Book.Author,
+                        BookImageUrl = oi.Book.ImageUrl,
                         Book = oi.Book
                     }).ToList()
             };

@@ -1,3 +1,4 @@
+@inject BookStoreMVC.Services.IBookService BookService
 @* _HeaderPartial.cshtml - BookVerse Header Component *@
 
 <!-- Top Announcement Bar -->
@@ -281,33 +282,56 @@
                 <i class="fas fa-th-large text-primary-500 mr-2"></i>
                 Danh mục sách
             </h4>
-            <div class="space-y-1">
-                <a asp-action="Category" asp-controller="Book" asp-route-category="literature-domestic"
-                    class="bv-mobile-menu-item">
-                    <i class="fas fa-book-open w-5 mr-3 text-primary-400"></i>
-                    <span>Văn học trong nước</span>
-                </a>
-                <a asp-action="Category" asp-controller="Book" asp-route-category="literature-foreign"
-                    class="bv-mobile-menu-item hover:bg-green-50 hover:text-green-600">
-                    <i class="fas fa-globe w-5 mr-3 text-green-500"></i>
-                    <span>Văn học nước ngoài</span>
-                </a>
-                <a asp-action="Category" asp-controller="Book" asp-route-category="business"
-                    class="bv-mobile-menu-item hover:bg-orange-50 hover:text-orange-600">
-                    <i class="fas fa-chart-line w-5 mr-3 text-orange-500"></i>
-                    <span>Kinh tế - Quản lý</span>
-                </a>
-                <a asp-action="Category" asp-controller="Book" asp-route-category="life-skills"
-                    class="bv-mobile-menu-item hover:bg-yellow-50 hover:text-yellow-600">
-                    <i class="fas fa-lightbulb w-5 mr-3 text-yellow-500"></i>
-                    <span>Kỹ năng sống</span>
-                </a>
-                <a asp-action="Category" asp-controller="Book" asp-route-category="technology"
-                    class="bv-mobile-menu-item hover:bg-purple-50 hover:text-secondary-600">
-                    <i class="fas fa-laptop-code w-5 mr-3 text-secondary-500"></i>
-                    <span>Công nghệ thông tin</span>
-                </a>
-            </div>
+             @{
+                var menuCategories = (await BookService.GetCategoriesAsync()).ToList();
+                var iconNames = new[]
+                {
+                    "fa-book-open",
+                    "fa-globe",
+                    "fa-chart-line",
+                    "fa-lightbulb",
+                    "fa-heart",
+                    "fa-laptop-code",
+                    "fa-feather-alt",
+                    "fa-chess-knight",
+                    "fa-child",
+                    "fa-palette"
+                };
+                var accentColors = new[]
+                {
+                    "text-primary-500",
+                    "text-green-500",
+                    "text-orange-500",
+                    "text-yellow-500",
+                    "text-pink-500",
+                    "text-secondary-500",
+                    "text-purple-500",
+                    "text-blue-500",
+                    "text-indigo-500",
+                    "text-red-500"
+                };
+            }
+            @if (!menuCategories.Any())
+            {
+                <p class="text-sm text-gray-500">Chưa có danh mục để hiển thị.</p>
+            }
+            else
+            {
+                <div class="space-y-1">
+                    @for (var i = 0; i < menuCategories.Count; i++)
+                    {
+                        var category = menuCategories[i];
+                        var iconName = iconNames[i % iconNames.Length];
+                        var accentColor = accentColors[i % accentColors.Length];
+                        <a asp-action="Category" asp-controller="Books" asp-route-id="@category.Id"
+                           asp-route-name="@category.Name"
+                           class="bv-mobile-menu-item hover:bg-primary-50 hover:text-primary-600">
+                            <i class="fas @iconName w-5 mr-3 @accentColor"></i>
+                            <span>@category.Name</span>
+                        </a>
+                    }
+                </div>
+            }
         </div>
 
         <!-- Main Menu -->
@@ -316,17 +340,17 @@
                 <i class="fas fa-home w-5 mr-3 text-primary-500"></i>
                 <span>Trang chủ</span>
             </a>
-            <a asp-action="NewBooks" asp-controller="Book"
+            <a asp-action="NewBooks" asp-controller="Books"
                 class="bv-mobile-menu-item hover:bg-green-50 hover:text-green-600">
                 <i class="fas fa-star w-5 mr-3 text-green-500"></i>
                 <span>Sách mới</span>
             </a>
-            <a asp-action="Bestseller" asp-controller="Book"
+            <a asp-action="Bestseller" asp-controller="Books"
                 class="bv-mobile-menu-item hover:bg-yellow-50 hover:text-yellow-600">
                 <i class="fas fa-crown w-5 mr-3 text-yellow-500"></i>
                 <span>Bestseller</span>
             </a>
-            <a asp-action="Promotions" asp-controller="Book"
+            <a asp-action="Promotions" asp-controller="Books"
                 class="bv-mobile-menu-item hover:bg-orange-50 hover:text-orange-600">
                 <i class="fas fa-tags w-5 mr-3 text-orange-500"></i>
                 <span>Khuyến mãi</span>

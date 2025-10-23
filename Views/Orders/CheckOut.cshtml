@@ -460,7 +460,10 @@ const countrySelect = document.querySelector('select[name="ShippingCountry"]');
                 submitBtn.innerHTML = originalText;
                 return;
             }
-const formData = new FormData(this);
+     const tokenInput = this.querySelector('input[name="__RequestVerificationToken"]');
+            const requestVerificationToken = tokenInput ? tokenInput.value : '';
+
+            const formData = new FormData(this);
             // Submit form
             fetch(this.action, {
                 method: 'POST',
@@ -468,7 +471,7 @@ const formData = new FormData(this);
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest',
                      'Accept': 'application/json',
-                    'RequestVerificationToken': tokenInput ? tokenInput.value : ''
+                    'RequestVerificationToken': requestVerificationToken
                 },
                 credentials: 'same-origin'
             })

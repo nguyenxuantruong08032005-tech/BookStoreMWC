@@ -478,7 +478,18 @@
                                 <div class="flex items-center space-x-4 mb-4">
                                     @foreach (var item in order.OrderItems.Take(3))
                                     {
+                                         var resolvedImageUrl = string.IsNullOrWhiteSpace(item.BookImageUrl)
+                                            ? Url.Content("~/images/no-book-cover.png")
+                                            : (item.BookImageUrl.StartsWith("http", System.StringComparison.OrdinalIgnoreCase)
+                                                ? item.BookImageUrl
+                                                : Url.Content(item.BookImageUrl.StartsWith("~")
+                                                    ? item.BookImageUrl
+                                                    : "~/" + item.BookImageUrl.TrimStart('/')));
                                         <div class="flex items-center space-x-2">
+                                        <img src="@resolvedImageUrl" alt="@item.BookTitle"
+                                                class="w-12 h-16 object-cover rounded shadow-sm bg-slate-100"
+                                                loading="lazy"
+                                                onerror="this.onerror=null;this.src='@Url.Content("~/images/no-book-cover.png")';" />
                                             <img src="@(item.BookImageUrl ?? "/images/no-book-cover.png")" alt="@item.BookTitle"
                                                 class="w-12 h-16 object-cover rounded shadow-sm" />
                                             <div class="text-sm">

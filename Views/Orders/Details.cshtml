@@ -235,9 +235,18 @@
                 <div class="space-y-4">
                     @foreach (var item in Model.OrderItems)
                     {
+                         var resolvedImageUrl = string.IsNullOrWhiteSpace(item.BookImageUrl)
+                            ? Url.Content("~/images/no-book-cover.png")
+                            : (item.BookImageUrl.StartsWith("http", System.StringComparison.OrdinalIgnoreCase)
+                                ? item.BookImageUrl
+                                : Url.Content(item.BookImageUrl.StartsWith("~")
+                                    ? item.BookImageUrl
+                                    : "~/" + item.BookImageUrl.TrimStart('/')));
                         <div class="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg">
-                            <img src="@(item.BookImageUrl ?? "/images/no-book-cover.png")" alt="@item.BookTitle"
-                                class="w-16 h-20 object-cover rounded shadow-sm" />
+                           <img src="@resolvedImageUrl" alt="@item.BookTitle"
+                                class="w-16 h-20 object-cover rounded shadow-sm bg-slate-100"
+                                loading="lazy"
+                                onerror="this.onerror=null;this.src='@Url.Content("~/images/no-book-cover.png")';" />
                             <div class="flex-1 min-w-0">
                                 <h3 class="font-semibold text-gray-800 line-clamp-2">
                                     <a asp-controller="Books" asp-action="Details" asp-route-id="@item.BookId"

@@ -1,3 +1,7 @@
+@using System.Linq
+@using System
+@using System.Collections.Generic
+@inject BookStoreMVC.Services.IBookService BookService
 <!-- Navigation Bar -->
 <nav class="bv-nav bv-hide-mobile">
     <div class="bv-container">
@@ -15,120 +19,218 @@
                     <!-- Mega Menu -->
                     <div class="bv-mega-menu bv-animate-slide-up">
                         <div class="p-6">
-                            <div class="grid grid-cols-3 gap-6">
-                                <div>
-                                    <h3 class="font-bold text-gray-800 mb-4 flex items-center">
-                                        <i class="fas fa-fire text-orange-500 mr-2"></i>
-                                        Thể loại hot
-                                    </h3>
-                                    <ul class="space-y-2">
-                                        <li>
-                                            <a asp-action="Category" asp-controller="Book"
-                                                asp-route-category="literature-domestic"
-                                                class="bv-mega-menu-item group">
-                                                <i
-                                                    class="fas fa-book-open w-4 mr-2 text-primary-500 group-hover:text-primary-600"></i>
-                                                Văn học trong nước
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a asp-action="Category" asp-controller="Book"
-                                                asp-route-category="literature-foreign"
-                                                class="bv-mega-menu-item hover:text-green-600 group">
-                                                <i
-                                                    class="fas fa-globe w-4 mr-2 text-green-500 group-hover:text-green-600"></i>
-                                                Văn học nước ngoài
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a asp-action="Category" asp-controller="Book" asp-route-category="business"
-                                                class="bv-mega-menu-item hover:text-orange-600 group">
-                                                <i
-                                                    class="fas fa-chart-line w-4 mr-2 text-orange-500 group-hover:text-orange-600"></i>
-                                                Kinh tế - Quản lý
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a asp-action="Category" asp-controller="Book"
-                                                asp-route-category="life-skills"
-                                                class="bv-mega-menu-item hover:text-yellow-600 group">
-                                                <i
-                                                    class="fas fa-lightbulb w-4 mr-2 text-yellow-500 group-hover:text-yellow-600"></i>
-                                                Kỹ năng sống
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a asp-action="Category" asp-controller="Book"
-                                                asp-route-category="parenting"
-                                                class="bv-mega-menu-item hover:text-pink-600 group">
-                                                <i
-                                                    class="fas fa-heart w-4 mr-2 text-pink-500 group-hover:text-pink-600"></i>
-                                                Nuôi dạy con
-                                            </a>
-                                        </li>
-                                    </ul>
+                          @{
+                                var categories = (await BookService.GetCategoriesAsync()).ToList();
+                                var hasCategories = categories.Count > 0;
+                                var highlightCategories = categories.Take(6).ToList();
+                                var remainingCategories = categories.Skip(highlightCategories.Count).ToList();
+                                var columnSize = remainingCategories.Any()
+                                    ? (int)Math.Ceiling(remainingCategories.Count / 2d)
+                                    : 0;
+                            }
+
+                            @if (!hasCategories)
+                            {
+                                <div class="text-center text-gray-500 py-8">
+                                    Hiện chưa có danh mục sách nào để hiển thị.
                                 </div>
-                                <div>
-                                    <h3 class="font-bold text-gray-800 mb-4 flex items-center">
-                                        <i class="fas fa-graduation-cap text-secondary-500 mr-2"></i>
-                                        Chuyên ngành
-                                    </h3>
-                                    <ul class="space-y-2">
-                                        <li>
-                                            <a asp-action="Category" asp-controller="Book"
-                                                asp-route-category="technology"
-                                                class="bv-mega-menu-item hover:text-secondary-600 group">
-                                                <i
-                                                    class="fas fa-laptop-code w-4 mr-2 text-secondary-400 group-hover:text-secondary-600"></i>
-                                                Công nghệ thông tin
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a asp-action="Category" asp-controller="Book" asp-route-category="health"
-                                                class="bv-mega-menu-item hover:text-red-500 group">
-                                                <i
-                                                    class="fas fa-stethoscope w-4 mr-2 text-red-400 group-hover:text-red-500"></i>
-                                                Y học - Sức khỏe
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a asp-action="Category" asp-controller="Book"
-                                                asp-route-category="education"
-                                                class="bv-mega-menu-item hover:text-indigo-600 group">
-                                                <i
-                                                    class="fas fa-chalkboard-teacher w-4 mr-2 text-indigo-400 group-hover:text-indigo-600"></i>
-                                                Giáo dục
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a asp-action="Category" asp-controller="Book" asp-route-category="children"
-                                                class="bv-mega-menu-item hover:text-pink-600 group">
-                                                <i
-                                                    class="fas fa-child w-4 mr-2 text-pink-500 group-hover:text-pink-600"></i>
-                                                Thiếu nhi
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a asp-action="Category" asp-controller="Book" asp-route-category="art"
-                                                class="bv-mega-menu-item hover:text-purple-600 group">
-                                                <i
-                                                    class="fas fa-palette w-4 mr-2 text-purple-400 group-hover:text-purple-600"></i>
-                                                Nghệ thuật
-                                            </a>
-                                        </li>
-                                    </ul>
+                            }
+                            else
+                            {
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <div>
+                                        <h3 class="font-bold text-gray-800 mb-4 flex items-center">
+                                            <i class="fas fa-fire text-orange-500 mr-2"></i>
+                                            Danh mục nổi bật
+                                        </h3>
+                                        <ul class="space-y-2">
+                                            @foreach (var category in highlightCategories)
+                                            {
+                                                <li>
+                                                    <a asp-action="Category"
+                                                       asp-controller="Books"
+                                                       asp-route-id="@category.Id"
+                                                       asp-route-name="@category.Name"
+                                                       class="bv-mega-menu-item group">
+                                                        <i class="fas fa-book-open w-4 mr-2 text-primary-600 group-hover:text-primary-500"></i>
+                                                        @category.Name
+                                                    </a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+
+                                    <div>
+                                        <h3 class="font-bold text-gray-800 mb-4 flex items-center">
+                                            <i class="fas fa-th-list text-secondary-500 mr-2"></i>
+                                            Tất cả danh mục
+                                        </h3>
+
+                                        @if (!remainingCategories.Any())
+                                        {
+                                            <p class="text-sm text-gray-500">Đang hiển thị toàn bộ danh mục.</p>
+                                        }
+                                        else
+                                        {
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                @for (var column = 0; column < 2 && column * columnSize < remainingCategories.Count; column++)
+                                                {
+                                                    <ul class="space-y-2">
+                                                        @for (var index = column * columnSize; index < Math.Min((column + 1) * columnSize, remainingCategories.Count); index++)
+                                                        {
+                                                            var category = remainingCategories[index];
+                                                            <li>
+                                                                <a asp-action="Category"
+                                                                   asp-controller="Books"
+                                                                   asp-route-id="@category.Id"
+                                                                   asp-route-name="@category.Name"
+                                                                   class="bv-mega-menu-item">
+                                                                    <i class="fas fa-angle-right w-4 mr-2 text-gray-400"></i>
+                                                                    @category.Name
+                                                                </a>
+                                                            </li>
+                                                        }
+                                                    </ul>
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+
+                                    <div class="bg-gradient-to-br from-primary-50 via-secondary-50 to-primary-50 rounded-lg p-4 border border-primary-100">
+                                        <h3 class="font-bold text-gray-800 mb-2 flex items-center">
+                                            <span class="text-lg mr-2">📚</span>
+                                            Sale Hot
+                                        </h3>
+                                        <p class="text-sm text-gray-600 mb-3">Sách bestseller giảm đến 50%</p>
+                                        <a asp-action="Promotions"
+                                           asp-controller="Books"
+                                           class="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-pink-500 hover:to-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 w-full transform hover:scale-105 shadow-md hover:shadow-lg inline-block text-center">
+                                            Xem ngay
+                                        </a>
+                                    </div>
                                 </div>
-                                <div
-                                    class="bg-gradient-to-br from-primary-50 via-secondary-50 to-primary-50 rounded-lg p-4 border border-primary-100">
-                                    <h3 class="font-bold text-gray-800 mb-2 flex items-center">
-                                        <span class="text-lg mr-2">📚</span>
-                                        Sale Hot
-                                    </h3>
-                                    <p class="text-sm text-gray-600 mb-3">Sách bestseller giảm đến 50%</p>
-                                    <a asp-action="Sale" asp-controller="Book"
-                                        class="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-pink-500 hover:to-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 w-full transform hover:scale-105 shadow-md hover:shadow-lg inline-block text-center">
-                                        Xem ngay
-                                    </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Navigation -->
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a asp-action="Index" asp-controller="Home" class="bv-nav-link bv-nav-link-primary">
+                        Trang chủ
+                    </a>
+                    <a asp-action="NewBooks" asp-controller="Books" class="bv-nav-link bv-nav-link-green">
+                        Sách mới
+                    </a>
+                    <a asp-action="Bestseller" asp-controller="Books"
+                       class="bv-nav-link bv-nav-link-yellow flex items-center">
+                        Bestseller
+                        <i class="fas fa-crown text-yellow-500 ml-1 text-sm"></i>
+                    </a>
+                    <a asp-action="Promotions" asp-controller="Books" class="bv-nav-link bv-nav-link-orange">
+                        Khuyến mãi
+                    </a>
+                    <a asp-action="Index" asp-controller="Blog" class="bv-nav-link bv-nav-link-primary">
+                        Blog
+                    </a>
+                    <a asp-action="Contact" asp-controller="Home" class="bv-nav-link bv-nav-link-primary">
+                        Liên hệ
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Side -->
+            <div class="flex items-center space-x-4">
+                <!-- Flash Sale -->
+                <div class="bv-flash-sale">
+                    <i class="fas fa-bolt"></i>
+                    <span>Flash Sale 50%</span>
+                </div>
+
+                <!-- Free Shipping -->
+                <div class="bv-free-shipping">
+                    <i class="fas fa-shipping-fast"></i>
+                    <span>Free Ship</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+                                </div>
+                                }
+                            else
+                            {
+                                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <div>
+                                        <h3 class="font-bold text-gray-800 mb-4 flex items-center">
+                                            <i class="fas fa-fire text-orange-500 mr-2"></i>
+                                            Danh mục nổi bật
+                                        </h3>
+                                        <ul class="space-y-2">
+                                            @for (var i = 0; i < highlightCategories.Count; i++)
+                                            {
+                                                var category = highlightCategories[i];
+                                                var iconName = iconNames[i % iconNames.Length];
+                                                var accentColor = accentColors[i % accentColors.Length];
+                                                <li>
+                                                    <a asp-action="Category" asp-controller="Books" asp-route-id="@category.Id"
+                                                       asp-route-name="@category.Name"
+                                                       class="bv-mega-menu-item group">
+                                                        <i class="fas @iconName w-4 mr-2 @accentColor group-hover:text-primary-600"></i>
+                                                        @category.Name
+                                                    </a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+
+                                    <div>
+                                        <h3 class="font-bold text-gray-800 mb-4 flex items-center">
+                                            <i class="fas fa-th-list text-secondary-500 mr-2"></i>
+                                            Tất cả danh mục
+                                        </h3>
+                                        @if (!additionalCategories.Any())
+                                        {
+                                            <p class="text-sm text-gray-500">Đang hiển thị toàn bộ danh mục.</p>
+                                        }
+                                        else
+                                        {
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                @for (var column = 0; column < 2 && column * extraColumnSize < additionalCategories.Count; column++)
+                                                {
+                                                    <ul class="space-y-2">
+                                                        @for (var index = column * extraColumnSize;
+                                                               index < Math.Min((column + 1) * extraColumnSize, additionalCategories.Count);
+                                                               index++)
+                                                        {
+                                                            var category = additionalCategories[index];
+                                                            <li>
+                                                                <a asp-action="Category" asp-controller="Books" asp-route-id="@category.Id"
+                                                                   asp-route-name="@category.Name"
+                                                                   class="bv-mega-menu-item">
+                                                                    <i class="fas fa-angle-right w-4 mr-2 text-gray-400"></i>
+                                                                    @category.Name
+                                                                </a>
+                                                            </li>
+                                                        }
+                                                    </ul>
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+
+                                    <div class="bg-gradient-to-br from-primary-50 via-secondary-50 to-primary-50 rounded-lg p-4 border border-primary-100">
+                                        <h3 class="font-bold text-gray-800 mb-2 flex items-center">
+                                            <span class="text-lg mr-2">📚</span>
+                                            Sale Hot
+                                        </h3>
+                                        <p class="text-sm text-gray-600 mb-3">Sách bestseller giảm đến 50%</p>
+                                        <a asp-action="Promotions" asp-controller="Books"
+                                           class="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-pink-500 hover:to-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 w-full transform hover:scale-105 shadow-md hover:shadow-lg inline-block text-center">
+                                            Xem ngay
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -140,15 +242,14 @@
                     <a asp-action="Index" asp-controller="Home" class="bv-nav-link bv-nav-link-primary">
                         Trang chủ
                     </a>
-                    <a asp-action="NewBooks" asp-controller="Book" class="bv-nav-link bv-nav-link-green">
-                        Sách mới
+                      <a asp-action="NewBooks" asp-controller="Books" class="bv-nav-link bv-nav-link-green">
                     </a>
-                    <a asp-action="Bestseller" asp-controller="Book"
-                        class="bv-nav-link bv-nav-link-yellow flex items-center">
+                   <a asp-action="Bestseller" asp-controller="Books"
+                       class="bv-nav-link bv-nav-link-yellow flex items-center">
                         Bestseller
                         <i class="fas fa-crown text-yellow-500 ml-1 text-sm"></i>
                     </a>
-                    <a asp-action="Promotions" asp-controller="Book" class="bv-nav-link bv-nav-link-orange">
+                   <a asp-action="Promotions" asp-controller="Books" class="bv-nav-link bv-nav-link-orange">
                         Khuyến mãi
                     </a>
                     <a asp-action="Index" asp-controller="Blog" class="bv-nav-link bv-nav-link-primary">

@@ -74,8 +74,13 @@ namespace BookStoreMVC.Services
                     CreatedAt = o.CreatedAt,
                     OrderItems = o.OrderItems.Select(oi => new OrderItemViewModel
                     {
+                        Id = oi.Id,
+                        BookId = oi.BookId,
                         BookTitle = oi.Book.Title,
+                        BookAuthor = oi.Book.Author,
+                        BookImageUrl = oi.Book.ImageUrl,
                         Quantity = oi.Quantity,
+                        UnitPrice = oi.UnitPrice,
                         Total = oi.Total
                     }).ToList()
                 })
