@@ -6,6 +6,8 @@ using BookStoreMVC.Models.Entities;
 using BookStoreMVC.Models.ViewModels;
 using BookStoreMVC.Services;
 using Microsoft.AspNetCore.Http;
+using System;
+using System.Linq;
 namespace BookStoreMVC.Controllers
 {
     public class BooksController : Controller
@@ -49,7 +51,166 @@ namespace BookStoreMVC.Controllers
                 return View(new BookListViewModel());
             }
         }
- private static void NormalizeSorting(HttpRequest request, BookListViewModel model)
+ public async Task<IActionResult> NewBooks(string? searchTerm, string filter = "all", int page = 1)
+        {
+            try
+            {
+                filter = string.IsNullOrWhiteSpace(filter) ? "all" : filter.Trim().ToLowerInvariant();
+                var newnessThreshold = DateTime.UtcNow.AddDays(-120);
+
+                var listingModel = new BookListViewModel
+                {
+                    SearchTerm = searchTerm,
+                    SortBy = "newest",
+                    SortOrder = "desc",
+                    PageNumber = Math.Max(page, 1),
+                    PageSize = 12,
+                    CreatedAfter = newnessThreshold
+                };
+
+                switch (filter)
+                {
+                    case "hot":
+                        listingModel.SortBy = "rating";
+                        listingModel.SortOrder = "desc";
+                        break;
+                    case "discount":
+                        listingModel.SortBy = "discount";
+                        listingModel.SortOrder = "desc";
+                        break;
+                    case "price":
+                        listingModel.SortBy = "price";
+                        listingModel.SortOrder = "asc";
+                        break;
+                }
+
+                var (books, totalCount) = await _bookService.GetBooksAsync(listingModel);
+                var booksList = books.ToList();
+                listingModel.Books = booksList;
+                listingModel.TotalCount = totalCount;
+
+                var categories = (await _bookService.GetCategoriesAsync()).ToList();
+                listingModel.Categories = categories;
+
+                var categoriesWithStats = (await _bookService.GetCategoriesWithStatsAsync()).ToList();
+                var highlightCategories = categoriesWithStats
+                    .Where(c => c.IsActive)
+                    .OrderByDescending(c => c.BookCount)
+                    .Take(6)
+                    .ToList();
+
+                var spotlightBooks = (await _bookService.GetNewBooksAsync(6)).ToList();
+                var trendingBooks = spotlightBooks
+                    .OrderByDescending(b => b.ReviewCount)
+                    .ThenByDescending(b => b.AverageRating)
+                    .Take(6)
+                    .ToList();
+
+                var (_, booksAddedThisMonth) = await _bookService.GetBooksAsync(new BookListViewModel
+                {
+                    CreatedAfter = DateTime.UtcNow.AddDays(-30),
+                    SortBy = "newest",
+                    SortOrder = "desc",
+                    PageSize = 1
+                });
+
+                var model = new NewBooksPageViewModel
+                {
+                    ActiveFilter = filter,
+                    Listing = listingModel,
+                    SpotlightBooks = spotlightBooks.Take(3).ToList(),
+                    TrendingBooks = trendingBooks,
+                    HighlightCategories = highlightCategories,
+                    TotalNewBooks = totalCount,
+                    BooksAddedThisMonth = booksAddedThisMonth,
+                    LatestAddedDate = spotlightBooks.FirstOrDefault()?.CreatedDate,
+                    ActiveCategories = highlightCategories.Any()
+                        ? highlightCategories.Count
+                        : categories.Count(c => c.IsActive)
+                };
+
+                ViewBag.PageTitle = "Sách mới phát hành";
+                ViewBag.PageDescription = $"Khám phá {model.TotalNewBooks:N0} tựa sách mới nhất được cập nhật gần đây.";
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading new books page");
+                return View(new NewBooksPageViewModel
+                {
+                    Listing = new BookListViewModel()
+                });
+            }
+        }
+
+        public async Task<IActionResult> Bestseller(BookListViewModel model)
+        {
+            try
+            {
+                model.SortBy = "bestseller";
+                NormalizeSorting(Request, model);
+
+                var (books, totalCount) = await _bookService.GetBooksAsync(model);
+
+                model.Books = books;
+                model.TotalCount = totalCount;
+                model.Categories = await _bookService.GetCategoriesAsync();
+
+                ViewBag.PageTitle = "Top sách bán chạy";
+                ViewBag.PageDescription = $"Khám phá {totalCount.ToString("N0")} tựa sách được độc giả tin tưởng và lựa chọn nhiều nhất.";
+
+                return View("Bestseller", model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading bestseller books page");
+
+                ViewBag.PageTitle = "Top sách bán chạy";
+                ViewBag.PageDescription = "Khám phá những tựa sách bán chạy và được cộng đồng yêu thích nhất.";
+
+                return View("Bestseller", new BookListViewModel
+                {
+                    SortBy = "bestseller",
+                    SortOrder = "desc"
+                });
+            }
+        }
+
+        public async Task<IActionResult> Promotions(BookListViewModel model)
+        {
+            try
+            {
+                model.SortBy = "discount";
+                NormalizeSorting(Request, model);
+
+                var (books, totalCount) = await _bookService.GetBooksAsync(model);
+
+                model.Books = books;
+                model.TotalCount = totalCount;
+                model.Categories = await _bookService.GetCategoriesAsync();
+
+                ViewBag.PageTitle = "Ưu đãi & Khuyến mãi";
+                ViewBag.PageDescription = $"Săn ưu đãi hấp dẫn với {totalCount.ToString("N0")} đầu sách đang giảm giá sâu hôm nay.";
+
+                return View("Promotions", model);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error loading promotions page");
+
+                ViewBag.PageTitle = "Ưu đãi & Khuyến mãi";
+                ViewBag.PageDescription = "Khám phá các chương trình khuyến mãi sách nổi bật nhất.";
+
+                return View("Promotions", new BookListViewModel
+                {
+                    SortBy = "discount",
+                    SortOrder = "desc"
+                });
+            }
+        }
+
+        private static void NormalizeSorting(HttpRequest request, BookListViewModel model)
         {
             var sortBy = string.IsNullOrWhiteSpace(model.SortBy)
                 ? "title"

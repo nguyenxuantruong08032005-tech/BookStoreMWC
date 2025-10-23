@@ -181,6 +181,8 @@ namespace BookStoreMVC.Models.ViewModels
         public string? Author { get; set; }
         public string? Publisher { get; set; }
         public string? Language { get; set; }
+        public DateTime? CreatedAfter { get; set; }
+
 
         // Sorting
         public string SortBy { get; set; } = "title";

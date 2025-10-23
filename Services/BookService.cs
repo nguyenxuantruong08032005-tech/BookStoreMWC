@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using BookStoreMVC.Data;
 using BookStoreMVC.Models.Entities;
 using BookStoreMVC.Models.ViewModels;
-
+using System;
 namespace BookStoreMVC.Services
 {
     public interface IBookService
@@ -154,7 +154,11 @@ namespace BookStoreMVC.Services
 
             if (model.MinRating.HasValue)
                 query = query.Where(b => b.Reviews.Any() && b.Reviews.Average(r => r.Rating) >= model.MinRating);
-
+            if (model.CreatedAfter.HasValue)
+            {
+                var createdAfter = model.CreatedAfter.Value;
+                query = query.Where(b => b.CreatedAt >= createdAfter);
+            }
             // Áp dụng bộ sắp xếp
              var sortBy = string.IsNullOrWhiteSpace(model.SortBy)
                 ? "title"
@@ -488,6 +492,8 @@ namespace BookStoreMVC.Services
                 CategoryId = book.CategoryId,
                 Publisher = book.Publisher,
                 PublishDate = book.PublishDate,
+                CreatedDate = DateTime.SpecifyKind(book.CreatedAt, DateTimeKind.Utc).ToLocalTime(),
+                LastUpdatedDate = DateTime.SpecifyKind(book.UpdatedAt, DateTimeKind.Utc).ToLocalTime(),
                 PageCount = book.PageCount,
                 Language = book.Language,
                 IsActive = book.IsActive,
