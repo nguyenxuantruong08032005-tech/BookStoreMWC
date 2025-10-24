@@ -15,6 +15,7 @@ namespace BookStoreMVC.Services
         Task<bool> IsBookInWishlistAsync(string userId, int bookId);
         Task<int> GetWishlistItemCountAsync(string userId);
         Task<bool> MoveToCartAsync(string userId, int bookId, int quantity = 1);
+        Task<(bool Success, bool IsInWishlist)> ToggleWishlistItemAsync(string userId, int bookId);
     }
 
     public class WishlistService : IWishlistService
@@ -37,7 +38,7 @@ namespace BookStoreMVC.Services
         {
             var wishlistItems = await _context.WishlistItems
                 .Include(wi => wi.Book)
-                    .ThenInclude(b => b.Category)
+                .ThenInclude(b => b.Category)
                 .Include(wi => wi.Book.Reviews)
                 .Where(wi => wi.UserId == userId)
                 .OrderByDescending(wi => wi.CreatedAt)
@@ -135,7 +136,40 @@ namespace BookStoreMVC.Services
 
             return addedToCart;
         }
+ public async Task<(bool Success, bool IsInWishlist)> ToggleWishlistItemAsync(string userId, int bookId)
+        {
+            var book = await _context.Books
+                .AsNoTracking()
+                .Where(b => b.Id == bookId)
+                .Select(b => new { b.Id, b.IsActive })
+                .FirstOrDefaultAsync();
 
+            if (book == null || !book.IsActive)
+            {
+                return (false, false);
+            }
+
+            var existingItem = await _context.WishlistItems
+                .FirstOrDefaultAsync(wi => wi.UserId == userId && wi.BookId == bookId);
+
+            if (existingItem != null)
+            {
+                _context.WishlistItems.Remove(existingItem);
+                await _context.SaveChangesAsync();
+                return (true, false);
+            }
+
+            var wishlistItem = new WishListItem
+            {
+                UserId = userId,
+                BookId = bookId,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            _context.WishlistItems.Add(wishlistItem);
+            await _context.SaveChangesAsync();
+            return (true, true);
+        }
         private WishlistItemViewModel MapToViewModel(WishListItem wishlistItem)
         {
             return new WishlistItemViewModel
@@ -148,14 +182,44 @@ namespace BookStoreMVC.Services
                     Id = wishlistItem.Book.Id,
                     Title = wishlistItem.Book.Title,
                     Author = wishlistItem.Book.Author,
+                    Description = wishlistItem.Book.Description,
                     Price = wishlistItem.Book.Price,
                     DiscountPrice = wishlistItem.Book.DiscountPrice,
                     StockQuantity = wishlistItem.Book.StockQuantity,
-                    IsActive = wishlistItem.Book.IsActive,
+                    CategoryId = wishlistItem.Book.CategoryId,
                     Category = wishlistItem.Book.Category,
+                    Publisher = wishlistItem.Book.Publisher,
+                    PublishDate = wishlistItem.Book.PublishDate,
+                    Language = wishlistItem.Book.Language,
+                    PageCount = wishlistItem.Book.PageCount,
+                    ImageUrl = NormalizeImageUrl(wishlistItem.Book.ImageUrl),
+                    AdditionalImages = wishlistItem.Book.AdditionalImages,
+                    CreatedDate = wishlistItem.Book.CreatedAt,
+                    LastUpdatedDate = wishlistItem.Book.UpdatedAt,
+                    IsActive = wishlistItem.Book.IsActive,
                     Reviews = wishlistItem.Book.Reviews
                 }
             };
+        }
+         private static string? NormalizeImageUrl(string? imageUrl)
+        {
+            if (string.IsNullOrWhiteSpace(imageUrl))
+            {
+                return null;
+            }
+
+            if (imageUrl.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+            {
+                return imageUrl;
+            }
+
+            var trimmed = imageUrl.Trim();
+
+            // Ensure we only have a single leading slash
+            trimmed = trimmed.TrimStart('~');
+            trimmed = trimmed.StartsWith("/") ? trimmed : $"/{trimmed}";
+
+            return trimmed;
         }
     }
 }

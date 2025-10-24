@@ -114,9 +114,10 @@
                         
                         <!-- Book Image -->
                         <a asp-controller="Books" asp-action="Details" asp-route-id="@item.BookId">
-                            <img src="@(item.Book.ImageUrl ?? "/images/no-book-cover.png")" 
-                                 alt="@item.Book.Title" 
-                                 class="w-full h-64 object-cover hover:opacity-90 transition-opacity" />
+                            <img src="@Url.Content(item.Book.HasImage ? item.Book.ImageUrl! : item.Book.DefaultImageUrl)"
+                                 alt="@item.Book.Title"
+                                 class="w-full h-64 object-cover hover:opacity-90 transition-opacity"
+                                 loading="lazy" />
                         </a>
 
                         <!-- Remove Button -->
@@ -217,9 +218,10 @@
                         <!-- Book Image -->
                         <div class="flex-shrink-0">
                             <a asp-controller="Books" asp-action="Details" asp-route-id="@item.BookId">
-                                <img src="@(item.Book.ImageUrl ?? "/images/no-book-cover.png")" 
-                                     alt="@item.Book.Title" 
-                                     class="w-20 h-28 object-cover rounded shadow-sm hover:opacity-90 transition-opacity" />
+                                  <img src="@Url.Content(item.Book.HasImage ? item.Book.ImageUrl! : item.Book.DefaultImageUrl)"
+                                     alt="@item.Book.Title"
+                                     class="w-20 h-28 object-cover rounded shadow-sm hover:opacity-90 transition-opacity"
+                                     loading="lazy" />
                             </a>
                         </div>
 

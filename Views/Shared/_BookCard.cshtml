@@ -14,10 +14,10 @@
     <div
         class="book-card bg-white rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 h-full flex flex-col">
 
-        <!-- Book Image Container - Tỷ lệ 3:4 chuẩn cho bìa sách -->
+        <!-- Book Image Container -  Tỷ lệ 4:5 giúp hiển thị gọn gàng  -->
         <div class="book-image-container relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
             <a href="@Url.Action(isAdminContext ? "EditBook" : "Details", isAdminContext ? "Admin" : "Books", new { id = Model.Id })"
-                class="block aspect-[3/4] relative">
+              class="block aspect-[4/5] relative max-h-96 sm:max-h-80">
                 <img src="@Model.ImageUrl" alt="@Model.ImageAlt"
                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
 

@@ -41,7 +41,45 @@ namespace BookStoreMVC.Controllers
                 return View(new WishlistViewModel());
             }
         }
+[HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Toggle([FromBody] AddToWishlistViewModel? model)
+        {
+            try
+            {
+                if (model == null || model.BookId <= 0)
+                {
+                    return Json(new { success = false, message = "Invalid request" });
+                }
 
+                var userId = _userManager.GetUserId(User);
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return Json(new { success = false, message = "User not authenticated" });
+                }
+
+                var (success, isInWishlist) = await _wishlistService.ToggleWishlistItemAsync(userId, model.BookId);
+
+                if (!success)
+                {
+                    return Json(new { success = false, message = "Unable to update wishlist." });
+                }
+
+                var wishlistCount = await _wishlistService.GetWishlistItemCountAsync(userId);
+
+                return Json(new
+                {
+                    success = true,
+                    isInWishlist,
+                    wishlistCount
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error toggling wishlist item");
+                return Json(new { success = false, message = "An error occurred while updating wishlist." });
+            }
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddToWishlist(AddToWishlistViewModel model)

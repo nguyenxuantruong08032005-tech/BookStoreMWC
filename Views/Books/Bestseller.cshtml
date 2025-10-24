@@ -376,7 +376,7 @@
                             </div>
                         </header>
 
-                        <div class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+                        <div class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
                             @foreach (var book in books)
                             {
                                 @await Html.PartialAsync("~/Views/Shared/_BookCard.cshtml", book)
@@ -413,13 +413,17 @@
                                 @for (var page = 1; page <= viewModel.TotalPages; page++)
                                 {
                                     var isActive = page == viewModel.PageNumber;
+                                     var pageRoute = new Dictionary<string, string>(baseRouteValues, StringComparer.OrdinalIgnoreCase)
+                                    {
+                                        ["pageNumber"] = page.ToString(CultureInfo.InvariantCulture)
+                                    };
                                     <li>
-                                        <a asp-action="Bestseller">
-                                             asp-all-route-data="@(new Dictionary<string, string>(baseRouteValues, StringComparer.OrdinalIgnoreCase)
-                                               {
-                                                   ["pageNumber"] = page.ToString(CultureInfo.InvariantCulture)
-                                               })"
-                                        </a>
+                                           <a asp-action="Bestseller">
+                                           asp-all-route-data="@pageRoute"
+                                           class="px-4 py-2 rounded-full border text-sm font-semibold transition-all duration-150 @(isActive ? "bg-blue-600 text-white border-blue-600 shadow" : "border-gray-300 text-gray-700 hover:bg-gray-100")"
+                                           aria-current="@(isActive ? "page" : null)">
+                                            @(page.ToString(CultureInfo.InvariantCulture))
+                                    </a>
                                     </li>
                                 }
 

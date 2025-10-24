@@ -335,15 +335,42 @@
                 counter.classList.add('error');
             }
         }
+  function getElement(selector) {
+            return document.querySelector(selector);
+        }
+
+        function getValue(selector) {
+            const element = getElement(selector);
+            return element ? element.value : '';
+        }
+
+        function getChecked(selector) {
+            const element = getElement(selector);
+            return element ? element.checked : false;
+        }
+
+        function setValue(selector, value) {
+            const element = getElement(selector);
+            if (element) {
+                element.value = value;
+            }
+        }
+
+        function setChecked(selector, value) {
+            const element = getElement(selector);
+            if (element) {
+                element.checked = value;
+            }
+        }
 
         function saveDraft() {
             const formData = {
-                bookId: document.querySelector('[name="BookId"]').value,
+                bookId: getValue('[name="BookId"]'),
                 rating: currentRating,
-                title: document.querySelector('[name="Title"]').value,
-                comment: document.querySelector('[name="Comment"]').value,
-                wouldRecommend: document.querySelector('[name="WouldRecommend"]').checked,
-                readingContext: document.querySelector('[name="ReadingContext"]').value
+                title: getValue('[name="Title"]'),
+                comment: getValue('[name="Comment"]'),
+                wouldRecommend: getChecked('[name="WouldRecommend"]'),
+                readingContext: getValue('[name="ReadingContext"]')
             };
 
             localStorage.setItem(`review_draft_${formData.bookId}`, JSON.stringify(formData));
@@ -353,21 +380,21 @@
         }
 
         function loadDraft() {
-            const bookId = document.querySelector('[name="BookId"]').value;
+           const bookId = getValue('[name="BookId"]');
             const draft = localStorage.getItem(`review_draft_${bookId}`);
 
             if (draft && confirm('Bạn có muốn tải nháp đã lưu không?')) {
                 const data = JSON.parse(draft);
 
                 if (data.rating) setRating(data.rating);
-                if (data.title) document.querySelector('[name="Title"]').value = data.title;
+               if (data.title) setValue('[name="Title"]', data.title);
                 if (data.comment) {
-                    const commentField = document.querySelector('[name="Comment"]');
+                   const commentField = getElement('[name="Comment"]');
                     commentField.value = data.comment;
                     updateCharacterCount(commentField);
                 }
-                if (data.wouldRecommend) document.querySelector('[name="WouldRecommend"]').checked = data.wouldRecommend;
-                if (data.readingContext) document.querySelector('[name="ReadingContext"]').value = data.readingContext;
+                if (typeof data.wouldRecommend !== 'undefined') setChecked('[name="WouldRecommend"]', data.wouldRecommend);
+                if (data.readingContext) setValue('[name="ReadingContext"]', data.readingContext);
 
                 showNotification('Đã tải nháp thành công!', 'info');
             }
@@ -375,10 +402,9 @@
 
         function showPreview() {
             const rating = currentRating;
-            const title = document.querySelector('[name="Title"]').value;
-            const comment = document.querySelector('[name="Comment"]').value;
-            const wouldRecommend = document.querySelector('[name="WouldRecommend"]').checked;
-
+            const title = getValue('[name="Title"]');
+            const comment = getValue('[name="Comment"]');
+            const wouldRecommend = getChecked('[name="WouldRecommend"]');
             if (!rating || !comment.trim()) {
                 showNotification('Vui lòng điền đầy đủ đánh giá và nội dung!', 'error');
                 return;
