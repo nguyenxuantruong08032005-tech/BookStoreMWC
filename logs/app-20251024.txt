@@ -18416,3 +18416,870 @@ ORDER BY [c].[Name]
 2025-10-24 14:51:06.580 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/morning-books.jpg, Response status code: 404
 2025-10-24 14:51:06.584 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/note-taking.jpg, Response status code: 404
 2025-10-24 14:51:06.592 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/vietnamese-novels.jpg, Response status code: 404
+2025-10-24 14:58:09.626 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Blog - null null
+2025-10-24 14:58:09.630 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC)'
+2025-10-24 14:58:09.632 +07:00 [INF] Route matched with {action = "Index", controller = "Blog"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller BookStoreMVC.Controllers.BlogController (BookStoreMVC).
+2025-10-24 14:58:09.635 +07:00 [INF] Executing ViewResult, running view Index.
+2025-10-24 14:58:09.778 +07:00 [INF] Executed DbCommand (11ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 14:58:09.788 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 14:58:09.796 +07:00 [INF] Executed ViewResult - view Index executed in 160.9191ms.
+2025-10-24 14:58:09.799 +07:00 [INF] Executed action BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC) in 164.3387ms
+2025-10-24 14:58:09.802 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC)'
+2025-10-24 14:58:09.805 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Blog - 200 null text/html; charset=utf-8 179.2176ms
+2025-10-24 14:58:09.825 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/reading-habits.jpg - null null
+2025-10-24 14:58:09.828 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/vietnamese-novels.jpg - null null
+2025-10-24 14:58:09.828 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/note-taking.jpg - null null
+2025-10-24 14:58:09.828 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/morning-books.jpg - null null
+2025-10-24 14:58:09.829 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/reading-habits.jpg - 404 0 null 4.2281ms
+2025-10-24 14:58:09.833 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/vietnamese-novels.jpg - 404 0 null 5.8948ms
+2025-10-24 14:58:09.841 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/note-taking.jpg - 404 0 null 12.3798ms
+2025-10-24 14:58:09.845 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/morning-books.jpg - 404 0 null 17.0827ms
+2025-10-24 14:58:09.850 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/reading-habits.jpg, Response status code: 404
+2025-10-24 14:58:09.857 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/vietnamese-novels.jpg, Response status code: 404
+2025-10-24 14:58:09.864 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/note-taking.jpg, Response status code: 404
+2025-10-24 14:58:09.869 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/morning-books.jpg, Response status code: 404
+2025-10-24 15:46:41.916 +07:00 [INF] Application is shutting down...
+2025-10-24 15:47:14.155 +07:00 [INF] User profile is available. Using 'C:\Users\DELL\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-24 15:47:16.632 +07:00 [INF] Executed DbCommand (22ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-10-24 15:47:16.647 +07:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-10-24 15:47:16.690 +07:00 [INF] Executed DbCommand (35ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-10-24 15:47:16.777 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-10-24 15:47:16.800 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-10-24 15:47:16.807 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-10-24 15:47:16.818 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-10-24 15:47:16.834 +07:00 [INF] No migrations were applied. The database is already up to date.
+2025-10-24 15:47:16.844 +07:00 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_releaseapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session';
+SELECT @result
+2025-10-24 15:47:17.112 +07:00 [INF] Executed DbCommand (14ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-10-24 15:47:17.170 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-10-24 15:47:17.197 +07:00 [INF] Executed DbCommand (6ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2025-10-24 15:47:17.252 +07:00 [INF] ✅ Database initialized with admin user only.
+2025-10-24 15:47:17.261 +07:00 [INF] Database initialized successfully
+2025-10-24 15:47:17.357 +07:00 [INF] ==========================================
+2025-10-24 15:47:17.360 +07:00 [INF] BookStore Application Starting...
+2025-10-24 15:47:17.362 +07:00 [INF] Environment: Production
+2025-10-24 15:47:17.363 +07:00 [INF] Session Timeout: 7 days
+2025-10-24 15:47:17.365 +07:00 [INF] Guest Cart: Enabled
+2025-10-24 15:47:17.367 +07:00 [INF] ==========================================
+2025-10-24 15:47:17.460 +07:00 [INF] Now listening on: http://localhost:5000
+2025-10-24 15:47:17.463 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-24 15:47:17.465 +07:00 [INF] Hosting environment: Production
+2025-10-24 15:47:17.467 +07:00 [INF] Content root path: C:\Users\DELL\Desktop\Bán sách\BookStoreMWC
+2025-10-24 15:47:18.708 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/ - null null
+2025-10-24 15:47:18.715 +07:00 [WRN] Failed to determine the https port for redirect.
+2025-10-24 15:47:18.820 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.HomeController.Index (BookStoreMVC)'
+2025-10-24 15:47:18.847 +07:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller BookStoreMVC.Controllers.HomeController (BookStoreMVC).
+2025-10-24 15:47:19.087 +07:00 [INF] Executed DbCommand (27ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[AdditionalImages], [b0].[Author], [b0].[CategoryId], [b0].[CreatedAt], [b0].[Description], [b0].[DiscountPrice], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[Language], [b0].[PageCount], [b0].[Price], [b0].[PublishDate], [b0].[Publisher], [b0].[StockQuantity], [b0].[Title], [b0].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [r2].[Id], [r2].[BookId], [r2].[Comment], [r2].[CreatedAt], [r2].[IsApproved], [r2].[IsVerifiedPurchase], [r2].[Rating], [r2].[UserId]
+FROM (
+    SELECT TOP(@__p_0) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], (
+        SELECT COUNT(*)
+        FROM [Reviews] AS [r]
+        WHERE [b].[Id] = [r].[BookId]) AS [c], CASE
+        WHEN EXISTS (
+            SELECT 1
+            FROM [Reviews] AS [r0]
+            WHERE [b].[Id] = [r0].[BookId]) THEN (
+            SELECT AVG(CAST([r1].[Rating] AS float))
+            FROM [Reviews] AS [r1]
+            WHERE [b].[Id] = [r1].[BookId])
+        ELSE 0.0E0
+    END AS [c0]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[StockQuantity] > 0
+    ORDER BY (
+        SELECT COUNT(*)
+        FROM [Reviews] AS [r]
+        WHERE [b].[Id] = [r].[BookId]) DESC, CASE
+        WHEN EXISTS (
+            SELECT 1
+            FROM [Reviews] AS [r0]
+            WHERE [b].[Id] = [r0].[BookId]) THEN (
+            SELECT AVG(CAST([r1].[Rating] AS float))
+            FROM [Reviews] AS [r1]
+            WHERE [b].[Id] = [r1].[BookId])
+        ELSE 0.0E0
+    END DESC
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+LEFT JOIN [Reviews] AS [r2] ON [b0].[Id] = [r2].[BookId]
+ORDER BY [b0].[c] DESC, [b0].[c0] DESC, [b0].[Id], [c].[Id]
+2025-10-24 15:47:19.224 +07:00 [INF] Executed DbCommand (7ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[AdditionalImages], [b0].[Author], [b0].[CategoryId], [b0].[CreatedAt], [b0].[Description], [b0].[DiscountPrice], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[Language], [b0].[PageCount], [b0].[Price], [b0].[PublishDate], [b0].[Publisher], [b0].[StockQuantity], [b0].[Title], [b0].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId]
+FROM (
+    SELECT TOP(@__p_0) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[StockQuantity] > 0
+    ORDER BY [b].[CreatedAt] DESC
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+LEFT JOIN [Reviews] AS [r] ON [b0].[Id] = [r].[BookId]
+ORDER BY [b0].[CreatedAt] DESC, [b0].[Id], [c].[Id]
+2025-10-24 15:47:19.252 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-10-24 15:47:19.298 +07:00 [INF] Executed DbCommand (18ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[AdditionalImages], [b0].[Author], [b0].[CategoryId], [b0].[CreatedAt], [b0].[Description], [b0].[DiscountPrice], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[Language], [b0].[PageCount], [b0].[Price], [b0].[PublishDate], [b0].[Publisher], [b0].[StockQuantity], [b0].[Title], [b0].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId], [o0].[Id], [o0].[BookId], [o0].[OrderId], [o0].[Quantity], [o0].[Total], [o0].[UnitPrice]
+FROM (
+    SELECT TOP(@__p_0) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], (
+        SELECT COALESCE(SUM([o].[Quantity]), 0)
+        FROM [OrderItems] AS [o]
+        WHERE [b].[Id] = [o].[BookId]) AS [c]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[StockQuantity] > 0
+    ORDER BY (
+        SELECT COALESCE(SUM([o].[Quantity]), 0)
+        FROM [OrderItems] AS [o]
+        WHERE [b].[Id] = [o].[BookId]) DESC
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+LEFT JOIN [Reviews] AS [r] ON [b0].[Id] = [r].[BookId]
+LEFT JOIN [OrderItems] AS [o0] ON [b0].[Id] = [o0].[BookId]
+ORDER BY [b0].[c] DESC, [b0].[Id], [c].[Id], [r].[Id]
+2025-10-24 15:47:19.335 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 15:47:19.353 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [AspNetUsers] AS [a]
+2025-10-24 15:47:19.377 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [o].[Id], [o].[CreatedAt], [o].[Discount], [o].[PaymentId], [o].[ShippingInfoId], [o].[Status], [o].[SubTotal], [o].[Tax], [o].[Total], [o].[UserId]
+FROM [Orders] AS [o]
+WHERE [o].[Status] = 3
+2025-10-24 15:47:19.399 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Reviews] AS [r]
+WHERE [r].[IsApproved] = CAST(1 AS bit)
+2025-10-24 15:47:19.444 +07:00 [INF] Executed DbCommand (10ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [r0].[Id], [r0].[BookId], [r0].[Comment], [r0].[CreatedAt], [r0].[IsApproved], [r0].[IsVerifiedPurchase], [r0].[Rating], [r0].[UserId], [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName], [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM (
+    SELECT [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId]
+    FROM [Reviews] AS [r]
+    WHERE [r].[IsApproved] = CAST(1 AS bit)
+    ORDER BY [r].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [r0]
+INNER JOIN [AspNetUsers] AS [a] ON [r0].[UserId] = [a].[Id]
+INNER JOIN [Books] AS [b] ON [r0].[BookId] = [b].[Id]
+INNER JOIN [Categories] AS [c] ON [b].[CategoryId] = [c].[Id]
+ORDER BY [r0].[CreatedAt] DESC
+2025-10-24 15:47:19.483 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-10-24 15:47:19.519 +07:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [c0].[Id], [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], [c0].[CreatedAt], [c0].[Description], [c0].[ImageUrl], [c0].[IsActive], [c0].[Name], [c0].[ParentCategoryId], [c1].[Id], [c1].[CreatedAt], [c1].[Description], [c1].[ImageUrl], [c1].[IsActive], [c1].[Name], [c1].[ParentCategoryId]
+FROM [Categories] AS [c]
+LEFT JOIN [Categories] AS [c0] ON [c].[ParentCategoryId] = [c0].[Id]
+LEFT JOIN [Books] AS [b] ON [c].[Id] = [b].[CategoryId]
+LEFT JOIN [Categories] AS [c1] ON [c].[Id] = [c1].[ParentCategoryId]
+ORDER BY [c].[Name], [c].[Id], [c0].[Id], [b].[Id]
+2025-10-24 15:47:19.555 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Books] AS [b]
+WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[DiscountPrice] IS NOT NULL AND [b].[DiscountPrice] < [b].[Price]
+2025-10-24 15:47:19.581 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-10-24 15:47:19.626 +07:00 [INF] Executed DbCommand (11ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[AdditionalImages], [b0].[Author], [b0].[CategoryId], [b0].[CreatedAt], [b0].[Description], [b0].[DiscountPrice], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[Language], [b0].[PageCount], [b0].[Price], [b0].[PublishDate], [b0].[Publisher], [b0].[StockQuantity], [b0].[Title], [b0].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId], [o].[Id], [o].[BookId], [o].[OrderId], [o].[Quantity], [o].[Total], [o].[UnitPrice]
+FROM (
+    SELECT [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], CASE
+        WHEN [b].[DiscountPrice] IS NOT NULL THEN [b].[Price] - [b].[DiscountPrice]
+        ELSE 0.0
+    END AS [c], COALESCE([b].[DiscountPrice], [b].[Price]) AS [c0]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[DiscountPrice] IS NOT NULL AND [b].[DiscountPrice] < [b].[Price]
+    ORDER BY CASE
+        WHEN [b].[DiscountPrice] IS NOT NULL THEN [b].[Price] - [b].[DiscountPrice]
+        ELSE 0.0
+    END DESC, COALESCE([b].[DiscountPrice], [b].[Price])
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+LEFT JOIN [Reviews] AS [r] ON [b0].[Id] = [r].[BookId]
+LEFT JOIN [OrderItems] AS [o] ON [b0].[Id] = [o].[BookId]
+ORDER BY [b0].[c] DESC, [b0].[c0], [b0].[Id], [c].[Id], [r].[Id]
+2025-10-24 15:47:19.693 +07:00 [INF] Executing ViewResult, running view Index.
+2025-10-24 15:47:19.851 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 15:47:19.868 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 15:47:19.924 +07:00 [INF] Executed ViewResult - view Index executed in 231.7863ms.
+2025-10-24 15:47:19.931 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/css/output.css?v=YR0oZDuEY6GJkDXELbFPrMV0WcQ3SauY9qTKxDcI2S4 - null null
+2025-10-24 15:47:19.935 +07:00 [INF] Executed action BookStoreMVC.Controllers.HomeController.Index (BookStoreMVC) in 1082.9703ms
+2025-10-24 15:47:19.941 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.HomeController.Index (BookStoreMVC)'
+2025-10-24 15:47:19.944 +07:00 [INF] The file /css/output.css was not modified
+2025-10-24 15:47:19.949 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/css/output.css?v=YR0oZDuEY6GJkDXELbFPrMV0WcQ3SauY9qTKxDcI2S4 - 304 null text/css 16.7742ms
+2025-10-24 15:47:19.955 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/ - 200 null text/html; charset=utf-8 1250.3693ms
+2025-10-24 15:47:22.633 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Blog - null null
+2025-10-24 15:47:22.643 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC)'
+2025-10-24 15:47:22.649 +07:00 [INF] Route matched with {action = "Index", controller = "Blog"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller BookStoreMVC.Controllers.BlogController (BookStoreMVC).
+2025-10-24 15:47:22.664 +07:00 [INF] Executing ViewResult, running view Index.
+2025-10-24 15:47:22.740 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 15:47:22.748 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 15:47:22.758 +07:00 [INF] Executed ViewResult - view Index executed in 94.3597ms.
+2025-10-24 15:47:22.761 +07:00 [INF] Executed action BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC) in 103.7242ms
+2025-10-24 15:47:22.765 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC)'
+2025-10-24 15:47:22.768 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Blog - 200 null text/html; charset=utf-8 134.2417ms
+2025-10-24 15:47:22.781 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/reading-habits.jpg - null null
+2025-10-24 15:47:22.783 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/vietnamese-novels.jpg - null null
+2025-10-24 15:47:22.783 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/note-taking.jpg - null null
+2025-10-24 15:47:22.783 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/morning-books.jpg - null null
+2025-10-24 15:47:22.796 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/note-taking.jpg - 404 0 null 13.5918ms
+2025-10-24 15:47:22.796 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/reading-habits.jpg - 404 0 null 15.2369ms
+2025-10-24 15:47:22.797 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/morning-books.jpg - 404 0 null 13.2663ms
+2025-10-24 15:47:22.804 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/note-taking.jpg, Response status code: 404
+2025-10-24 15:47:22.806 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/vietnamese-novels.jpg - 404 0 null 23.6503ms
+2025-10-24 15:47:22.814 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/reading-habits.jpg, Response status code: 404
+2025-10-24 15:47:22.822 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/morning-books.jpg, Response status code: 404
+2025-10-24 15:47:22.833 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/vietnamese-novels.jpg, Response status code: 404
+2025-10-24 15:52:10.983 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Blog - null null
+2025-10-24 15:52:10.988 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC)'
+2025-10-24 15:52:10.990 +07:00 [INF] Route matched with {action = "Index", controller = "Blog"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller BookStoreMVC.Controllers.BlogController (BookStoreMVC).
+2025-10-24 15:52:10.996 +07:00 [INF] Executing ViewResult, running view Index.
+2025-10-24 15:52:11.003 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 15:52:11.011 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 15:52:11.019 +07:00 [INF] Executed ViewResult - view Index executed in 23.5577ms.
+2025-10-24 15:52:11.021 +07:00 [INF] Executed action BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC) in 26.1127ms
+2025-10-24 15:52:11.024 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC)'
+2025-10-24 15:52:11.026 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Blog - 200 null text/html; charset=utf-8 42.9624ms
+2025-10-24 15:52:11.038 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/vietnamese-novels.jpg - null null
+2025-10-24 15:52:11.038 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/reading-habits.jpg - null null
+2025-10-24 15:52:11.039 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/note-taking.jpg - null null
+2025-10-24 15:52:11.040 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/morning-books.jpg - null null
+2025-10-24 15:52:11.042 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/vietnamese-novels.jpg - 404 0 null 4.2119ms
+2025-10-24 15:52:11.045 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/reading-habits.jpg - 404 0 null 7.2018ms
+2025-10-24 15:52:11.049 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/note-taking.jpg - 404 0 null 9.2419ms
+2025-10-24 15:52:11.053 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/morning-books.jpg - 404 0 null 12.59ms
+2025-10-24 15:52:11.058 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/vietnamese-novels.jpg, Response status code: 404
+2025-10-24 15:52:11.063 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/reading-habits.jpg, Response status code: 404
+2025-10-24 15:52:11.065 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/note-taking.jpg, Response status code: 404
+2025-10-24 15:52:11.070 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/morning-books.jpg, Response status code: 404
+2025-10-24 15:52:11.095 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/BOOK.png?v=QztAXuOfgcsIJZg3XCCS1qK3ZFO0Q3cC8g9UFxPKzyQ - null null
+2025-10-24 15:52:11.100 +07:00 [INF] The file /BOOK.png was not modified
+2025-10-24 15:52:11.101 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/BOOK.png?v=QztAXuOfgcsIJZg3XCCS1qK3ZFO0Q3cC8g9UFxPKzyQ - 304 null image/png 6.2286ms
+2025-10-24 15:58:32.526 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Blog - null null
+2025-10-24 15:58:32.536 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC)'
+2025-10-24 15:58:32.537 +07:00 [INF] Route matched with {action = "Index", controller = "Blog"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller BookStoreMVC.Controllers.BlogController (BookStoreMVC).
+2025-10-24 15:58:32.539 +07:00 [INF] Executing ViewResult, running view Index.
+2025-10-24 15:58:32.614 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 15:58:32.620 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 15:58:32.622 +07:00 [INF] Executed ViewResult - view Index executed in 82.8938ms.
+2025-10-24 15:58:32.623 +07:00 [INF] Executed action BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC) in 84.4492ms
+2025-10-24 15:58:32.624 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC)'
+2025-10-24 15:58:32.626 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Blog - 200 null text/html; charset=utf-8 99.318ms
+2025-10-24 15:58:32.633 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/reading-habits.jpg - null null
+2025-10-24 15:58:32.635 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/reading-habits.jpg - 404 0 null 1.9ms
+2025-10-24 15:58:32.637 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/vietnamese-novels.jpg - null null
+2025-10-24 15:58:32.638 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/morning-books.jpg - null null
+2025-10-24 15:58:32.638 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/reading-habits.jpg, Response status code: 404
+2025-10-24 15:58:32.640 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/vietnamese-novels.jpg - 404 0 null 2.9725ms
+2025-10-24 15:58:32.641 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/morning-books.jpg - 404 0 null 3.6439ms
+2025-10-24 15:58:32.642 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/note-taking.jpg - null null
+2025-10-24 15:58:32.644 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/vietnamese-novels.jpg, Response status code: 404
+2025-10-24 15:58:32.645 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/morning-books.jpg, Response status code: 404
+2025-10-24 15:58:32.647 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/note-taking.jpg - 404 0 null 4.4013ms
+2025-10-24 15:58:32.650 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/note-taking.jpg, Response status code: 404
+2025-10-24 15:58:34.018 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Blog - null null
+2025-10-24 15:58:34.028 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC)'
+2025-10-24 15:58:34.030 +07:00 [INF] Route matched with {action = "Index", controller = "Blog"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller BookStoreMVC.Controllers.BlogController (BookStoreMVC).
+2025-10-24 15:58:34.035 +07:00 [INF] Executing ViewResult, running view Index.
+2025-10-24 15:58:34.038 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 15:58:34.040 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 15:58:34.042 +07:00 [INF] Executed ViewResult - view Index executed in 7.0986ms.
+2025-10-24 15:58:34.043 +07:00 [INF] Executed action BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC) in 8.3631ms
+2025-10-24 15:58:34.044 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC)'
+2025-10-24 15:58:34.044 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Blog - 200 null text/html; charset=utf-8 26.2389ms
+2025-10-24 15:58:34.056 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/vietnamese-novels.jpg - null null
+2025-10-24 15:58:34.056 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/reading-habits.jpg - null null
+2025-10-24 15:58:34.057 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/note-taking.jpg - null null
+2025-10-24 15:58:34.057 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/morning-books.jpg - null null
+2025-10-24 15:58:34.059 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/vietnamese-novels.jpg - 404 0 null 2.3829ms
+2025-10-24 15:58:34.060 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/reading-habits.jpg - 404 0 null 3.536ms
+2025-10-24 15:58:34.061 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/note-taking.jpg - 404 0 null 4.346ms
+2025-10-24 15:58:34.062 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/morning-books.jpg - 404 0 null 5.2733ms
+2025-10-24 15:58:34.065 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/vietnamese-novels.jpg, Response status code: 404
+2025-10-24 15:58:34.067 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/reading-habits.jpg, Response status code: 404
+2025-10-24 15:58:34.068 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/note-taking.jpg, Response status code: 404
+2025-10-24 15:58:34.070 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/morning-books.jpg, Response status code: 404
+2025-10-24 15:58:34.860 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Blog - null null
+2025-10-24 15:58:34.869 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC)'
+2025-10-24 15:58:34.871 +07:00 [INF] Route matched with {action = "Index", controller = "Blog"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller BookStoreMVC.Controllers.BlogController (BookStoreMVC).
+2025-10-24 15:58:34.875 +07:00 [INF] Executing ViewResult, running view Index.
+2025-10-24 15:58:34.878 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 15:58:34.884 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 15:58:34.888 +07:00 [INF] Executed ViewResult - view Index executed in 13.0947ms.
+2025-10-24 15:58:34.891 +07:00 [INF] Executed action BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC) in 15.7034ms
+2025-10-24 15:58:34.892 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC)'
+2025-10-24 15:58:34.893 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Blog - 200 null text/html; charset=utf-8 32.6691ms
+2025-10-24 15:58:34.899 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/reading-habits.jpg - null null
+2025-10-24 15:58:34.902 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/vietnamese-novels.jpg - null null
+2025-10-24 15:58:34.902 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/note-taking.jpg - null null
+2025-10-24 15:58:34.902 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/morning-books.jpg - null null
+2025-10-24 15:58:34.902 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/reading-habits.jpg - 404 0 null 2.7596ms
+2025-10-24 15:58:34.904 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/vietnamese-novels.jpg - 404 0 null 1.814ms
+2025-10-24 15:58:34.905 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/note-taking.jpg - 404 0 null 2.8443ms
+2025-10-24 15:58:34.906 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/morning-books.jpg - 404 0 null 3.9253ms
+2025-10-24 15:58:34.907 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/reading-habits.jpg, Response status code: 404
+2025-10-24 15:58:34.908 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/vietnamese-novels.jpg, Response status code: 404
+2025-10-24 15:58:34.910 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/note-taking.jpg, Response status code: 404
+2025-10-24 15:58:34.911 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/morning-books.jpg, Response status code: 404
+2025-10-24 15:58:35.310 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Blog - null null
+2025-10-24 15:58:35.321 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC)'
+2025-10-24 15:58:35.323 +07:00 [INF] Route matched with {action = "Index", controller = "Blog"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller BookStoreMVC.Controllers.BlogController (BookStoreMVC).
+2025-10-24 15:58:35.325 +07:00 [INF] Executing ViewResult, running view Index.
+2025-10-24 15:58:35.327 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 15:58:35.331 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 15:58:35.333 +07:00 [INF] Executed ViewResult - view Index executed in 8.7677ms.
+2025-10-24 15:58:35.334 +07:00 [INF] Executed action BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC) in 9.5793ms
+2025-10-24 15:58:35.335 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC)'
+2025-10-24 15:58:35.336 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Blog - 200 null text/html; charset=utf-8 25.6609ms
+2025-10-24 15:58:35.343 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/reading-habits.jpg - null null
+2025-10-24 15:58:35.343 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/vietnamese-novels.jpg - null null
+2025-10-24 15:58:35.343 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/note-taking.jpg - null null
+2025-10-24 15:58:35.343 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/morning-books.jpg - null null
+2025-10-24 15:58:35.346 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/reading-habits.jpg - 404 0 null 2.6671ms
+2025-10-24 15:58:35.348 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/vietnamese-novels.jpg - 404 0 null 4.8341ms
+2025-10-24 15:58:35.350 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/note-taking.jpg - 404 0 null 6.4045ms
+2025-10-24 15:58:35.351 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/morning-books.jpg - 404 0 null 7.9604ms
+2025-10-24 15:58:35.352 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/reading-habits.jpg, Response status code: 404
+2025-10-24 15:58:35.354 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/vietnamese-novels.jpg, Response status code: 404
+2025-10-24 15:58:35.355 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/note-taking.jpg, Response status code: 404
+2025-10-24 15:58:35.356 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/morning-books.jpg, Response status code: 404
+2025-10-24 15:59:05.822 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Blog - null null
+2025-10-24 15:59:05.827 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC)'
+2025-10-24 15:59:05.828 +07:00 [INF] Route matched with {action = "Index", controller = "Blog"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller BookStoreMVC.Controllers.BlogController (BookStoreMVC).
+2025-10-24 15:59:05.830 +07:00 [INF] Executing ViewResult, running view Index.
+2025-10-24 15:59:05.833 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 15:59:05.836 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 15:59:05.840 +07:00 [INF] Executed ViewResult - view Index executed in 9.7468ms.
+2025-10-24 15:59:05.842 +07:00 [INF] Executed action BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC) in 12.5795ms
+2025-10-24 15:59:05.843 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC)'
+2025-10-24 15:59:05.844 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Blog - 200 null text/html; charset=utf-8 22.0772ms
+2025-10-24 15:59:05.850 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/reading-habits.jpg - null null
+2025-10-24 15:59:05.850 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/note-taking.jpg - null null
+2025-10-24 15:59:05.850 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/vietnamese-novels.jpg - null null
+2025-10-24 15:59:05.850 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/morning-books.jpg - null null
+2025-10-24 15:59:05.852 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/reading-habits.jpg - 404 0 null 2.0772ms
+2025-10-24 15:59:05.853 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/note-taking.jpg - 404 0 null 2.3481ms
+2025-10-24 15:59:05.856 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/vietnamese-novels.jpg - 404 0 null 6.0931ms
+2025-10-24 15:59:05.858 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/morning-books.jpg - 404 0 null 7.8017ms
+2025-10-24 15:59:05.859 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/reading-habits.jpg, Response status code: 404
+2025-10-24 15:59:05.861 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/note-taking.jpg, Response status code: 404
+2025-10-24 15:59:05.862 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/vietnamese-novels.jpg, Response status code: 404
+2025-10-24 15:59:05.863 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/morning-books.jpg, Response status code: 404
+2025-10-24 15:59:06.902 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Blog - null null
+2025-10-24 15:59:06.911 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC)'
+2025-10-24 15:59:06.912 +07:00 [INF] Route matched with {action = "Index", controller = "Blog"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller BookStoreMVC.Controllers.BlogController (BookStoreMVC).
+2025-10-24 15:59:06.913 +07:00 [INF] Executing ViewResult, running view Index.
+2025-10-24 15:59:06.916 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 15:59:06.919 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 15:59:06.922 +07:00 [INF] Executed ViewResult - view Index executed in 8.754ms.
+2025-10-24 15:59:06.923 +07:00 [INF] Executed action BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC) in 10.082ms
+2025-10-24 15:59:06.924 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC)'
+2025-10-24 15:59:06.925 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Blog - 200 null text/html; charset=utf-8 22.8102ms
+2025-10-24 15:59:06.932 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/reading-habits.jpg - null null
+2025-10-24 15:59:06.932 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/vietnamese-novels.jpg - null null
+2025-10-24 15:59:06.932 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/note-taking.jpg - null null
+2025-10-24 15:59:06.932 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/morning-books.jpg - null null
+2025-10-24 15:59:06.933 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/reading-habits.jpg - 404 0 null 1.4149ms
+2025-10-24 15:59:06.934 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/vietnamese-novels.jpg - 404 0 null 2.5137ms
+2025-10-24 15:59:06.935 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/note-taking.jpg - 404 0 null 3.4827ms
+2025-10-24 15:59:06.939 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/morning-books.jpg - 404 0 null 7.0027ms
+2025-10-24 15:59:06.940 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/reading-habits.jpg, Response status code: 404
+2025-10-24 15:59:06.941 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/vietnamese-novels.jpg, Response status code: 404
+2025-10-24 15:59:06.943 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/note-taking.jpg, Response status code: 404
+2025-10-24 15:59:06.944 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/morning-books.jpg, Response status code: 404
+2025-10-24 16:03:14.268 +07:00 [INF] Application is shutting down...
+2025-10-24 16:03:42.620 +07:00 [INF] User profile is available. Using 'C:\Users\DELL\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-24 16:03:43.512 +07:00 [INF] Executed DbCommand (20ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-10-24 16:03:43.528 +07:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-10-24 16:03:43.554 +07:00 [INF] Executed DbCommand (20ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-10-24 16:03:43.614 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-10-24 16:03:43.631 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-10-24 16:03:43.635 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-10-24 16:03:43.640 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-10-24 16:03:43.651 +07:00 [INF] No migrations were applied. The database is already up to date.
+2025-10-24 16:03:43.655 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_releaseapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session';
+SELECT @result
+2025-10-24 16:03:43.871 +07:00 [INF] Executed DbCommand (11ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-10-24 16:03:43.914 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-10-24 16:03:43.931 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2025-10-24 16:03:43.970 +07:00 [INF] ✅ Database initialized with admin user only.
+2025-10-24 16:03:43.975 +07:00 [INF] Database initialized successfully
+2025-10-24 16:03:44.049 +07:00 [INF] ==========================================
+2025-10-24 16:03:44.052 +07:00 [INF] BookStore Application Starting...
+2025-10-24 16:03:44.053 +07:00 [INF] Environment: Production
+2025-10-24 16:03:44.053 +07:00 [INF] Session Timeout: 7 days
+2025-10-24 16:03:44.054 +07:00 [INF] Guest Cart: Enabled
+2025-10-24 16:03:44.054 +07:00 [INF] ==========================================
+2025-10-24 16:03:44.126 +07:00 [INF] Now listening on: http://localhost:5000
+2025-10-24 16:03:44.129 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-24 16:03:44.130 +07:00 [INF] Hosting environment: Production
+2025-10-24 16:03:44.131 +07:00 [INF] Content root path: C:\Users\DELL\Desktop\Bán sách\BookStoreMWC
+2025-10-24 16:03:48.071 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/ - null null
+2025-10-24 16:03:48.078 +07:00 [WRN] Failed to determine the https port for redirect.
+2025-10-24 16:03:48.127 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.HomeController.Index (BookStoreMVC)'
+2025-10-24 16:03:48.140 +07:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller BookStoreMVC.Controllers.HomeController (BookStoreMVC).
+2025-10-24 16:03:48.298 +07:00 [INF] Executed DbCommand (19ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[AdditionalImages], [b0].[Author], [b0].[CategoryId], [b0].[CreatedAt], [b0].[Description], [b0].[DiscountPrice], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[Language], [b0].[PageCount], [b0].[Price], [b0].[PublishDate], [b0].[Publisher], [b0].[StockQuantity], [b0].[Title], [b0].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [r2].[Id], [r2].[BookId], [r2].[Comment], [r2].[CreatedAt], [r2].[IsApproved], [r2].[IsVerifiedPurchase], [r2].[Rating], [r2].[UserId]
+FROM (
+    SELECT TOP(@__p_0) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], (
+        SELECT COUNT(*)
+        FROM [Reviews] AS [r]
+        WHERE [b].[Id] = [r].[BookId]) AS [c], CASE
+        WHEN EXISTS (
+            SELECT 1
+            FROM [Reviews] AS [r0]
+            WHERE [b].[Id] = [r0].[BookId]) THEN (
+            SELECT AVG(CAST([r1].[Rating] AS float))
+            FROM [Reviews] AS [r1]
+            WHERE [b].[Id] = [r1].[BookId])
+        ELSE 0.0E0
+    END AS [c0]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[StockQuantity] > 0
+    ORDER BY (
+        SELECT COUNT(*)
+        FROM [Reviews] AS [r]
+        WHERE [b].[Id] = [r].[BookId]) DESC, CASE
+        WHEN EXISTS (
+            SELECT 1
+            FROM [Reviews] AS [r0]
+            WHERE [b].[Id] = [r0].[BookId]) THEN (
+            SELECT AVG(CAST([r1].[Rating] AS float))
+            FROM [Reviews] AS [r1]
+            WHERE [b].[Id] = [r1].[BookId])
+        ELSE 0.0E0
+    END DESC
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+LEFT JOIN [Reviews] AS [r2] ON [b0].[Id] = [r2].[BookId]
+ORDER BY [b0].[c] DESC, [b0].[c0] DESC, [b0].[Id], [c].[Id]
+2025-10-24 16:03:48.402 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[AdditionalImages], [b0].[Author], [b0].[CategoryId], [b0].[CreatedAt], [b0].[Description], [b0].[DiscountPrice], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[Language], [b0].[PageCount], [b0].[Price], [b0].[PublishDate], [b0].[Publisher], [b0].[StockQuantity], [b0].[Title], [b0].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId]
+FROM (
+    SELECT TOP(@__p_0) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[StockQuantity] > 0
+    ORDER BY [b].[CreatedAt] DESC
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+LEFT JOIN [Reviews] AS [r] ON [b0].[Id] = [r].[BookId]
+ORDER BY [b0].[CreatedAt] DESC, [b0].[Id], [c].[Id]
+2025-10-24 16:03:48.427 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-10-24 16:03:48.462 +07:00 [INF] Executed DbCommand (12ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[AdditionalImages], [b0].[Author], [b0].[CategoryId], [b0].[CreatedAt], [b0].[Description], [b0].[DiscountPrice], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[Language], [b0].[PageCount], [b0].[Price], [b0].[PublishDate], [b0].[Publisher], [b0].[StockQuantity], [b0].[Title], [b0].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId], [o0].[Id], [o0].[BookId], [o0].[OrderId], [o0].[Quantity], [o0].[Total], [o0].[UnitPrice]
+FROM (
+    SELECT TOP(@__p_0) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], (
+        SELECT COALESCE(SUM([o].[Quantity]), 0)
+        FROM [OrderItems] AS [o]
+        WHERE [b].[Id] = [o].[BookId]) AS [c]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[StockQuantity] > 0
+    ORDER BY (
+        SELECT COALESCE(SUM([o].[Quantity]), 0)
+        FROM [OrderItems] AS [o]
+        WHERE [b].[Id] = [o].[BookId]) DESC
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+LEFT JOIN [Reviews] AS [r] ON [b0].[Id] = [r].[BookId]
+LEFT JOIN [OrderItems] AS [o0] ON [b0].[Id] = [o0].[BookId]
+ORDER BY [b0].[c] DESC, [b0].[Id], [c].[Id], [r].[Id]
+2025-10-24 16:03:48.488 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 16:03:48.502 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [AspNetUsers] AS [a]
+2025-10-24 16:03:48.518 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [o].[Id], [o].[CreatedAt], [o].[Discount], [o].[PaymentId], [o].[ShippingInfoId], [o].[Status], [o].[SubTotal], [o].[Tax], [o].[Total], [o].[UserId]
+FROM [Orders] AS [o]
+WHERE [o].[Status] = 3
+2025-10-24 16:03:48.532 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Reviews] AS [r]
+WHERE [r].[IsApproved] = CAST(1 AS bit)
+2025-10-24 16:03:48.561 +07:00 [INF] Executed DbCommand (4ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [r0].[Id], [r0].[BookId], [r0].[Comment], [r0].[CreatedAt], [r0].[IsApproved], [r0].[IsVerifiedPurchase], [r0].[Rating], [r0].[UserId], [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName], [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM (
+    SELECT [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId]
+    FROM [Reviews] AS [r]
+    WHERE [r].[IsApproved] = CAST(1 AS bit)
+    ORDER BY [r].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [r0]
+INNER JOIN [AspNetUsers] AS [a] ON [r0].[UserId] = [a].[Id]
+INNER JOIN [Books] AS [b] ON [r0].[BookId] = [b].[Id]
+INNER JOIN [Categories] AS [c] ON [b].[CategoryId] = [c].[Id]
+ORDER BY [r0].[CreatedAt] DESC
+2025-10-24 16:03:48.580 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-10-24 16:03:48.606 +07:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [c0].[Id], [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], [c0].[CreatedAt], [c0].[Description], [c0].[ImageUrl], [c0].[IsActive], [c0].[Name], [c0].[ParentCategoryId], [c1].[Id], [c1].[CreatedAt], [c1].[Description], [c1].[ImageUrl], [c1].[IsActive], [c1].[Name], [c1].[ParentCategoryId]
+FROM [Categories] AS [c]
+LEFT JOIN [Categories] AS [c0] ON [c].[ParentCategoryId] = [c0].[Id]
+LEFT JOIN [Books] AS [b] ON [c].[Id] = [b].[CategoryId]
+LEFT JOIN [Categories] AS [c1] ON [c].[Id] = [c1].[ParentCategoryId]
+ORDER BY [c].[Name], [c].[Id], [c0].[Id], [b].[Id]
+2025-10-24 16:03:48.629 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Books] AS [b]
+WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[DiscountPrice] IS NOT NULL AND [b].[DiscountPrice] < [b].[Price]
+2025-10-24 16:03:48.644 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-10-24 16:03:48.673 +07:00 [INF] Executed DbCommand (7ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[AdditionalImages], [b0].[Author], [b0].[CategoryId], [b0].[CreatedAt], [b0].[Description], [b0].[DiscountPrice], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[Language], [b0].[PageCount], [b0].[Price], [b0].[PublishDate], [b0].[Publisher], [b0].[StockQuantity], [b0].[Title], [b0].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId], [o].[Id], [o].[BookId], [o].[OrderId], [o].[Quantity], [o].[Total], [o].[UnitPrice]
+FROM (
+    SELECT [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], CASE
+        WHEN [b].[DiscountPrice] IS NOT NULL THEN [b].[Price] - [b].[DiscountPrice]
+        ELSE 0.0
+    END AS [c], COALESCE([b].[DiscountPrice], [b].[Price]) AS [c0]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[DiscountPrice] IS NOT NULL AND [b].[DiscountPrice] < [b].[Price]
+    ORDER BY CASE
+        WHEN [b].[DiscountPrice] IS NOT NULL THEN [b].[Price] - [b].[DiscountPrice]
+        ELSE 0.0
+    END DESC, COALESCE([b].[DiscountPrice], [b].[Price])
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+LEFT JOIN [Reviews] AS [r] ON [b0].[Id] = [r].[BookId]
+LEFT JOIN [OrderItems] AS [o] ON [b0].[Id] = [o].[BookId]
+ORDER BY [b0].[c] DESC, [b0].[c0], [b0].[Id], [c].[Id], [r].[Id]
+2025-10-24 16:03:48.716 +07:00 [INF] Executing ViewResult, running view Index.
+2025-10-24 16:03:48.823 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 16:03:48.833 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 16:03:48.872 +07:00 [INF] Executed ViewResult - view Index executed in 154.9008ms.
+2025-10-24 16:03:48.879 +07:00 [INF] Executed action BookStoreMVC.Controllers.HomeController.Index (BookStoreMVC) in 733.2996ms
+2025-10-24 16:03:48.881 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.HomeController.Index (BookStoreMVC)'
+2025-10-24 16:03:48.892 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/ - 200 null text/html; charset=utf-8 821.6591ms
+2025-10-24 16:03:51.772 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Blog - null null
+2025-10-24 16:03:51.782 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC)'
+2025-10-24 16:03:51.787 +07:00 [INF] Route matched with {action = "Index", controller = "Blog"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller BookStoreMVC.Controllers.BlogController (BookStoreMVC).
+2025-10-24 16:03:51.793 +07:00 [INF] Executing ViewResult, running view Index.
+2025-10-24 16:03:51.863 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 16:03:51.871 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 16:03:51.879 +07:00 [INF] Executed ViewResult - view Index executed in 86.4197ms.
+2025-10-24 16:03:51.882 +07:00 [INF] Executed action BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC) in 92.4032ms
+2025-10-24 16:03:51.883 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC)'
+2025-10-24 16:03:51.885 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Blog - 200 null text/html; charset=utf-8 112.8562ms
+2025-10-24 16:03:51.893 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/reading-habits.jpg - null null
+2025-10-24 16:03:51.898 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/vietnamese-novels.jpg - null null
+2025-10-24 16:03:51.898 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/note-taking.jpg - null null
+2025-10-24 16:03:51.898 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/morning-books.jpg - null null
+2025-10-24 16:03:51.906 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/morning-books.jpg - 404 0 null 7.8353ms
+2025-10-24 16:03:51.906 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/note-taking.jpg - 404 0 null 8.2208ms
+2025-10-24 16:03:51.910 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/morning-books.jpg, Response status code: 404
+2025-10-24 16:03:51.910 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/note-taking.jpg, Response status code: 404
+2025-10-24 16:03:51.923 +07:00 [INF] Sending file. Request path: '/images/blog/reading-habits.jpg'. Physical path: 'C:\Users\DELL\Desktop\Bán sách\BookStoreMWC\wwwroot\images\blog\reading-habits.jpg'
+2025-10-24 16:03:51.924 +07:00 [INF] Sending file. Request path: '/images/blog/vietnamese-novels.jpg'. Physical path: 'C:\Users\DELL\Desktop\Bán sách\BookStoreMWC\wwwroot\images\blog\vietnamese-novels.jpg'
+2025-10-24 16:03:51.926 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/reading-habits.jpg - 200 14909 image/jpeg 32.7831ms
+2025-10-24 16:03:51.927 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/vietnamese-novels.jpg - 200 160456 image/jpeg 29.5847ms
+2025-10-24 16:05:30.792 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Blog - null null
+2025-10-24 16:05:30.800 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC)'
+2025-10-24 16:05:30.804 +07:00 [INF] Route matched with {action = "Index", controller = "Blog"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller BookStoreMVC.Controllers.BlogController (BookStoreMVC).
+2025-10-24 16:05:30.810 +07:00 [INF] Executing ViewResult, running view Index.
+2025-10-24 16:05:30.817 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 16:05:30.823 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 16:05:30.830 +07:00 [INF] Executed ViewResult - view Index executed in 19.9749ms.
+2025-10-24 16:05:30.831 +07:00 [INF] Executed action BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC) in 21.6204ms
+2025-10-24 16:05:30.832 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC)'
+2025-10-24 16:05:30.833 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Blog - 200 null text/html; charset=utf-8 41.2367ms
+2025-10-24 16:05:30.843 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/reading-habits.jpg - null null
+2025-10-24 16:05:30.846 +07:00 [INF] The file /images/blog/reading-habits.jpg was not modified
+2025-10-24 16:05:30.846 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/vietnamese-novels.jpg - null null
+2025-10-24 16:05:30.846 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/note-taking.jpg - null null
+2025-10-24 16:05:30.847 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/morning-books.jpg - null null
+2025-10-24 16:05:30.847 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/reading-habits.jpg - 304 null image/jpeg 3.9805ms
+2025-10-24 16:05:30.848 +07:00 [INF] The file /images/blog/vietnamese-novels.jpg was not modified
+2025-10-24 16:05:30.851 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/morning-books.jpg - 404 0 null 4.8058ms
+2025-10-24 16:05:30.852 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/vietnamese-novels.jpg - 304 null image/jpeg 6.1222ms
+2025-10-24 16:05:30.855 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/images/blog/morning-books.jpg, Response status code: 404
+2025-10-24 16:05:30.860 +07:00 [INF] Sending file. Request path: '/images/blog/note-taking.jpg'. Physical path: 'C:\Users\DELL\Desktop\Bán sách\BookStoreMWC\wwwroot\images\blog\note-taking.jpg'
+2025-10-24 16:05:30.862 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/note-taking.jpg - 200 7149 image/jpeg 15.2004ms
+2025-10-24 16:06:29.026 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Blog - null null
+2025-10-24 16:06:29.029 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC)'
+2025-10-24 16:06:29.029 +07:00 [INF] Route matched with {action = "Index", controller = "Blog"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller BookStoreMVC.Controllers.BlogController (BookStoreMVC).
+2025-10-24 16:06:29.030 +07:00 [INF] Executing ViewResult, running view Index.
+2025-10-24 16:06:29.033 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 16:06:29.036 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 16:06:29.041 +07:00 [INF] Executed ViewResult - view Index executed in 10.8977ms.
+2025-10-24 16:06:29.043 +07:00 [INF] Executed action BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC) in 12.5627ms
+2025-10-24 16:06:29.044 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC)'
+2025-10-24 16:06:29.045 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Blog - 200 null text/html; charset=utf-8 18.593ms
+2025-10-24 16:06:29.051 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/reading-habits.jpg - null null
+2025-10-24 16:06:29.051 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/vietnamese-novels.jpg - null null
+2025-10-24 16:06:29.052 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/note-taking.jpg - null null
+2025-10-24 16:06:29.052 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/morning-books.jpg - null null
+2025-10-24 16:06:29.053 +07:00 [INF] The file /images/blog/reading-habits.jpg was not modified
+2025-10-24 16:06:29.054 +07:00 [INF] The file /images/blog/vietnamese-novels.jpg was not modified
+2025-10-24 16:06:29.056 +07:00 [INF] The file /images/blog/note-taking.jpg was not modified
+2025-10-24 16:06:29.058 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/reading-habits.jpg - 304 null image/jpeg 6.7017ms
+2025-10-24 16:06:29.059 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/vietnamese-novels.jpg - 304 null image/jpeg 7.3907ms
+2025-10-24 16:06:29.060 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/note-taking.jpg - 304 null image/jpeg 7.6404ms
+2025-10-24 16:06:29.069 +07:00 [INF] Sending file. Request path: '/images/blog/morning-books.jpg'. Physical path: 'C:\Users\DELL\Desktop\Bán sách\BookStoreMWC\wwwroot\images\blog\morning-books.jpg'
+2025-10-24 16:06:29.070 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/morning-books.jpg - 200 40973 image/jpeg 18.2417ms
+2025-10-24 16:06:45.603 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Books/NewBooks - null null
+2025-10-24 16:06:45.613 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.BooksController.NewBooks (BookStoreMVC)'
+2025-10-24 16:06:45.633 +07:00 [INF] Route matched with {action = "NewBooks", controller = "Books"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] NewBooks(System.String, System.String, Int32) on controller BookStoreMVC.Controllers.BooksController (BookStoreMVC).
+2025-10-24 16:06:45.667 +07:00 [INF] Executed DbCommand (3ms) [Parameters=[@__createdAfter_0='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Books] AS [b]
+WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[CreatedAt] >= @__createdAfter_0
+2025-10-24 16:06:45.681 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-10-24 16:06:45.706 +07:00 [INF] Executed DbCommand (6ms) [Parameters=[@__createdAfter_0='?' (DbType = DateTime2), @__p_1='?' (DbType = Int32), @__p_2='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[AdditionalImages], [b0].[Author], [b0].[CategoryId], [b0].[CreatedAt], [b0].[Description], [b0].[DiscountPrice], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[Language], [b0].[PageCount], [b0].[Price], [b0].[PublishDate], [b0].[Publisher], [b0].[StockQuantity], [b0].[Title], [b0].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId], [o].[Id], [o].[BookId], [o].[OrderId], [o].[Quantity], [o].[Total], [o].[UnitPrice]
+FROM (
+    SELECT [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[CreatedAt] >= @__createdAfter_0
+    ORDER BY [b].[CreatedAt] DESC
+    OFFSET @__p_1 ROWS FETCH NEXT @__p_2 ROWS ONLY
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+LEFT JOIN [Reviews] AS [r] ON [b0].[Id] = [r].[BookId]
+LEFT JOIN [OrderItems] AS [o] ON [b0].[Id] = [o].[BookId]
+ORDER BY [b0].[CreatedAt] DESC, [b0].[Id], [c].[Id], [r].[Id]
+2025-10-24 16:06:45.717 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 16:06:45.723 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [c0].[Id], [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], [c0].[CreatedAt], [c0].[Description], [c0].[ImageUrl], [c0].[IsActive], [c0].[Name], [c0].[ParentCategoryId], [c1].[Id], [c1].[CreatedAt], [c1].[Description], [c1].[ImageUrl], [c1].[IsActive], [c1].[Name], [c1].[ParentCategoryId]
+FROM [Categories] AS [c]
+LEFT JOIN [Categories] AS [c0] ON [c].[ParentCategoryId] = [c0].[Id]
+LEFT JOIN [Books] AS [b] ON [c].[Id] = [b].[CategoryId]
+LEFT JOIN [Categories] AS [c1] ON [c].[Id] = [c1].[ParentCategoryId]
+ORDER BY [c].[Name], [c].[Id], [c0].[Id], [b].[Id]
+2025-10-24 16:06:45.729 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[AdditionalImages], [b0].[Author], [b0].[CategoryId], [b0].[CreatedAt], [b0].[Description], [b0].[DiscountPrice], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[Language], [b0].[PageCount], [b0].[Price], [b0].[PublishDate], [b0].[Publisher], [b0].[StockQuantity], [b0].[Title], [b0].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId]
+FROM (
+    SELECT TOP(@__p_0) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[StockQuantity] > 0
+    ORDER BY [b].[CreatedAt] DESC
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+LEFT JOIN [Reviews] AS [r] ON [b0].[Id] = [r].[BookId]
+ORDER BY [b0].[CreatedAt] DESC, [b0].[Id], [c].[Id]
+2025-10-24 16:06:45.734 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__createdAfter_0='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Books] AS [b]
+WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[CreatedAt] >= @__createdAfter_0
+2025-10-24 16:06:45.737 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__createdAfter_0='?' (DbType = DateTime2), @__p_1='?' (DbType = Int32), @__p_2='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[AdditionalImages], [b0].[Author], [b0].[CategoryId], [b0].[CreatedAt], [b0].[Description], [b0].[DiscountPrice], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[Language], [b0].[PageCount], [b0].[Price], [b0].[PublishDate], [b0].[Publisher], [b0].[StockQuantity], [b0].[Title], [b0].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId], [o].[Id], [o].[BookId], [o].[OrderId], [o].[Quantity], [o].[Total], [o].[UnitPrice]
+FROM (
+    SELECT [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[CreatedAt] >= @__createdAfter_0
+    ORDER BY [b].[CreatedAt] DESC
+    OFFSET @__p_1 ROWS FETCH NEXT @__p_2 ROWS ONLY
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+LEFT JOIN [Reviews] AS [r] ON [b0].[Id] = [r].[BookId]
+LEFT JOIN [OrderItems] AS [o] ON [b0].[Id] = [o].[BookId]
+ORDER BY [b0].[CreatedAt] DESC, [b0].[Id], [c].[Id], [r].[Id]
+2025-10-24 16:06:45.745 +07:00 [INF] Executing ViewResult, running view NewBooks.
+2025-10-24 16:06:45.761 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 16:06:45.764 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 16:06:45.767 +07:00 [INF] Executed ViewResult - view NewBooks executed in 23.0905ms.
+2025-10-24 16:06:45.768 +07:00 [INF] Executed action BookStoreMVC.Controllers.BooksController.NewBooks (BookStoreMVC) in 127.2261ms
+2025-10-24 16:06:45.769 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.BooksController.NewBooks (BookStoreMVC)'
+2025-10-24 16:06:45.769 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Books/NewBooks - 200 null text/html; charset=utf-8 166.0982ms
+2025-10-24 16:06:49.308 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/Blog - null null
+2025-10-24 16:06:49.315 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC)'
+2025-10-24 16:06:49.317 +07:00 [INF] Route matched with {action = "Index", controller = "Blog"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller BookStoreMVC.Controllers.BlogController (BookStoreMVC).
+2025-10-24 16:06:49.319 +07:00 [INF] Executing ViewResult, running view Index.
+2025-10-24 16:06:49.322 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 16:06:49.327 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 16:06:49.330 +07:00 [INF] Executed ViewResult - view Index executed in 11.2172ms.
+2025-10-24 16:06:49.331 +07:00 [INF] Executed action BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC) in 12.2803ms
+2025-10-24 16:06:49.332 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.BlogController.Index (BookStoreMVC)'
+2025-10-24 16:06:49.333 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/Blog - 200 null text/html; charset=utf-8 24.4916ms
+2025-10-24 16:06:49.344 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/note-taking.jpg - null null
+2025-10-24 16:06:49.346 +07:00 [INF] The file /images/blog/note-taking.jpg was not modified
+2025-10-24 16:06:49.346 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/images/blog/morning-books.jpg - null null
+2025-10-24 16:06:49.347 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/note-taking.jpg - 304 null image/jpeg 2.6492ms
+2025-10-24 16:06:49.348 +07:00 [INF] The file /images/blog/morning-books.jpg was not modified
+2025-10-24 16:06:49.349 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/images/blog/morning-books.jpg - 304 null image/jpeg 3.0348ms
+2025-10-24 16:07:25.515 +07:00 [INF] Application is shutting down...
