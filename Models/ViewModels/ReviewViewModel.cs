@@ -12,11 +12,37 @@ namespace BookStoreMVC.Models.ViewModels
         [Display(Name = "Rating")]
         public int Rating { get; set; }
 
-        [StringLength(1000, ErrorMessage = "Comment cannot be longer than 1000 characters")]
+        [StringLength(2000, ErrorMessage = "Comment cannot be longer than 2000 characters")]
         [Display(Name = "Review Comment")]
         public string? Comment { get; set; }
 
-        public BookViewModel Book { get; set; } = new();
+       [ValidateNever]
+        public BookSummaryViewModel Book { get; set; } = new();
+    }
+
+    public class BookSummaryViewModel
+    {
+        public int Id { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string Author { get; set; } = string.Empty;
+        public string? ImageUrl { get; set; }
+        public decimal AverageRating { get; set; }
+        public int ReviewCount { get; set; }
+        public string? CategoryName { get; set; }
+
+        public static BookSummaryViewModel FromBook(BookViewModel book)
+        {
+            return new BookSummaryViewModel
+            {
+                Id = book.Id,
+                Title = book.Title,
+                Author = book.Author,
+                ImageUrl = book.ImageUrl,
+                AverageRating = book.AverageRating,
+                ReviewCount = book.ReviewCount,
+                CategoryName = book.Category?.Name
+            };
+        }
     }
 
     public class ReviewViewModel

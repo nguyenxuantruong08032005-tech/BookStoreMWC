@@ -9876,3 +9876,1493 @@ ORDER BY [r0].[CreatedAt] DESC
 2025-10-24 11:19:16.578 +07:00 [INF] Executed action BookStoreMVC.Controllers.AdminController.Reviews (BookStoreMVC) in 28.9699ms
 2025-10-24 11:19:16.579 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.AdminController.Reviews (BookStoreMVC)'
 2025-10-24 11:19:16.580 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/admin/reviews - 200 null text/html; charset=utf-8 40.7846ms
+2025-10-24 11:21:34.516 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/admin - null null
+2025-10-24 11:21:34.519 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.AdminController.Dashboard (BookStoreMVC)'
+2025-10-24 11:21:34.520 +07:00 [INF] Route matched with {action = "Dashboard", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Dashboard() on controller BookStoreMVC.Controllers.AdminController (BookStoreMVC).
+2025-10-24 11:21:34.523 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [AspNetUsers] AS [a]
+2025-10-24 11:21:34.527 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Books] AS [b]
+WHERE [b].[IsActive] = CAST(1 AS bit)
+2025-10-24 11:21:34.530 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Orders] AS [o]
+2025-10-24 11:21:34.533 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+2025-10-24 11:21:34.536 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [o].[Id], [o].[CreatedAt], [o].[Discount], [o].[PaymentId], [o].[ShippingInfoId], [o].[Status], [o].[SubTotal], [o].[Tax], [o].[Total], [o].[UserId]
+FROM [Orders] AS [o]
+WHERE [o].[Status] = 3
+2025-10-24 11:21:34.539 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Orders] AS [o]
+WHERE [o].[Status] = 0
+2025-10-24 11:21:34.542 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Books] AS [b]
+WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[StockQuantity] <= 10
+2025-10-24 11:21:34.545 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Reviews] AS [r]
+WHERE [r].[IsApproved] = CAST(0 AS bit)
+2025-10-24 11:21:34.549 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [o0].[Id], [o0].[UserId], [o0].[Status], [o0].[Total], [o0].[CreatedAt], [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM (
+    SELECT TOP(@__p_0) [o].[Id], [o].[CreatedAt], [o].[Status], [o].[Total], [o].[UserId]
+    FROM [Orders] AS [o]
+    ORDER BY [o].[CreatedAt] DESC
+) AS [o0]
+INNER JOIN [AspNetUsers] AS [a] ON [o0].[UserId] = [a].[Id]
+ORDER BY [o0].[CreatedAt] DESC
+2025-10-24 11:21:34.552 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [r0].[Id], [r0].[Rating], [r0].[Comment], [r0].[CreatedAt], [r0].[IsApproved], [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName], [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt]
+FROM (
+    SELECT TOP(@__p_0) [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[Rating], [r].[UserId]
+    FROM [Reviews] AS [r]
+    ORDER BY [r].[CreatedAt] DESC
+) AS [r0]
+INNER JOIN [AspNetUsers] AS [a] ON [r0].[UserId] = [a].[Id]
+INNER JOIN [Books] AS [b] ON [r0].[BookId] = [b].[Id]
+ORDER BY [r0].[CreatedAt] DESC
+2025-10-24 11:21:34.554 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(@__p_0) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+ORDER BY [a].[CreatedAt] DESC
+2025-10-24 11:21:34.557 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[Title], [b0].[Author], [b0].[StockQuantity], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM (
+    SELECT TOP(@__p_0) [b].[Id], [b].[Author], [b].[CategoryId], [b].[StockQuantity], [b].[Title]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[StockQuantity] <= 10
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+2025-10-24 11:21:34.562 +07:00 [ERR] Error getting monthly revenue
+System.InvalidOperationException: The LINQ expression 'DbSet<Order>()
+    .Where(o => (int)o.Status == 3 && o.CreatedAt >= __startDate_0)
+    .GroupBy(o => new { 
+        Year = o.CreatedAt.Year, 
+        Month = o.CreatedAt.Month
+     })
+    .Select(g => new { 
+        Date = new DateTime(
+            g.Key.Year, 
+            g.Key.Month, 
+            1
+        ), 
+        Revenue = g
+            .AsQueryable()
+            .Sum(e => e.Total)
+     })
+    .OrderBy(e0 => e0.Date)' could not be translated. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information.
+   at Microsoft.EntityFrameworkCore.Query.QueryableMethodTranslatingExpressionVisitor.Translate(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutorExpression[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutor[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Storage.Database.CompileQuery[TResult](Expression query, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.CompileQueryCore[TResult](IDatabase database, Expression query, IModel model, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass11_0`1.<ExecuteCore>b__0()
+   at Microsoft.EntityFrameworkCore.Query.Internal.CompiledQueryCache.GetOrAddQuery[TResult](Object cacheKey, Func`1 compiler)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteAsync[TResult](Expression query, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable`1.GetAsyncEnumerator(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at BookStoreMVC.Services.OrderService.GetMonthlyRevenueAsync(Int32 months) in C:\Users\DELL\Desktop\Bán sách\BookStoreMWC\Services\OrderService.cs:line 311
+2025-10-24 11:21:34.567 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [o].[Status], [o].[Id], [o].[CreatedAt], [o].[Discount], [o].[PaymentId], [o].[ShippingInfoId], [o].[SubTotal], [o].[Tax], [o].[Total], [o].[UserId]
+FROM [Orders] AS [o]
+ORDER BY [o].[Status]
+2025-10-24 11:21:34.569 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Name], (
+    SELECT COUNT(*)
+    FROM [Books] AS [b]
+    WHERE [c].[Id] = [b].[CategoryId] AND [b].[IsActive] = CAST(1 AS bit)) AS [Count]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+2025-10-24 11:21:34.571 +07:00 [ERR] Error getting user registrations
+System.InvalidOperationException: The LINQ expression 'DbSet<User>()
+    .Where(u => u.CreatedAt >= __startDate_0)
+    .GroupBy(u => new { 
+        Year = u.CreatedAt.Year, 
+        Month = u.CreatedAt.Month
+     })
+    .Select(g => new { 
+        Date = new DateTime(
+            g.Key.Year, 
+            g.Key.Month, 
+            1
+        ), 
+        Count = g
+            .AsQueryable()
+            .Count()
+     })
+    .OrderBy(e0 => e0.Date)' could not be translated. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information.
+   at Microsoft.EntityFrameworkCore.Query.QueryableMethodTranslatingExpressionVisitor.Translate(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutorExpression[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutor[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Storage.Database.CompileQuery[TResult](Expression query, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.CompileQueryCore[TResult](IDatabase database, Expression query, IModel model, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass11_0`1.<ExecuteCore>b__0()
+   at Microsoft.EntityFrameworkCore.Query.Internal.CompiledQueryCache.GetOrAddQuery[TResult](Object cacheKey, Func`1 compiler)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteAsync[TResult](Expression query, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable`1.GetAsyncEnumerator(CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at BookStoreMVC.Services.UserService.GetUserRegistrationsAsync(Int32 months) in C:\Users\DELL\Desktop\Bán sách\BookStoreMWC\Services\UserService.cs:line 202
+2025-10-24 11:21:34.576 +07:00 [INF] Executing ViewResult, running view Dashboard.
+2025-10-24 11:21:34.579 +07:00 [INF] Executed ViewResult - view Dashboard executed in 2.72ms.
+2025-10-24 11:21:34.579 +07:00 [INF] Executed action BookStoreMVC.Controllers.AdminController.Dashboard (BookStoreMVC) in 57.7701ms
+2025-10-24 11:21:34.580 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.AdminController.Dashboard (BookStoreMVC)'
+2025-10-24 11:21:34.581 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/admin - 200 null text/html; charset=utf-8 65.1584ms
+2025-10-24 11:21:34.865 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/admin/dashboard/stats - null null
+2025-10-24 11:21:34.867 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.AdminController.GetDashboardStats (BookStoreMVC)'
+2025-10-24 11:21:34.868 +07:00 [INF] Route matched with {action = "GetDashboardStats", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetDashboardStats() on controller BookStoreMVC.Controllers.AdminController (BookStoreMVC).
+2025-10-24 11:21:34.870 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [AspNetUsers] AS [a]
+2025-10-24 11:21:34.871 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Books] AS [b]
+WHERE [b].[IsActive] = CAST(1 AS bit)
+2025-10-24 11:21:34.873 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Orders] AS [o]
+2025-10-24 11:21:34.875 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COALESCE(SUM([o].[Total]), 0.0)
+FROM [Orders] AS [o]
+WHERE [o].[Status] = 3
+2025-10-24 11:21:34.878 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [o].[Status], [o].[Id], [o].[CreatedAt], [o].[Discount], [o].[PaymentId], [o].[ShippingInfoId], [o].[SubTotal], [o].[Tax], [o].[Total], [o].[UserId]
+FROM [Orders] AS [o]
+ORDER BY [o].[Status]
+2025-10-24 11:21:34.880 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Books] AS [b]
+WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[StockQuantity] <= 10
+2025-10-24 11:21:34.881 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Reviews] AS [r]
+2025-10-24 11:21:34.882 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Reviews] AS [r]
+WHERE [r].[IsApproved] = CAST(0 AS bit)
+2025-10-24 11:21:34.884 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT AVG(CAST([r].[Rating] AS float))
+FROM [Reviews] AS [r]
+WHERE [r].[IsApproved] = CAST(1 AS bit)
+2025-10-24 11:21:34.885 +07:00 [INF] Executing JsonResult, writing value of type '<>f__AnonymousType1`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Object, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-10-24 11:21:34.886 +07:00 [INF] Executed action BookStoreMVC.Controllers.AdminController.GetDashboardStats (BookStoreMVC) in 16.692ms
+2025-10-24 11:21:34.886 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.AdminController.GetDashboardStats (BookStoreMVC)'
+2025-10-24 11:21:34.887 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/admin/dashboard/stats - 200 null application/json; charset=utf-8 22.3021ms
+2025-10-24 11:21:35.601 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/ - null null
+2025-10-24 11:21:35.604 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.HomeController.Index (BookStoreMVC)'
+2025-10-24 11:21:35.605 +07:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller BookStoreMVC.Controllers.HomeController (BookStoreMVC).
+2025-10-24 11:21:35.609 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[AdditionalImages], [b0].[Author], [b0].[CategoryId], [b0].[CreatedAt], [b0].[Description], [b0].[DiscountPrice], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[Language], [b0].[PageCount], [b0].[Price], [b0].[PublishDate], [b0].[Publisher], [b0].[StockQuantity], [b0].[Title], [b0].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [r2].[Id], [r2].[BookId], [r2].[Comment], [r2].[CreatedAt], [r2].[IsApproved], [r2].[IsVerifiedPurchase], [r2].[Rating], [r2].[UserId]
+FROM (
+    SELECT TOP(@__p_0) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], (
+        SELECT COUNT(*)
+        FROM [Reviews] AS [r]
+        WHERE [b].[Id] = [r].[BookId]) AS [c], CASE
+        WHEN EXISTS (
+            SELECT 1
+            FROM [Reviews] AS [r0]
+            WHERE [b].[Id] = [r0].[BookId]) THEN (
+            SELECT AVG(CAST([r1].[Rating] AS float))
+            FROM [Reviews] AS [r1]
+            WHERE [b].[Id] = [r1].[BookId])
+        ELSE 0.0E0
+    END AS [c0]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[StockQuantity] > 0
+    ORDER BY (
+        SELECT COUNT(*)
+        FROM [Reviews] AS [r]
+        WHERE [b].[Id] = [r].[BookId]) DESC, CASE
+        WHEN EXISTS (
+            SELECT 1
+            FROM [Reviews] AS [r0]
+            WHERE [b].[Id] = [r0].[BookId]) THEN (
+            SELECT AVG(CAST([r1].[Rating] AS float))
+            FROM [Reviews] AS [r1]
+            WHERE [b].[Id] = [r1].[BookId])
+        ELSE 0.0E0
+    END DESC
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+LEFT JOIN [Reviews] AS [r2] ON [b0].[Id] = [r2].[BookId]
+ORDER BY [b0].[c] DESC, [b0].[c0] DESC, [b0].[Id], [c].[Id]
+2025-10-24 11:21:35.617 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[AdditionalImages], [b0].[Author], [b0].[CategoryId], [b0].[CreatedAt], [b0].[Description], [b0].[DiscountPrice], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[Language], [b0].[PageCount], [b0].[Price], [b0].[PublishDate], [b0].[Publisher], [b0].[StockQuantity], [b0].[Title], [b0].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId]
+FROM (
+    SELECT TOP(@__p_0) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[StockQuantity] > 0
+    ORDER BY [b].[CreatedAt] DESC
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+LEFT JOIN [Reviews] AS [r] ON [b0].[Id] = [r].[BookId]
+ORDER BY [b0].[CreatedAt] DESC, [b0].[Id], [c].[Id]
+2025-10-24 11:21:35.621 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[AdditionalImages], [b0].[Author], [b0].[CategoryId], [b0].[CreatedAt], [b0].[Description], [b0].[DiscountPrice], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[Language], [b0].[PageCount], [b0].[Price], [b0].[PublishDate], [b0].[Publisher], [b0].[StockQuantity], [b0].[Title], [b0].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId], [o0].[Id], [o0].[BookId], [o0].[OrderId], [o0].[Quantity], [o0].[Total], [o0].[UnitPrice]
+FROM (
+    SELECT TOP(@__p_0) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], (
+        SELECT COALESCE(SUM([o].[Quantity]), 0)
+        FROM [OrderItems] AS [o]
+        WHERE [b].[Id] = [o].[BookId]) AS [c]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[StockQuantity] > 0
+    ORDER BY (
+        SELECT COALESCE(SUM([o].[Quantity]), 0)
+        FROM [OrderItems] AS [o]
+        WHERE [b].[Id] = [o].[BookId]) DESC
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+LEFT JOIN [Reviews] AS [r] ON [b0].[Id] = [r].[BookId]
+LEFT JOIN [OrderItems] AS [o0] ON [b0].[Id] = [o0].[BookId]
+ORDER BY [b0].[c] DESC, [b0].[Id], [c].[Id], [r].[Id]
+2025-10-24 11:21:35.627 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:21:35.629 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [AspNetUsers] AS [a]
+2025-10-24 11:21:35.632 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [o].[Id], [o].[CreatedAt], [o].[Discount], [o].[PaymentId], [o].[ShippingInfoId], [o].[Status], [o].[SubTotal], [o].[Tax], [o].[Total], [o].[UserId]
+FROM [Orders] AS [o]
+WHERE [o].[Status] = 3
+2025-10-24 11:21:35.633 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Reviews] AS [r]
+WHERE [r].[IsApproved] = CAST(1 AS bit)
+2025-10-24 11:21:35.635 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [r0].[Id], [r0].[BookId], [r0].[Comment], [r0].[CreatedAt], [r0].[IsApproved], [r0].[IsVerifiedPurchase], [r0].[Rating], [r0].[UserId], [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName], [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM (
+    SELECT [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId]
+    FROM [Reviews] AS [r]
+    WHERE [r].[IsApproved] = CAST(1 AS bit)
+    ORDER BY [r].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [r0]
+INNER JOIN [AspNetUsers] AS [a] ON [r0].[UserId] = [a].[Id]
+INNER JOIN [Books] AS [b] ON [r0].[BookId] = [b].[Id]
+INNER JOIN [Categories] AS [c] ON [b].[CategoryId] = [c].[Id]
+ORDER BY [r0].[CreatedAt] DESC
+2025-10-24 11:21:35.637 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [c0].[Id], [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], [c0].[CreatedAt], [c0].[Description], [c0].[ImageUrl], [c0].[IsActive], [c0].[Name], [c0].[ParentCategoryId], [c1].[Id], [c1].[CreatedAt], [c1].[Description], [c1].[ImageUrl], [c1].[IsActive], [c1].[Name], [c1].[ParentCategoryId]
+FROM [Categories] AS [c]
+LEFT JOIN [Categories] AS [c0] ON [c].[ParentCategoryId] = [c0].[Id]
+LEFT JOIN [Books] AS [b] ON [c].[Id] = [b].[CategoryId]
+LEFT JOIN [Categories] AS [c1] ON [c].[Id] = [c1].[ParentCategoryId]
+ORDER BY [c].[Name], [c].[Id], [c0].[Id], [b].[Id]
+2025-10-24 11:21:35.640 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Books] AS [b]
+WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[DiscountPrice] IS NOT NULL AND [b].[DiscountPrice] < [b].[Price]
+2025-10-24 11:21:35.642 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[AdditionalImages], [b0].[Author], [b0].[CategoryId], [b0].[CreatedAt], [b0].[Description], [b0].[DiscountPrice], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[Language], [b0].[PageCount], [b0].[Price], [b0].[PublishDate], [b0].[Publisher], [b0].[StockQuantity], [b0].[Title], [b0].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId], [o].[Id], [o].[BookId], [o].[OrderId], [o].[Quantity], [o].[Total], [o].[UnitPrice]
+FROM (
+    SELECT [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], CASE
+        WHEN [b].[DiscountPrice] IS NOT NULL THEN [b].[Price] - [b].[DiscountPrice]
+        ELSE 0.0
+    END AS [c], COALESCE([b].[DiscountPrice], [b].[Price]) AS [c0]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[DiscountPrice] IS NOT NULL AND [b].[DiscountPrice] < [b].[Price]
+    ORDER BY CASE
+        WHEN [b].[DiscountPrice] IS NOT NULL THEN [b].[Price] - [b].[DiscountPrice]
+        ELSE 0.0
+    END DESC, COALESCE([b].[DiscountPrice], [b].[Price])
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+LEFT JOIN [Reviews] AS [r] ON [b0].[Id] = [r].[BookId]
+LEFT JOIN [OrderItems] AS [o] ON [b0].[Id] = [o].[BookId]
+ORDER BY [b0].[c] DESC, [b0].[c0], [b0].[Id], [c].[Id], [r].[Id]
+2025-10-24 11:21:35.645 +07:00 [INF] Executing ViewResult, running view Index.
+2025-10-24 11:21:35.646 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:21:35.648 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:21:35.650 +07:00 [INF] Executed ViewResult - view Index executed in 5.2233ms.
+2025-10-24 11:21:35.650 +07:00 [INF] Executed action BookStoreMVC.Controllers.HomeController.Index (BookStoreMVC) in 43.4387ms
+2025-10-24 11:21:35.651 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.HomeController.Index (BookStoreMVC)'
+2025-10-24 11:21:35.652 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/ - 200 null text/html; charset=utf-8 50.8865ms
+2025-10-24 11:21:38.225 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/books/2 - null null
+2025-10-24 11:21:38.228 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.BooksController.Details (BookStoreMVC)'
+2025-10-24 11:21:38.228 +07:00 [INF] Route matched with {action = "Details", controller = "Books"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Details(Int32, System.String) on controller BookStoreMVC.Controllers.BooksController (BookStoreMVC).
+2025-10-24 11:21:38.230 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[AdditionalImages], [s].[Author], [s].[CategoryId], [s].[CreatedAt], [s].[Description], [s].[DiscountPrice], [s].[ImageContentType], [s].[ImageFileName], [s].[ImageFileSize], [s].[ImageUrl], [s].[IsActive], [s].[Language], [s].[PageCount], [s].[Price], [s].[PublishDate], [s].[Publisher], [s].[StockQuantity], [s].[Title], [s].[UpdatedAt], [s].[Id0], [s].[CreatedAt0], [s].[Description0], [s].[ImageUrl0], [s].[IsActive0], [s].[Name], [s].[ParentCategoryId], [s0].[Id], [s0].[BookId], [s0].[Comment], [s0].[CreatedAt], [s0].[IsApproved], [s0].[IsVerifiedPurchase], [s0].[Rating], [s0].[UserId], [s0].[Id0], [s0].[AccessFailedCount], [s0].[ConcurrencyStamp], [s0].[CreatedAt0], [s0].[Email], [s0].[EmailConfirmed], [s0].[LockoutEnabled], [s0].[LockoutEnd], [s0].[Name], [s0].[NormalizedEmail], [s0].[NormalizedUserName], [s0].[PasswordHash], [s0].[PhoneNumber], [s0].[PhoneNumberConfirmed], [s0].[SecurityStamp], [s0].[TwoFactorEnabled], [s0].[UserName], [b0].[Id], [b0].[BookId], [b0].[CreatedAt], [b0].[DisplayOrder], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[UpdatedAt]
+FROM (
+    SELECT TOP(1) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], [c].[Id] AS [Id0], [c].[CreatedAt] AS [CreatedAt0], [c].[Description] AS [Description0], [c].[ImageUrl] AS [ImageUrl0], [c].[IsActive] AS [IsActive0], [c].[Name], [c].[ParentCategoryId]
+    FROM [Books] AS [b]
+    INNER JOIN [Categories] AS [c] ON [b].[CategoryId] = [c].[Id]
+    WHERE [b].[Id] = @__id_0 AND [b].[IsActive] = CAST(1 AS bit)
+) AS [s]
+LEFT JOIN (
+    SELECT [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId], [a].[Id] AS [Id0], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt] AS [CreatedAt0], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+    FROM [Reviews] AS [r]
+    INNER JOIN [AspNetUsers] AS [a] ON [r].[UserId] = [a].[Id]
+) AS [s0] ON [s].[Id] = [s0].[BookId]
+LEFT JOIN [BookGalleryImages] AS [b0] ON [s].[Id] = [b0].[BookId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[Id], [s0].[Id0]
+2025-10-24 11:21:38.247 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_2='?' (DbType = Int32), @__bookId_0='?' (DbType = Int32), @__book_CategoryId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[AdditionalImages], [b0].[Author], [b0].[CategoryId], [b0].[CreatedAt], [b0].[Description], [b0].[DiscountPrice], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[Language], [b0].[PageCount], [b0].[Price], [b0].[PublishDate], [b0].[Publisher], [b0].[StockQuantity], [b0].[Title], [b0].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [r0].[Id], [r0].[BookId], [r0].[Comment], [r0].[CreatedAt], [r0].[IsApproved], [r0].[IsVerifiedPurchase], [r0].[Rating], [r0].[UserId]
+FROM (
+    SELECT TOP(@__p_2) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], (
+        SELECT COUNT(*)
+        FROM [Reviews] AS [r]
+        WHERE [b].[Id] = [r].[BookId]) AS [c]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[Id] <> @__bookId_0 AND [b].[CategoryId] = @__book_CategoryId_1
+    ORDER BY (
+        SELECT COUNT(*)
+        FROM [Reviews] AS [r]
+        WHERE [b].[Id] = [r].[BookId]) DESC
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+LEFT JOIN [Reviews] AS [r0] ON [b0].[Id] = [r0].[BookId]
+ORDER BY [b0].[c] DESC, [b0].[Id], [c].[Id]
+2025-10-24 11:21:38.250 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__userId_0='?' (Size = 450), @__bookId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Reviews] AS [r]
+        WHERE [r].[UserId] = @__userId_0 AND [r].[BookId] = @__bookId_1) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-10-24 11:21:38.251 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__userId_0='?' (Size = 450), @__bookId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [OrderItems] AS [o]
+        INNER JOIN [Orders] AS [o0] ON [o].[OrderId] = [o0].[Id]
+        WHERE [o0].[UserId] = @__userId_0 AND [o].[BookId] = @__bookId_1 AND [o0].[Status] = 3) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-10-24 11:21:38.253 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__userId_0='?' (Size = 450), @__bookId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Reviews] AS [r]
+        WHERE [r].[UserId] = @__userId_0 AND [r].[BookId] = @__bookId_1) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-10-24 11:21:38.254 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__userId_0='?' (Size = 450), @__bookId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [WishlistItems] AS [w]
+        WHERE [w].[UserId] = @__userId_0 AND [w].[BookId] = @__bookId_1) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-10-24 11:21:38.256 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__userId_0='?' (Size = 450), @__bookId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [c].[Id], [c].[BookId], [c].[CreatedAt], [c].[Quantity], [c].[UpdatedAt], [c].[UserId]
+FROM [CartItems] AS [c]
+WHERE [c].[UserId] = @__userId_0 AND [c].[BookId] = @__bookId_1
+2025-10-24 11:21:38.259 +07:00 [INF] Book 2 - AdditionalImages: ["/images/books/gallery/45eb04ef-c7b3-4fad-90f6-d64fd1c7f8c2.jpg"], GalleryCount: 1, HasGallery: true
+2025-10-24 11:21:38.260 +07:00 [INF] Executing ViewResult, running view Details.
+2025-10-24 11:21:38.261 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:21:38.263 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:21:38.264 +07:00 [INF] Executed ViewResult - view Details executed in 4.7865ms.
+2025-10-24 11:21:38.265 +07:00 [INF] Executed action BookStoreMVC.Controllers.BooksController.Details (BookStoreMVC) in 35.7714ms
+2025-10-24 11:21:38.266 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.BooksController.Details (BookStoreMVC)'
+2025-10-24 11:21:38.266 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/books/2 - 200 null text/html; charset=utf-8 41.0714ms
+2025-10-24 11:32:15.821 +07:00 [INF] Application is shutting down...
+2025-10-24 11:39:15.168 +07:00 [INF] User profile is available. Using 'C:\Users\DELL\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-24 11:39:15.918 +07:00 [INF] Executed DbCommand (17ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-10-24 11:39:15.932 +07:00 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-10-24 11:39:15.950 +07:00 [INF] Executed DbCommand (14ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_getapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session', @LockMode = 'Exclusive';
+SELECT @result
+2025-10-24 11:39:16.009 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
+BEGIN
+    CREATE TABLE [__EFMigrationsHistory] (
+        [MigrationId] nvarchar(150) NOT NULL,
+        [ProductVersion] nvarchar(32) NOT NULL,
+        CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+    );
+END;
+2025-10-24 11:39:16.025 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-10-24 11:39:16.028 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-10-24 11:39:16.032 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-10-24 11:39:16.041 +07:00 [INF] No migrations were applied. The database is already up to date.
+2025-10-24 11:39:16.044 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DECLARE @result int;
+EXEC @result = sp_releaseapplock @Resource = '__EFMigrationsLock', @LockOwner = 'Session';
+SELECT @result
+2025-10-24 11:39:16.241 +07:00 [INF] Executed DbCommand (8ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-10-24 11:39:16.280 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-10-24 11:39:16.293 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2025-10-24 11:39:16.326 +07:00 [INF] ✅ Database initialized with admin user only.
+2025-10-24 11:39:16.331 +07:00 [INF] Database initialized successfully
+2025-10-24 11:39:16.395 +07:00 [INF] ==========================================
+2025-10-24 11:39:16.398 +07:00 [INF] BookStore Application Starting...
+2025-10-24 11:39:16.398 +07:00 [INF] Environment: Production
+2025-10-24 11:39:16.398 +07:00 [INF] Session Timeout: 7 days
+2025-10-24 11:39:16.399 +07:00 [INF] Guest Cart: Enabled
+2025-10-24 11:39:16.399 +07:00 [INF] ==========================================
+2025-10-24 11:39:16.454 +07:00 [INF] Now listening on: http://localhost:5000
+2025-10-24 11:39:16.457 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-24 11:39:16.458 +07:00 [INF] Hosting environment: Production
+2025-10-24 11:39:16.458 +07:00 [INF] Content root path: C:\Users\DELL\Desktop\Bán sách\BookStoreMWC
+2025-10-24 11:39:18.714 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/ - null null
+2025-10-24 11:39:18.720 +07:00 [WRN] Failed to determine the https port for redirect.
+2025-10-24 11:39:18.768 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.HomeController.Index (BookStoreMVC)'
+2025-10-24 11:39:18.778 +07:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller BookStoreMVC.Controllers.HomeController (BookStoreMVC).
+2025-10-24 11:39:18.898 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[AdditionalImages], [b0].[Author], [b0].[CategoryId], [b0].[CreatedAt], [b0].[Description], [b0].[DiscountPrice], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[Language], [b0].[PageCount], [b0].[Price], [b0].[PublishDate], [b0].[Publisher], [b0].[StockQuantity], [b0].[Title], [b0].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [r2].[Id], [r2].[BookId], [r2].[Comment], [r2].[CreatedAt], [r2].[IsApproved], [r2].[IsVerifiedPurchase], [r2].[Rating], [r2].[UserId]
+FROM (
+    SELECT TOP(@__p_0) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], (
+        SELECT COUNT(*)
+        FROM [Reviews] AS [r]
+        WHERE [b].[Id] = [r].[BookId]) AS [c], CASE
+        WHEN EXISTS (
+            SELECT 1
+            FROM [Reviews] AS [r0]
+            WHERE [b].[Id] = [r0].[BookId]) THEN (
+            SELECT AVG(CAST([r1].[Rating] AS float))
+            FROM [Reviews] AS [r1]
+            WHERE [b].[Id] = [r1].[BookId])
+        ELSE 0.0E0
+    END AS [c0]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[StockQuantity] > 0
+    ORDER BY (
+        SELECT COUNT(*)
+        FROM [Reviews] AS [r]
+        WHERE [b].[Id] = [r].[BookId]) DESC, CASE
+        WHEN EXISTS (
+            SELECT 1
+            FROM [Reviews] AS [r0]
+            WHERE [b].[Id] = [r0].[BookId]) THEN (
+            SELECT AVG(CAST([r1].[Rating] AS float))
+            FROM [Reviews] AS [r1]
+            WHERE [b].[Id] = [r1].[BookId])
+        ELSE 0.0E0
+    END DESC
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+LEFT JOIN [Reviews] AS [r2] ON [b0].[Id] = [r2].[BookId]
+ORDER BY [b0].[c] DESC, [b0].[c0] DESC, [b0].[Id], [c].[Id]
+2025-10-24 11:39:18.979 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[AdditionalImages], [b0].[Author], [b0].[CategoryId], [b0].[CreatedAt], [b0].[Description], [b0].[DiscountPrice], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[Language], [b0].[PageCount], [b0].[Price], [b0].[PublishDate], [b0].[Publisher], [b0].[StockQuantity], [b0].[Title], [b0].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId]
+FROM (
+    SELECT TOP(@__p_0) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[StockQuantity] > 0
+    ORDER BY [b].[CreatedAt] DESC
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+LEFT JOIN [Reviews] AS [r] ON [b0].[Id] = [r].[BookId]
+ORDER BY [b0].[CreatedAt] DESC, [b0].[Id], [c].[Id]
+2025-10-24 11:39:18.993 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-10-24 11:39:19.011 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[AdditionalImages], [b0].[Author], [b0].[CategoryId], [b0].[CreatedAt], [b0].[Description], [b0].[DiscountPrice], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[Language], [b0].[PageCount], [b0].[Price], [b0].[PublishDate], [b0].[Publisher], [b0].[StockQuantity], [b0].[Title], [b0].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId], [o0].[Id], [o0].[BookId], [o0].[OrderId], [o0].[Quantity], [o0].[Total], [o0].[UnitPrice]
+FROM (
+    SELECT TOP(@__p_0) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], (
+        SELECT COALESCE(SUM([o].[Quantity]), 0)
+        FROM [OrderItems] AS [o]
+        WHERE [b].[Id] = [o].[BookId]) AS [c]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[StockQuantity] > 0
+    ORDER BY (
+        SELECT COALESCE(SUM([o].[Quantity]), 0)
+        FROM [OrderItems] AS [o]
+        WHERE [b].[Id] = [o].[BookId]) DESC
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+LEFT JOIN [Reviews] AS [r] ON [b0].[Id] = [r].[BookId]
+LEFT JOIN [OrderItems] AS [o0] ON [b0].[Id] = [o0].[BookId]
+ORDER BY [b0].[c] DESC, [b0].[Id], [c].[Id], [r].[Id]
+2025-10-24 11:39:19.033 +07:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:39:19.043 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [AspNetUsers] AS [a]
+2025-10-24 11:39:19.055 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [o].[Id], [o].[CreatedAt], [o].[Discount], [o].[PaymentId], [o].[ShippingInfoId], [o].[Status], [o].[SubTotal], [o].[Tax], [o].[Total], [o].[UserId]
+FROM [Orders] AS [o]
+WHERE [o].[Status] = 3
+2025-10-24 11:39:19.064 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Reviews] AS [r]
+WHERE [r].[IsApproved] = CAST(1 AS bit)
+2025-10-24 11:39:19.088 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [r0].[Id], [r0].[BookId], [r0].[Comment], [r0].[CreatedAt], [r0].[IsApproved], [r0].[IsVerifiedPurchase], [r0].[Rating], [r0].[UserId], [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName], [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM (
+    SELECT [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId]
+    FROM [Reviews] AS [r]
+    WHERE [r].[IsApproved] = CAST(1 AS bit)
+    ORDER BY [r].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [r0]
+INNER JOIN [AspNetUsers] AS [a] ON [r0].[UserId] = [a].[Id]
+INNER JOIN [Books] AS [b] ON [r0].[BookId] = [b].[Id]
+INNER JOIN [Categories] AS [c] ON [b].[CategoryId] = [c].[Id]
+ORDER BY [r0].[CreatedAt] DESC
+2025-10-24 11:39:19.103 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-10-24 11:39:19.122 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [c0].[Id], [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], [c0].[CreatedAt], [c0].[Description], [c0].[ImageUrl], [c0].[IsActive], [c0].[Name], [c0].[ParentCategoryId], [c1].[Id], [c1].[CreatedAt], [c1].[Description], [c1].[ImageUrl], [c1].[IsActive], [c1].[Name], [c1].[ParentCategoryId]
+FROM [Categories] AS [c]
+LEFT JOIN [Categories] AS [c0] ON [c].[ParentCategoryId] = [c0].[Id]
+LEFT JOIN [Books] AS [b] ON [c].[Id] = [b].[CategoryId]
+LEFT JOIN [Categories] AS [c1] ON [c].[Id] = [c1].[ParentCategoryId]
+ORDER BY [c].[Name], [c].[Id], [c0].[Id], [b].[Id]
+2025-10-24 11:39:19.143 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Books] AS [b]
+WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[DiscountPrice] IS NOT NULL AND [b].[DiscountPrice] < [b].[Price]
+2025-10-24 11:39:19.156 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-10-24 11:39:19.176 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[AdditionalImages], [b0].[Author], [b0].[CategoryId], [b0].[CreatedAt], [b0].[Description], [b0].[DiscountPrice], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[Language], [b0].[PageCount], [b0].[Price], [b0].[PublishDate], [b0].[Publisher], [b0].[StockQuantity], [b0].[Title], [b0].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId], [o].[Id], [o].[BookId], [o].[OrderId], [o].[Quantity], [o].[Total], [o].[UnitPrice]
+FROM (
+    SELECT [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], CASE
+        WHEN [b].[DiscountPrice] IS NOT NULL THEN [b].[Price] - [b].[DiscountPrice]
+        ELSE 0.0
+    END AS [c], COALESCE([b].[DiscountPrice], [b].[Price]) AS [c0]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[DiscountPrice] IS NOT NULL AND [b].[DiscountPrice] < [b].[Price]
+    ORDER BY CASE
+        WHEN [b].[DiscountPrice] IS NOT NULL THEN [b].[Price] - [b].[DiscountPrice]
+        ELSE 0.0
+    END DESC, COALESCE([b].[DiscountPrice], [b].[Price])
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+LEFT JOIN [Reviews] AS [r] ON [b0].[Id] = [r].[BookId]
+LEFT JOIN [OrderItems] AS [o] ON [b0].[Id] = [o].[BookId]
+ORDER BY [b0].[c] DESC, [b0].[c0], [b0].[Id], [c].[Id], [r].[Id]
+2025-10-24 11:39:19.214 +07:00 [INF] Executing ViewResult, running view Index.
+2025-10-24 11:39:19.304 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:39:19.312 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:39:19.343 +07:00 [INF] Executed ViewResult - view Index executed in 127.9499ms.
+2025-10-24 11:39:19.348 +07:00 [INF] Executed action BookStoreMVC.Controllers.HomeController.Index (BookStoreMVC) in 567.0583ms
+2025-10-24 11:39:19.352 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.HomeController.Index (BookStoreMVC)'
+2025-10-24 11:39:19.359 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/ - 200 null text/html; charset=utf-8 646.0525ms
+2025-10-24 11:39:24.930 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/books/4 - null null
+2025-10-24 11:39:24.948 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.BooksController.Details (BookStoreMVC)'
+2025-10-24 11:39:24.956 +07:00 [INF] Route matched with {action = "Details", controller = "Books"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Details(Int32, System.String) on controller BookStoreMVC.Controllers.BooksController (BookStoreMVC).
+2025-10-24 11:39:25.015 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-10-24 11:39:25.036 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[AdditionalImages], [s].[Author], [s].[CategoryId], [s].[CreatedAt], [s].[Description], [s].[DiscountPrice], [s].[ImageContentType], [s].[ImageFileName], [s].[ImageFileSize], [s].[ImageUrl], [s].[IsActive], [s].[Language], [s].[PageCount], [s].[Price], [s].[PublishDate], [s].[Publisher], [s].[StockQuantity], [s].[Title], [s].[UpdatedAt], [s].[Id0], [s].[CreatedAt0], [s].[Description0], [s].[ImageUrl0], [s].[IsActive0], [s].[Name], [s].[ParentCategoryId], [s0].[Id], [s0].[BookId], [s0].[Comment], [s0].[CreatedAt], [s0].[IsApproved], [s0].[IsVerifiedPurchase], [s0].[Rating], [s0].[UserId], [s0].[Id0], [s0].[AccessFailedCount], [s0].[ConcurrencyStamp], [s0].[CreatedAt0], [s0].[Email], [s0].[EmailConfirmed], [s0].[LockoutEnabled], [s0].[LockoutEnd], [s0].[Name], [s0].[NormalizedEmail], [s0].[NormalizedUserName], [s0].[PasswordHash], [s0].[PhoneNumber], [s0].[PhoneNumberConfirmed], [s0].[SecurityStamp], [s0].[TwoFactorEnabled], [s0].[UserName], [b0].[Id], [b0].[BookId], [b0].[CreatedAt], [b0].[DisplayOrder], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[UpdatedAt]
+FROM (
+    SELECT TOP(1) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], [c].[Id] AS [Id0], [c].[CreatedAt] AS [CreatedAt0], [c].[Description] AS [Description0], [c].[ImageUrl] AS [ImageUrl0], [c].[IsActive] AS [IsActive0], [c].[Name], [c].[ParentCategoryId]
+    FROM [Books] AS [b]
+    INNER JOIN [Categories] AS [c] ON [b].[CategoryId] = [c].[Id]
+    WHERE [b].[Id] = @__id_0 AND [b].[IsActive] = CAST(1 AS bit)
+) AS [s]
+LEFT JOIN (
+    SELECT [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId], [a].[Id] AS [Id0], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt] AS [CreatedAt0], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+    FROM [Reviews] AS [r]
+    INNER JOIN [AspNetUsers] AS [a] ON [r].[UserId] = [a].[Id]
+) AS [s0] ON [s].[Id] = [s0].[BookId]
+LEFT JOIN [BookGalleryImages] AS [b0] ON [s].[Id] = [b0].[BookId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[Id], [s0].[Id0]
+2025-10-24 11:39:25.068 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_2='?' (DbType = Int32), @__bookId_0='?' (DbType = Int32), @__book_CategoryId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[AdditionalImages], [b0].[Author], [b0].[CategoryId], [b0].[CreatedAt], [b0].[Description], [b0].[DiscountPrice], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[Language], [b0].[PageCount], [b0].[Price], [b0].[PublishDate], [b0].[Publisher], [b0].[StockQuantity], [b0].[Title], [b0].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [r0].[Id], [r0].[BookId], [r0].[Comment], [r0].[CreatedAt], [r0].[IsApproved], [r0].[IsVerifiedPurchase], [r0].[Rating], [r0].[UserId]
+FROM (
+    SELECT TOP(@__p_2) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], (
+        SELECT COUNT(*)
+        FROM [Reviews] AS [r]
+        WHERE [b].[Id] = [r].[BookId]) AS [c]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[Id] <> @__bookId_0 AND [b].[CategoryId] = @__book_CategoryId_1
+    ORDER BY (
+        SELECT COUNT(*)
+        FROM [Reviews] AS [r]
+        WHERE [b].[Id] = [r].[BookId]) DESC
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+LEFT JOIN [Reviews] AS [r0] ON [b0].[Id] = [r0].[BookId]
+ORDER BY [b0].[c] DESC, [b0].[Id], [c].[Id]
+2025-10-24 11:39:25.082 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (Size = 450), @__bookId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Reviews] AS [r]
+        WHERE [r].[UserId] = @__userId_0 AND [r].[BookId] = @__bookId_1) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-10-24 11:39:25.090 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__userId_0='?' (Size = 450), @__bookId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [OrderItems] AS [o]
+        INNER JOIN [Orders] AS [o0] ON [o].[OrderId] = [o0].[Id]
+        WHERE [o0].[UserId] = @__userId_0 AND [o].[BookId] = @__bookId_1 AND [o0].[Status] = 3) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-10-24 11:39:25.092 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__userId_0='?' (Size = 450), @__bookId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Reviews] AS [r]
+        WHERE [r].[UserId] = @__userId_0 AND [r].[BookId] = @__bookId_1) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-10-24 11:39:25.099 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__userId_0='?' (Size = 450), @__bookId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [WishlistItems] AS [w]
+        WHERE [w].[UserId] = @__userId_0 AND [w].[BookId] = @__bookId_1) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-10-24 11:39:25.106 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__userId_0='?' (Size = 450), @__bookId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [c].[Id], [c].[BookId], [c].[CreatedAt], [c].[Quantity], [c].[UpdatedAt], [c].[UserId]
+FROM [CartItems] AS [c]
+WHERE [c].[UserId] = @__userId_0 AND [c].[BookId] = @__bookId_1
+2025-10-24 11:39:25.109 +07:00 [INF] Book 4 - AdditionalImages: null, GalleryCount: 0, HasGallery: false
+2025-10-24 11:39:25.113 +07:00 [INF] Executing ViewResult, running view Details.
+2025-10-24 11:39:25.131 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:39:25.134 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:39:25.139 +07:00 [INF] Executed ViewResult - view Details executed in 26.5221ms.
+2025-10-24 11:39:25.140 +07:00 [INF] Executed action BookStoreMVC.Controllers.BooksController.Details (BookStoreMVC) in 183.0492ms
+2025-10-24 11:39:25.141 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.BooksController.Details (BookStoreMVC)'
+2025-10-24 11:39:25.142 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/books/4 - 200 null text/html; charset=utf-8 212.3885ms
+2025-10-24 11:39:27.395 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/reviews/Create?bookId=4 - null null
+2025-10-24 11:39:27.416 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.ReviewsController.Create (BookStoreMVC)'
+2025-10-24 11:39:27.419 +07:00 [INF] Route matched with {action = "Create", controller = "Reviews"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(Int32) on controller BookStoreMVC.Controllers.ReviewsController (BookStoreMVC).
+2025-10-24 11:39:27.424 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__userId_0='?' (Size = 450), @__bookId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Reviews] AS [r]
+        WHERE [r].[UserId] = @__userId_0 AND [r].[BookId] = @__bookId_1) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-10-24 11:39:27.429 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[AdditionalImages], [s].[Author], [s].[CategoryId], [s].[CreatedAt], [s].[Description], [s].[DiscountPrice], [s].[ImageContentType], [s].[ImageFileName], [s].[ImageFileSize], [s].[ImageUrl], [s].[IsActive], [s].[Language], [s].[PageCount], [s].[Price], [s].[PublishDate], [s].[Publisher], [s].[StockQuantity], [s].[Title], [s].[UpdatedAt], [s].[Id0], [s].[CreatedAt0], [s].[Description0], [s].[ImageUrl0], [s].[IsActive0], [s].[Name], [s].[ParentCategoryId], [s0].[Id], [s0].[BookId], [s0].[Comment], [s0].[CreatedAt], [s0].[IsApproved], [s0].[IsVerifiedPurchase], [s0].[Rating], [s0].[UserId], [s0].[Id0], [s0].[AccessFailedCount], [s0].[ConcurrencyStamp], [s0].[CreatedAt0], [s0].[Email], [s0].[EmailConfirmed], [s0].[LockoutEnabled], [s0].[LockoutEnd], [s0].[Name], [s0].[NormalizedEmail], [s0].[NormalizedUserName], [s0].[PasswordHash], [s0].[PhoneNumber], [s0].[PhoneNumberConfirmed], [s0].[SecurityStamp], [s0].[TwoFactorEnabled], [s0].[UserName], [b0].[Id], [b0].[BookId], [b0].[CreatedAt], [b0].[DisplayOrder], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[UpdatedAt]
+FROM (
+    SELECT TOP(1) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], [c].[Id] AS [Id0], [c].[CreatedAt] AS [CreatedAt0], [c].[Description] AS [Description0], [c].[ImageUrl] AS [ImageUrl0], [c].[IsActive] AS [IsActive0], [c].[Name], [c].[ParentCategoryId]
+    FROM [Books] AS [b]
+    INNER JOIN [Categories] AS [c] ON [b].[CategoryId] = [c].[Id]
+    WHERE [b].[Id] = @__id_0 AND [b].[IsActive] = CAST(1 AS bit)
+) AS [s]
+LEFT JOIN (
+    SELECT [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId], [a].[Id] AS [Id0], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt] AS [CreatedAt0], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+    FROM [Reviews] AS [r]
+    INNER JOIN [AspNetUsers] AS [a] ON [r].[UserId] = [a].[Id]
+) AS [s0] ON [s].[Id] = [s0].[BookId]
+LEFT JOIN [BookGalleryImages] AS [b0] ON [s].[Id] = [b0].[BookId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[Id], [s0].[Id0]
+2025-10-24 11:39:27.434 +07:00 [INF] Executing ViewResult, running view Create.
+2025-10-24 11:39:27.461 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:39:27.465 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:39:27.469 +07:00 [INF] Executed ViewResult - view Create executed in 35.3045ms.
+2025-10-24 11:39:27.470 +07:00 [INF] Executed action BookStoreMVC.Controllers.ReviewsController.Create (BookStoreMVC) in 49.1128ms
+2025-10-24 11:39:27.471 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.ReviewsController.Create (BookStoreMVC)'
+2025-10-24 11:39:27.472 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/reviews/Create?bookId=4 - 200 null text/html; charset=utf-8 76.115ms
+2025-10-24 11:40:07.356 +07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/reviews/Create - application/x-www-form-urlencoded 1064
+2025-10-24 11:40:07.360 +07:00 [INF] CORS policy execution failed.
+2025-10-24 11:40:07.361 +07:00 [INF] Request origin http://localhost:5000 does not have permission to access the resource.
+2025-10-24 11:40:07.365 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.ReviewsController.Create (BookStoreMVC)'
+2025-10-24 11:40:07.383 +07:00 [INF] Route matched with {action = "Create", controller = "Reviews"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(BookStoreMVC.Models.ViewModels.ReviewCreateViewModel) on controller BookStoreMVC.Controllers.ReviewsController (BookStoreMVC).
+2025-10-24 11:40:07.402 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[AdditionalImages], [s].[Author], [s].[CategoryId], [s].[CreatedAt], [s].[Description], [s].[DiscountPrice], [s].[ImageContentType], [s].[ImageFileName], [s].[ImageFileSize], [s].[ImageUrl], [s].[IsActive], [s].[Language], [s].[PageCount], [s].[Price], [s].[PublishDate], [s].[Publisher], [s].[StockQuantity], [s].[Title], [s].[UpdatedAt], [s].[Id0], [s].[CreatedAt0], [s].[Description0], [s].[ImageUrl0], [s].[IsActive0], [s].[Name], [s].[ParentCategoryId], [s0].[Id], [s0].[BookId], [s0].[Comment], [s0].[CreatedAt], [s0].[IsApproved], [s0].[IsVerifiedPurchase], [s0].[Rating], [s0].[UserId], [s0].[Id0], [s0].[AccessFailedCount], [s0].[ConcurrencyStamp], [s0].[CreatedAt0], [s0].[Email], [s0].[EmailConfirmed], [s0].[LockoutEnabled], [s0].[LockoutEnd], [s0].[Name], [s0].[NormalizedEmail], [s0].[NormalizedUserName], [s0].[PasswordHash], [s0].[PhoneNumber], [s0].[PhoneNumberConfirmed], [s0].[SecurityStamp], [s0].[TwoFactorEnabled], [s0].[UserName], [b0].[Id], [b0].[BookId], [b0].[CreatedAt], [b0].[DisplayOrder], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[UpdatedAt]
+FROM (
+    SELECT TOP(1) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], [c].[Id] AS [Id0], [c].[CreatedAt] AS [CreatedAt0], [c].[Description] AS [Description0], [c].[ImageUrl] AS [ImageUrl0], [c].[IsActive] AS [IsActive0], [c].[Name], [c].[ParentCategoryId]
+    FROM [Books] AS [b]
+    INNER JOIN [Categories] AS [c] ON [b].[CategoryId] = [c].[Id]
+    WHERE [b].[Id] = @__id_0 AND [b].[IsActive] = CAST(1 AS bit)
+) AS [s]
+LEFT JOIN (
+    SELECT [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId], [a].[Id] AS [Id0], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt] AS [CreatedAt0], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+    FROM [Reviews] AS [r]
+    INNER JOIN [AspNetUsers] AS [a] ON [r].[UserId] = [a].[Id]
+) AS [s0] ON [s].[Id] = [s0].[BookId]
+LEFT JOIN [BookGalleryImages] AS [b0] ON [s].[Id] = [b0].[BookId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[Id], [s0].[Id0]
+2025-10-24 11:40:07.406 +07:00 [INF] Executing ViewResult, running view Create.
+2025-10-24 11:40:07.410 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:40:07.413 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:40:07.415 +07:00 [INF] Executed ViewResult - view Create executed in 9.1087ms.
+2025-10-24 11:40:07.416 +07:00 [INF] Executed action BookStoreMVC.Controllers.ReviewsController.Create (BookStoreMVC) in 30.4055ms
+2025-10-24 11:40:07.417 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.ReviewsController.Create (BookStoreMVC)'
+2025-10-24 11:40:07.418 +07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5000/reviews/Create - 200 null text/html; charset=utf-8 61.7746ms
+2025-10-24 11:40:14.957 +07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/reviews/Create - application/x-www-form-urlencoded 1057
+2025-10-24 11:40:14.959 +07:00 [INF] CORS policy execution failed.
+2025-10-24 11:40:14.960 +07:00 [INF] Request origin http://localhost:5000 does not have permission to access the resource.
+2025-10-24 11:40:14.962 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.ReviewsController.Create (BookStoreMVC)'
+2025-10-24 11:40:14.963 +07:00 [INF] Route matched with {action = "Create", controller = "Reviews"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(BookStoreMVC.Models.ViewModels.ReviewCreateViewModel) on controller BookStoreMVC.Controllers.ReviewsController (BookStoreMVC).
+2025-10-24 11:40:14.968 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[AdditionalImages], [s].[Author], [s].[CategoryId], [s].[CreatedAt], [s].[Description], [s].[DiscountPrice], [s].[ImageContentType], [s].[ImageFileName], [s].[ImageFileSize], [s].[ImageUrl], [s].[IsActive], [s].[Language], [s].[PageCount], [s].[Price], [s].[PublishDate], [s].[Publisher], [s].[StockQuantity], [s].[Title], [s].[UpdatedAt], [s].[Id0], [s].[CreatedAt0], [s].[Description0], [s].[ImageUrl0], [s].[IsActive0], [s].[Name], [s].[ParentCategoryId], [s0].[Id], [s0].[BookId], [s0].[Comment], [s0].[CreatedAt], [s0].[IsApproved], [s0].[IsVerifiedPurchase], [s0].[Rating], [s0].[UserId], [s0].[Id0], [s0].[AccessFailedCount], [s0].[ConcurrencyStamp], [s0].[CreatedAt0], [s0].[Email], [s0].[EmailConfirmed], [s0].[LockoutEnabled], [s0].[LockoutEnd], [s0].[Name], [s0].[NormalizedEmail], [s0].[NormalizedUserName], [s0].[PasswordHash], [s0].[PhoneNumber], [s0].[PhoneNumberConfirmed], [s0].[SecurityStamp], [s0].[TwoFactorEnabled], [s0].[UserName], [b0].[Id], [b0].[BookId], [b0].[CreatedAt], [b0].[DisplayOrder], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[UpdatedAt]
+FROM (
+    SELECT TOP(1) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], [c].[Id] AS [Id0], [c].[CreatedAt] AS [CreatedAt0], [c].[Description] AS [Description0], [c].[ImageUrl] AS [ImageUrl0], [c].[IsActive] AS [IsActive0], [c].[Name], [c].[ParentCategoryId]
+    FROM [Books] AS [b]
+    INNER JOIN [Categories] AS [c] ON [b].[CategoryId] = [c].[Id]
+    WHERE [b].[Id] = @__id_0 AND [b].[IsActive] = CAST(1 AS bit)
+) AS [s]
+LEFT JOIN (
+    SELECT [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId], [a].[Id] AS [Id0], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt] AS [CreatedAt0], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+    FROM [Reviews] AS [r]
+    INNER JOIN [AspNetUsers] AS [a] ON [r].[UserId] = [a].[Id]
+) AS [s0] ON [s].[Id] = [s0].[BookId]
+LEFT JOIN [BookGalleryImages] AS [b0] ON [s].[Id] = [b0].[BookId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[Id], [s0].[Id0]
+2025-10-24 11:40:14.972 +07:00 [INF] Executing ViewResult, running view Create.
+2025-10-24 11:40:14.975 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:40:14.977 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:40:14.979 +07:00 [INF] Executed ViewResult - view Create executed in 6.5128ms.
+2025-10-24 11:40:14.979 +07:00 [INF] Executed action BookStoreMVC.Controllers.ReviewsController.Create (BookStoreMVC) in 14.7202ms
+2025-10-24 11:40:14.980 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.ReviewsController.Create (BookStoreMVC)'
+2025-10-24 11:40:14.981 +07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5000/reviews/Create - 200 null text/html; charset=utf-8 23.8568ms
+2025-10-24 11:41:06.787 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/ - null null
+2025-10-24 11:41:06.795 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.HomeController.Index (BookStoreMVC)'
+2025-10-24 11:41:06.796 +07:00 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller BookStoreMVC.Controllers.HomeController (BookStoreMVC).
+2025-10-24 11:41:06.802 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[AdditionalImages], [b0].[Author], [b0].[CategoryId], [b0].[CreatedAt], [b0].[Description], [b0].[DiscountPrice], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[Language], [b0].[PageCount], [b0].[Price], [b0].[PublishDate], [b0].[Publisher], [b0].[StockQuantity], [b0].[Title], [b0].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [r2].[Id], [r2].[BookId], [r2].[Comment], [r2].[CreatedAt], [r2].[IsApproved], [r2].[IsVerifiedPurchase], [r2].[Rating], [r2].[UserId]
+FROM (
+    SELECT TOP(@__p_0) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], (
+        SELECT COUNT(*)
+        FROM [Reviews] AS [r]
+        WHERE [b].[Id] = [r].[BookId]) AS [c], CASE
+        WHEN EXISTS (
+            SELECT 1
+            FROM [Reviews] AS [r0]
+            WHERE [b].[Id] = [r0].[BookId]) THEN (
+            SELECT AVG(CAST([r1].[Rating] AS float))
+            FROM [Reviews] AS [r1]
+            WHERE [b].[Id] = [r1].[BookId])
+        ELSE 0.0E0
+    END AS [c0]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[StockQuantity] > 0
+    ORDER BY (
+        SELECT COUNT(*)
+        FROM [Reviews] AS [r]
+        WHERE [b].[Id] = [r].[BookId]) DESC, CASE
+        WHEN EXISTS (
+            SELECT 1
+            FROM [Reviews] AS [r0]
+            WHERE [b].[Id] = [r0].[BookId]) THEN (
+            SELECT AVG(CAST([r1].[Rating] AS float))
+            FROM [Reviews] AS [r1]
+            WHERE [b].[Id] = [r1].[BookId])
+        ELSE 0.0E0
+    END DESC
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+LEFT JOIN [Reviews] AS [r2] ON [b0].[Id] = [r2].[BookId]
+ORDER BY [b0].[c] DESC, [b0].[c0] DESC, [b0].[Id], [c].[Id]
+2025-10-24 11:41:06.811 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[AdditionalImages], [b0].[Author], [b0].[CategoryId], [b0].[CreatedAt], [b0].[Description], [b0].[DiscountPrice], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[Language], [b0].[PageCount], [b0].[Price], [b0].[PublishDate], [b0].[Publisher], [b0].[StockQuantity], [b0].[Title], [b0].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId]
+FROM (
+    SELECT TOP(@__p_0) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[StockQuantity] > 0
+    ORDER BY [b].[CreatedAt] DESC
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+LEFT JOIN [Reviews] AS [r] ON [b0].[Id] = [r].[BookId]
+ORDER BY [b0].[CreatedAt] DESC, [b0].[Id], [c].[Id]
+2025-10-24 11:41:06.816 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[AdditionalImages], [b0].[Author], [b0].[CategoryId], [b0].[CreatedAt], [b0].[Description], [b0].[DiscountPrice], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[Language], [b0].[PageCount], [b0].[Price], [b0].[PublishDate], [b0].[Publisher], [b0].[StockQuantity], [b0].[Title], [b0].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId], [o0].[Id], [o0].[BookId], [o0].[OrderId], [o0].[Quantity], [o0].[Total], [o0].[UnitPrice]
+FROM (
+    SELECT TOP(@__p_0) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], (
+        SELECT COALESCE(SUM([o].[Quantity]), 0)
+        FROM [OrderItems] AS [o]
+        WHERE [b].[Id] = [o].[BookId]) AS [c]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[StockQuantity] > 0
+    ORDER BY (
+        SELECT COALESCE(SUM([o].[Quantity]), 0)
+        FROM [OrderItems] AS [o]
+        WHERE [b].[Id] = [o].[BookId]) DESC
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+LEFT JOIN [Reviews] AS [r] ON [b0].[Id] = [r].[BookId]
+LEFT JOIN [OrderItems] AS [o0] ON [b0].[Id] = [o0].[BookId]
+ORDER BY [b0].[c] DESC, [b0].[Id], [c].[Id], [r].[Id]
+2025-10-24 11:41:06.821 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:41:06.824 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [AspNetUsers] AS [a]
+2025-10-24 11:41:06.827 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [o].[Id], [o].[CreatedAt], [o].[Discount], [o].[PaymentId], [o].[ShippingInfoId], [o].[Status], [o].[SubTotal], [o].[Tax], [o].[Total], [o].[UserId]
+FROM [Orders] AS [o]
+WHERE [o].[Status] = 3
+2025-10-24 11:41:06.829 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Reviews] AS [r]
+WHERE [r].[IsApproved] = CAST(1 AS bit)
+2025-10-24 11:41:06.831 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [r0].[Id], [r0].[BookId], [r0].[Comment], [r0].[CreatedAt], [r0].[IsApproved], [r0].[IsVerifiedPurchase], [r0].[Rating], [r0].[UserId], [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName], [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM (
+    SELECT [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId]
+    FROM [Reviews] AS [r]
+    WHERE [r].[IsApproved] = CAST(1 AS bit)
+    ORDER BY [r].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [r0]
+INNER JOIN [AspNetUsers] AS [a] ON [r0].[UserId] = [a].[Id]
+INNER JOIN [Books] AS [b] ON [r0].[BookId] = [b].[Id]
+INNER JOIN [Categories] AS [c] ON [b].[CategoryId] = [c].[Id]
+ORDER BY [r0].[CreatedAt] DESC
+2025-10-24 11:41:06.834 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [c0].[Id], [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], [c0].[CreatedAt], [c0].[Description], [c0].[ImageUrl], [c0].[IsActive], [c0].[Name], [c0].[ParentCategoryId], [c1].[Id], [c1].[CreatedAt], [c1].[Description], [c1].[ImageUrl], [c1].[IsActive], [c1].[Name], [c1].[ParentCategoryId]
+FROM [Categories] AS [c]
+LEFT JOIN [Categories] AS [c0] ON [c].[ParentCategoryId] = [c0].[Id]
+LEFT JOIN [Books] AS [b] ON [c].[Id] = [b].[CategoryId]
+LEFT JOIN [Categories] AS [c1] ON [c].[Id] = [c1].[ParentCategoryId]
+ORDER BY [c].[Name], [c].[Id], [c0].[Id], [b].[Id]
+2025-10-24 11:41:06.837 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Books] AS [b]
+WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[DiscountPrice] IS NOT NULL AND [b].[DiscountPrice] < [b].[Price]
+2025-10-24 11:41:06.839 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[AdditionalImages], [b0].[Author], [b0].[CategoryId], [b0].[CreatedAt], [b0].[Description], [b0].[DiscountPrice], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[Language], [b0].[PageCount], [b0].[Price], [b0].[PublishDate], [b0].[Publisher], [b0].[StockQuantity], [b0].[Title], [b0].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId], [o].[Id], [o].[BookId], [o].[OrderId], [o].[Quantity], [o].[Total], [o].[UnitPrice]
+FROM (
+    SELECT [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], CASE
+        WHEN [b].[DiscountPrice] IS NOT NULL THEN [b].[Price] - [b].[DiscountPrice]
+        ELSE 0.0
+    END AS [c], COALESCE([b].[DiscountPrice], [b].[Price]) AS [c0]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[DiscountPrice] IS NOT NULL AND [b].[DiscountPrice] < [b].[Price]
+    ORDER BY CASE
+        WHEN [b].[DiscountPrice] IS NOT NULL THEN [b].[Price] - [b].[DiscountPrice]
+        ELSE 0.0
+    END DESC, COALESCE([b].[DiscountPrice], [b].[Price])
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+LEFT JOIN [Reviews] AS [r] ON [b0].[Id] = [r].[BookId]
+LEFT JOIN [OrderItems] AS [o] ON [b0].[Id] = [o].[BookId]
+ORDER BY [b0].[c] DESC, [b0].[c0], [b0].[Id], [c].[Id], [r].[Id]
+2025-10-24 11:41:06.841 +07:00 [INF] Executing ViewResult, running view Index.
+2025-10-24 11:41:06.844 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:41:06.846 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:41:06.849 +07:00 [INF] Executed ViewResult - view Index executed in 7.721ms.
+2025-10-24 11:41:06.849 +07:00 [INF] Executed action BookStoreMVC.Controllers.HomeController.Index (BookStoreMVC) in 51.4332ms
+2025-10-24 11:41:06.850 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.HomeController.Index (BookStoreMVC)'
+2025-10-24 11:41:06.851 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/ - 200 null text/html; charset=utf-8 64.129ms
+2025-10-24 11:41:11.816 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/admin - null null
+2025-10-24 11:41:11.824 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.AdminController.Dashboard (BookStoreMVC)'
+2025-10-24 11:41:11.834 +07:00 [INF] Route matched with {action = "Dashboard", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Dashboard() on controller BookStoreMVC.Controllers.AdminController (BookStoreMVC).
+2025-10-24 11:41:11.850 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [AspNetUsers] AS [a]
+2025-10-24 11:41:11.857 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Books] AS [b]
+WHERE [b].[IsActive] = CAST(1 AS bit)
+2025-10-24 11:41:11.862 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Orders] AS [o]
+2025-10-24 11:41:11.865 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+2025-10-24 11:41:11.867 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [o].[Id], [o].[CreatedAt], [o].[Discount], [o].[PaymentId], [o].[ShippingInfoId], [o].[Status], [o].[SubTotal], [o].[Tax], [o].[Total], [o].[UserId]
+FROM [Orders] AS [o]
+WHERE [o].[Status] = 3
+2025-10-24 11:41:11.871 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Orders] AS [o]
+WHERE [o].[Status] = 0
+2025-10-24 11:41:11.875 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Books] AS [b]
+WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[StockQuantity] <= 10
+2025-10-24 11:41:11.879 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Reviews] AS [r]
+WHERE [r].[IsApproved] = CAST(0 AS bit)
+2025-10-24 11:41:11.890 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [o0].[Id], [o0].[UserId], [o0].[Status], [o0].[Total], [o0].[CreatedAt], [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM (
+    SELECT TOP(@__p_0) [o].[Id], [o].[CreatedAt], [o].[Status], [o].[Total], [o].[UserId]
+    FROM [Orders] AS [o]
+    ORDER BY [o].[CreatedAt] DESC
+) AS [o0]
+INNER JOIN [AspNetUsers] AS [a] ON [o0].[UserId] = [a].[Id]
+ORDER BY [o0].[CreatedAt] DESC
+2025-10-24 11:41:11.901 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [r0].[Id], [r0].[Rating], [r0].[Comment], [r0].[CreatedAt], [r0].[IsApproved], [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName], [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt]
+FROM (
+    SELECT TOP(@__p_0) [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[Rating], [r].[UserId]
+    FROM [Reviews] AS [r]
+    ORDER BY [r].[CreatedAt] DESC
+) AS [r0]
+INNER JOIN [AspNetUsers] AS [a] ON [r0].[UserId] = [a].[Id]
+INNER JOIN [Books] AS [b] ON [r0].[BookId] = [b].[Id]
+ORDER BY [r0].[CreatedAt] DESC
+2025-10-24 11:41:11.908 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(@__p_0) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+ORDER BY [a].[CreatedAt] DESC
+2025-10-24 11:41:11.912 +07:00 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2025-10-24 11:41:11.916 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[Title], [b0].[Author], [b0].[StockQuantity], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM (
+    SELECT TOP(@__p_0) [b].[Id], [b].[Author], [b].[CategoryId], [b].[StockQuantity], [b].[Title]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[StockQuantity] <= 10
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+2025-10-24 11:41:11.936 +07:00 [ERR] Error getting monthly revenue
+System.InvalidOperationException: The LINQ expression 'DbSet<Order>()
+    .Where(o => (int)o.Status == 3 && o.CreatedAt >= __startDate_0)
+    .GroupBy(o => new { 
+        Year = o.CreatedAt.Year, 
+        Month = o.CreatedAt.Month
+     })
+    .Select(g => new { 
+        Date = new DateTime(
+            g.Key.Year, 
+            g.Key.Month, 
+            1
+        ), 
+        Revenue = g
+            .AsQueryable()
+            .Sum(e => e.Total)
+     })
+    .OrderBy(e0 => e0.Date)' could not be translated. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information.
+   at Microsoft.EntityFrameworkCore.Query.QueryableMethodTranslatingExpressionVisitor.Translate(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutorExpression[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutor[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Storage.Database.CompileQuery[TResult](Expression query, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.CompileQueryCore[TResult](IDatabase database, Expression query, IModel model, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass11_0`1.<ExecuteCore>b__0()
+   at Microsoft.EntityFrameworkCore.Query.Internal.CompiledQueryCache.GetOrAddQuery[TResult](Object cacheKey, Func`1 compiler)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteAsync[TResult](Expression query, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.ExecuteAsync[TResult](Expression expression, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable`1.GetAsyncEnumerator(CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.ConfiguredCancelableAsyncEnumerable`1.GetAsyncEnumerator()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at BookStoreMVC.Services.OrderService.GetMonthlyRevenueAsync(Int32 months) in C:\Users\DELL\Desktop\Bán sách\BookStoreMWC\Services\OrderService.cs:line 311
+2025-10-24 11:41:11.971 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [o].[Status], [o].[Id], [o].[CreatedAt], [o].[Discount], [o].[PaymentId], [o].[ShippingInfoId], [o].[SubTotal], [o].[Tax], [o].[Total], [o].[UserId]
+FROM [Orders] AS [o]
+ORDER BY [o].[Status]
+2025-10-24 11:41:11.995 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Name], (
+    SELECT COUNT(*)
+    FROM [Books] AS [b]
+    WHERE [c].[Id] = [b].[CategoryId] AND [b].[IsActive] = CAST(1 AS bit)) AS [Count]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+2025-10-24 11:41:12.002 +07:00 [ERR] Error getting user registrations
+System.InvalidOperationException: The LINQ expression 'DbSet<User>()
+    .Where(u => u.CreatedAt >= __startDate_0)
+    .GroupBy(u => new { 
+        Year = u.CreatedAt.Year, 
+        Month = u.CreatedAt.Month
+     })
+    .Select(g => new { 
+        Date = new DateTime(
+            g.Key.Year, 
+            g.Key.Month, 
+            1
+        ), 
+        Count = g
+            .AsQueryable()
+            .Count()
+     })
+    .OrderBy(e0 => e0.Date)' could not be translated. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to 'AsEnumerable', 'AsAsyncEnumerable', 'ToList', or 'ToListAsync'. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information.
+   at Microsoft.EntityFrameworkCore.Query.QueryableMethodTranslatingExpressionVisitor.Translate(Expression expression)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutorExpression[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Query.QueryCompilationContext.CreateQueryExecutor[TResult](Expression query)
+   at Microsoft.EntityFrameworkCore.Storage.Database.CompileQuery[TResult](Expression query, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.CompileQueryCore[TResult](IDatabase database, Expression query, IModel model, Boolean async)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass11_0`1.<ExecuteCore>b__0()
+   at Microsoft.EntityFrameworkCore.Query.Internal.CompiledQueryCache.GetOrAddQuery[TResult](Object cacheKey, Func`1 compiler)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteCore[TResult](Expression query, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.ExecuteAsync[TResult](Expression query, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryProvider.ExecuteAsync[TResult](Expression expression, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.EntityQueryable`1.GetAsyncEnumerator(CancellationToken cancellationToken)
+   at System.Runtime.CompilerServices.ConfiguredCancelableAsyncEnumerable`1.GetAsyncEnumerator()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at BookStoreMVC.Services.UserService.GetUserRegistrationsAsync(Int32 months) in C:\Users\DELL\Desktop\Bán sách\BookStoreMWC\Services\UserService.cs:line 202
+2025-10-24 11:41:12.012 +07:00 [INF] Executing ViewResult, running view Dashboard.
+2025-10-24 11:41:12.054 +07:00 [INF] Executed ViewResult - view Dashboard executed in 42.3859ms.
+2025-10-24 11:41:12.057 +07:00 [INF] Executed action BookStoreMVC.Controllers.AdminController.Dashboard (BookStoreMVC) in 220.4224ms
+2025-10-24 11:41:12.058 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.AdminController.Dashboard (BookStoreMVC)'
+2025-10-24 11:41:12.059 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/admin - 200 null text/html; charset=utf-8 243.1792ms
+2025-10-24 11:41:12.310 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/admin/dashboard/stats - null null
+2025-10-24 11:41:12.313 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.AdminController.GetDashboardStats (BookStoreMVC)'
+2025-10-24 11:41:12.317 +07:00 [INF] Route matched with {action = "GetDashboardStats", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetDashboardStats() on controller BookStoreMVC.Controllers.AdminController (BookStoreMVC).
+2025-10-24 11:41:12.323 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [AspNetUsers] AS [a]
+2025-10-24 11:41:12.324 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Books] AS [b]
+WHERE [b].[IsActive] = CAST(1 AS bit)
+2025-10-24 11:41:12.326 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Orders] AS [o]
+2025-10-24 11:41:12.363 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COALESCE(SUM([o].[Total]), 0.0)
+FROM [Orders] AS [o]
+WHERE [o].[Status] = 3
+2025-10-24 11:41:12.367 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [o].[Status], [o].[Id], [o].[CreatedAt], [o].[Discount], [o].[PaymentId], [o].[ShippingInfoId], [o].[SubTotal], [o].[Tax], [o].[Total], [o].[UserId]
+FROM [Orders] AS [o]
+ORDER BY [o].[Status]
+2025-10-24 11:41:12.370 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Books] AS [b]
+WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[StockQuantity] <= 10
+2025-10-24 11:41:12.374 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Reviews] AS [r]
+2025-10-24 11:41:12.377 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Reviews] AS [r]
+WHERE [r].[IsApproved] = CAST(0 AS bit)
+2025-10-24 11:41:12.384 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT AVG(CAST([r].[Rating] AS float))
+FROM [Reviews] AS [r]
+WHERE [r].[IsApproved] = CAST(1 AS bit)
+2025-10-24 11:41:12.387 +07:00 [INF] Executing JsonResult, writing value of type '<>f__AnonymousType1`2[[System.Boolean, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Collections.Generic.Dictionary`2[[System.String, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Object, System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib, Version=9.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-10-24 11:41:12.397 +07:00 [INF] Executed action BookStoreMVC.Controllers.AdminController.GetDashboardStats (BookStoreMVC) in 77.698ms
+2025-10-24 11:41:12.397 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.AdminController.GetDashboardStats (BookStoreMVC)'
+2025-10-24 11:41:12.398 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/admin/dashboard/stats - 200 null application/json; charset=utf-8 88.3318ms
+2025-10-24 11:41:16.367 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/admin/reviews - null null
+2025-10-24 11:41:16.371 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.AdminController.Reviews (BookStoreMVC)'
+2025-10-24 11:41:16.377 +07:00 [INF] Route matched with {action = "Reviews", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Reviews(BookStoreMVC.Models.ViewModels.ReviewListViewModel) on controller BookStoreMVC.Controllers.AdminController (BookStoreMVC).
+2025-10-24 11:41:16.389 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Reviews] AS [r]
+WHERE [r].[IsApproved] = CAST(1 AS bit)
+2025-10-24 11:41:16.390 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [r0].[Id], [r0].[BookId], [r0].[Comment], [r0].[CreatedAt], [r0].[IsApproved], [r0].[IsVerifiedPurchase], [r0].[Rating], [r0].[UserId], [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName], [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM (
+    SELECT [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId]
+    FROM [Reviews] AS [r]
+    WHERE [r].[IsApproved] = CAST(1 AS bit)
+    ORDER BY [r].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [r0]
+INNER JOIN [AspNetUsers] AS [a] ON [r0].[UserId] = [a].[Id]
+INNER JOIN [Books] AS [b] ON [r0].[BookId] = [b].[Id]
+INNER JOIN [Categories] AS [c] ON [b].[CategoryId] = [c].[Id]
+ORDER BY [r0].[CreatedAt] DESC
+2025-10-24 11:41:16.394 +07:00 [INF] Executing ViewResult, running view Reviews.
+2025-10-24 11:41:16.406 +07:00 [INF] Executed ViewResult - view Reviews executed in 12.1445ms.
+2025-10-24 11:41:16.408 +07:00 [INF] Executed action BookStoreMVC.Controllers.AdminController.Reviews (BookStoreMVC) in 29.3874ms
+2025-10-24 11:41:16.409 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.AdminController.Reviews (BookStoreMVC)'
+2025-10-24 11:41:16.410 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/admin/reviews - 200 null text/html; charset=utf-8 43.1265ms
+2025-10-24 11:41:27.908 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/books/4 - null null
+2025-10-24 11:41:27.914 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.BooksController.Details (BookStoreMVC)'
+2025-10-24 11:41:27.915 +07:00 [INF] Route matched with {action = "Details", controller = "Books"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Details(Int32, System.String) on controller BookStoreMVC.Controllers.BooksController (BookStoreMVC).
+2025-10-24 11:41:27.919 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[AdditionalImages], [s].[Author], [s].[CategoryId], [s].[CreatedAt], [s].[Description], [s].[DiscountPrice], [s].[ImageContentType], [s].[ImageFileName], [s].[ImageFileSize], [s].[ImageUrl], [s].[IsActive], [s].[Language], [s].[PageCount], [s].[Price], [s].[PublishDate], [s].[Publisher], [s].[StockQuantity], [s].[Title], [s].[UpdatedAt], [s].[Id0], [s].[CreatedAt0], [s].[Description0], [s].[ImageUrl0], [s].[IsActive0], [s].[Name], [s].[ParentCategoryId], [s0].[Id], [s0].[BookId], [s0].[Comment], [s0].[CreatedAt], [s0].[IsApproved], [s0].[IsVerifiedPurchase], [s0].[Rating], [s0].[UserId], [s0].[Id0], [s0].[AccessFailedCount], [s0].[ConcurrencyStamp], [s0].[CreatedAt0], [s0].[Email], [s0].[EmailConfirmed], [s0].[LockoutEnabled], [s0].[LockoutEnd], [s0].[Name], [s0].[NormalizedEmail], [s0].[NormalizedUserName], [s0].[PasswordHash], [s0].[PhoneNumber], [s0].[PhoneNumberConfirmed], [s0].[SecurityStamp], [s0].[TwoFactorEnabled], [s0].[UserName], [b0].[Id], [b0].[BookId], [b0].[CreatedAt], [b0].[DisplayOrder], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[UpdatedAt]
+FROM (
+    SELECT TOP(1) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], [c].[Id] AS [Id0], [c].[CreatedAt] AS [CreatedAt0], [c].[Description] AS [Description0], [c].[ImageUrl] AS [ImageUrl0], [c].[IsActive] AS [IsActive0], [c].[Name], [c].[ParentCategoryId]
+    FROM [Books] AS [b]
+    INNER JOIN [Categories] AS [c] ON [b].[CategoryId] = [c].[Id]
+    WHERE [b].[Id] = @__id_0 AND [b].[IsActive] = CAST(1 AS bit)
+) AS [s]
+LEFT JOIN (
+    SELECT [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId], [a].[Id] AS [Id0], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt] AS [CreatedAt0], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+    FROM [Reviews] AS [r]
+    INNER JOIN [AspNetUsers] AS [a] ON [r].[UserId] = [a].[Id]
+) AS [s0] ON [s].[Id] = [s0].[BookId]
+LEFT JOIN [BookGalleryImages] AS [b0] ON [s].[Id] = [b0].[BookId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[Id], [s0].[Id0]
+2025-10-24 11:41:27.924 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_2='?' (DbType = Int32), @__bookId_0='?' (DbType = Int32), @__book_CategoryId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[AdditionalImages], [b0].[Author], [b0].[CategoryId], [b0].[CreatedAt], [b0].[Description], [b0].[DiscountPrice], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[Language], [b0].[PageCount], [b0].[Price], [b0].[PublishDate], [b0].[Publisher], [b0].[StockQuantity], [b0].[Title], [b0].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [r0].[Id], [r0].[BookId], [r0].[Comment], [r0].[CreatedAt], [r0].[IsApproved], [r0].[IsVerifiedPurchase], [r0].[Rating], [r0].[UserId]
+FROM (
+    SELECT TOP(@__p_2) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], (
+        SELECT COUNT(*)
+        FROM [Reviews] AS [r]
+        WHERE [b].[Id] = [r].[BookId]) AS [c]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[Id] <> @__bookId_0 AND [b].[CategoryId] = @__book_CategoryId_1
+    ORDER BY (
+        SELECT COUNT(*)
+        FROM [Reviews] AS [r]
+        WHERE [b].[Id] = [r].[BookId]) DESC
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+LEFT JOIN [Reviews] AS [r0] ON [b0].[Id] = [r0].[BookId]
+ORDER BY [b0].[c] DESC, [b0].[Id], [c].[Id]
+2025-10-24 11:41:27.927 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__userId_0='?' (Size = 450), @__bookId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Reviews] AS [r]
+        WHERE [r].[UserId] = @__userId_0 AND [r].[BookId] = @__bookId_1) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-10-24 11:41:27.929 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__userId_0='?' (Size = 450), @__bookId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [OrderItems] AS [o]
+        INNER JOIN [Orders] AS [o0] ON [o].[OrderId] = [o0].[Id]
+        WHERE [o0].[UserId] = @__userId_0 AND [o].[BookId] = @__bookId_1 AND [o0].[Status] = 3) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-10-24 11:41:27.931 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__userId_0='?' (Size = 450), @__bookId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Reviews] AS [r]
+        WHERE [r].[UserId] = @__userId_0 AND [r].[BookId] = @__bookId_1) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-10-24 11:41:27.933 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__userId_0='?' (Size = 450), @__bookId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [WishlistItems] AS [w]
+        WHERE [w].[UserId] = @__userId_0 AND [w].[BookId] = @__bookId_1) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-10-24 11:41:27.934 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__userId_0='?' (Size = 450), @__bookId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [c].[Id], [c].[BookId], [c].[CreatedAt], [c].[Quantity], [c].[UpdatedAt], [c].[UserId]
+FROM [CartItems] AS [c]
+WHERE [c].[UserId] = @__userId_0 AND [c].[BookId] = @__bookId_1
+2025-10-24 11:41:27.935 +07:00 [INF] Book 4 - AdditionalImages: null, GalleryCount: 0, HasGallery: false
+2025-10-24 11:41:27.936 +07:00 [INF] Executing ViewResult, running view Details.
+2025-10-24 11:41:27.938 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:41:27.939 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:41:27.941 +07:00 [INF] Executed ViewResult - view Details executed in 5.2295ms.
+2025-10-24 11:41:27.942 +07:00 [INF] Executed action BookStoreMVC.Controllers.BooksController.Details (BookStoreMVC) in 24.8629ms
+2025-10-24 11:41:27.943 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.BooksController.Details (BookStoreMVC)'
+2025-10-24 11:41:27.944 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/books/4 - 200 null text/html; charset=utf-8 35.6051ms
+2025-10-24 11:41:31.378 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/reviews/Create?bookId=4 - null null
+2025-10-24 11:41:31.382 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.ReviewsController.Create (BookStoreMVC)'
+2025-10-24 11:41:31.382 +07:00 [INF] Route matched with {action = "Create", controller = "Reviews"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(Int32) on controller BookStoreMVC.Controllers.ReviewsController (BookStoreMVC).
+2025-10-24 11:41:31.385 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__userId_0='?' (Size = 450), @__bookId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Reviews] AS [r]
+        WHERE [r].[UserId] = @__userId_0 AND [r].[BookId] = @__bookId_1) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-10-24 11:41:31.387 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[AdditionalImages], [s].[Author], [s].[CategoryId], [s].[CreatedAt], [s].[Description], [s].[DiscountPrice], [s].[ImageContentType], [s].[ImageFileName], [s].[ImageFileSize], [s].[ImageUrl], [s].[IsActive], [s].[Language], [s].[PageCount], [s].[Price], [s].[PublishDate], [s].[Publisher], [s].[StockQuantity], [s].[Title], [s].[UpdatedAt], [s].[Id0], [s].[CreatedAt0], [s].[Description0], [s].[ImageUrl0], [s].[IsActive0], [s].[Name], [s].[ParentCategoryId], [s0].[Id], [s0].[BookId], [s0].[Comment], [s0].[CreatedAt], [s0].[IsApproved], [s0].[IsVerifiedPurchase], [s0].[Rating], [s0].[UserId], [s0].[Id0], [s0].[AccessFailedCount], [s0].[ConcurrencyStamp], [s0].[CreatedAt0], [s0].[Email], [s0].[EmailConfirmed], [s0].[LockoutEnabled], [s0].[LockoutEnd], [s0].[Name], [s0].[NormalizedEmail], [s0].[NormalizedUserName], [s0].[PasswordHash], [s0].[PhoneNumber], [s0].[PhoneNumberConfirmed], [s0].[SecurityStamp], [s0].[TwoFactorEnabled], [s0].[UserName], [b0].[Id], [b0].[BookId], [b0].[CreatedAt], [b0].[DisplayOrder], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[UpdatedAt]
+FROM (
+    SELECT TOP(1) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], [c].[Id] AS [Id0], [c].[CreatedAt] AS [CreatedAt0], [c].[Description] AS [Description0], [c].[ImageUrl] AS [ImageUrl0], [c].[IsActive] AS [IsActive0], [c].[Name], [c].[ParentCategoryId]
+    FROM [Books] AS [b]
+    INNER JOIN [Categories] AS [c] ON [b].[CategoryId] = [c].[Id]
+    WHERE [b].[Id] = @__id_0 AND [b].[IsActive] = CAST(1 AS bit)
+) AS [s]
+LEFT JOIN (
+    SELECT [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId], [a].[Id] AS [Id0], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt] AS [CreatedAt0], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+    FROM [Reviews] AS [r]
+    INNER JOIN [AspNetUsers] AS [a] ON [r].[UserId] = [a].[Id]
+) AS [s0] ON [s].[Id] = [s0].[BookId]
+LEFT JOIN [BookGalleryImages] AS [b0] ON [s].[Id] = [b0].[BookId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[Id], [s0].[Id0]
+2025-10-24 11:41:31.392 +07:00 [INF] Executing ViewResult, running view Create.
+2025-10-24 11:41:31.395 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:41:31.397 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:41:31.399 +07:00 [INF] Executed ViewResult - view Create executed in 7.1011ms.
+2025-10-24 11:41:31.400 +07:00 [INF] Executed action BookStoreMVC.Controllers.ReviewsController.Create (BookStoreMVC) in 16.4416ms
+2025-10-24 11:41:31.400 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.ReviewsController.Create (BookStoreMVC)'
+2025-10-24 11:41:31.401 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/reviews/Create?bookId=4 - 200 null text/html; charset=utf-8 22.7428ms
+2025-10-24 11:41:54.633 +07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/reviews/Create - application/x-www-form-urlencoded 1057
+2025-10-24 11:41:54.636 +07:00 [INF] CORS policy execution failed.
+2025-10-24 11:41:54.636 +07:00 [INF] Request origin http://localhost:5000 does not have permission to access the resource.
+2025-10-24 11:41:54.638 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.ReviewsController.Create (BookStoreMVC)'
+2025-10-24 11:41:54.638 +07:00 [INF] Route matched with {action = "Create", controller = "Reviews"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(BookStoreMVC.Models.ViewModels.ReviewCreateViewModel) on controller BookStoreMVC.Controllers.ReviewsController (BookStoreMVC).
+2025-10-24 11:41:54.642 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[AdditionalImages], [s].[Author], [s].[CategoryId], [s].[CreatedAt], [s].[Description], [s].[DiscountPrice], [s].[ImageContentType], [s].[ImageFileName], [s].[ImageFileSize], [s].[ImageUrl], [s].[IsActive], [s].[Language], [s].[PageCount], [s].[Price], [s].[PublishDate], [s].[Publisher], [s].[StockQuantity], [s].[Title], [s].[UpdatedAt], [s].[Id0], [s].[CreatedAt0], [s].[Description0], [s].[ImageUrl0], [s].[IsActive0], [s].[Name], [s].[ParentCategoryId], [s0].[Id], [s0].[BookId], [s0].[Comment], [s0].[CreatedAt], [s0].[IsApproved], [s0].[IsVerifiedPurchase], [s0].[Rating], [s0].[UserId], [s0].[Id0], [s0].[AccessFailedCount], [s0].[ConcurrencyStamp], [s0].[CreatedAt0], [s0].[Email], [s0].[EmailConfirmed], [s0].[LockoutEnabled], [s0].[LockoutEnd], [s0].[Name], [s0].[NormalizedEmail], [s0].[NormalizedUserName], [s0].[PasswordHash], [s0].[PhoneNumber], [s0].[PhoneNumberConfirmed], [s0].[SecurityStamp], [s0].[TwoFactorEnabled], [s0].[UserName], [b0].[Id], [b0].[BookId], [b0].[CreatedAt], [b0].[DisplayOrder], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[UpdatedAt]
+FROM (
+    SELECT TOP(1) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], [c].[Id] AS [Id0], [c].[CreatedAt] AS [CreatedAt0], [c].[Description] AS [Description0], [c].[ImageUrl] AS [ImageUrl0], [c].[IsActive] AS [IsActive0], [c].[Name], [c].[ParentCategoryId]
+    FROM [Books] AS [b]
+    INNER JOIN [Categories] AS [c] ON [b].[CategoryId] = [c].[Id]
+    WHERE [b].[Id] = @__id_0 AND [b].[IsActive] = CAST(1 AS bit)
+) AS [s]
+LEFT JOIN (
+    SELECT [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId], [a].[Id] AS [Id0], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt] AS [CreatedAt0], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+    FROM [Reviews] AS [r]
+    INNER JOIN [AspNetUsers] AS [a] ON [r].[UserId] = [a].[Id]
+) AS [s0] ON [s].[Id] = [s0].[BookId]
+LEFT JOIN [BookGalleryImages] AS [b0] ON [s].[Id] = [b0].[BookId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[Id], [s0].[Id0]
+2025-10-24 11:41:54.645 +07:00 [INF] Executing ViewResult, running view Create.
+2025-10-24 11:41:54.646 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:41:54.648 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:41:54.650 +07:00 [INF] Executed ViewResult - view Create executed in 4.8825ms.
+2025-10-24 11:41:54.650 +07:00 [INF] Executed action BookStoreMVC.Controllers.ReviewsController.Create (BookStoreMVC) in 10.7346ms
+2025-10-24 11:41:54.651 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.ReviewsController.Create (BookStoreMVC)'
+2025-10-24 11:41:54.652 +07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5000/reviews/Create - 200 null text/html; charset=utf-8 18.0322ms
+2025-10-24 11:43:00.559 +07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/reviews/Create - application/x-www-form-urlencoded 1064
+2025-10-24 11:43:00.564 +07:00 [INF] CORS policy execution failed.
+2025-10-24 11:43:00.564 +07:00 [INF] Request origin http://localhost:5000 does not have permission to access the resource.
+2025-10-24 11:43:00.566 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.ReviewsController.Create (BookStoreMVC)'
+2025-10-24 11:43:00.566 +07:00 [INF] Route matched with {action = "Create", controller = "Reviews"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(BookStoreMVC.Models.ViewModels.ReviewCreateViewModel) on controller BookStoreMVC.Controllers.ReviewsController (BookStoreMVC).
+2025-10-24 11:43:00.571 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[AdditionalImages], [s].[Author], [s].[CategoryId], [s].[CreatedAt], [s].[Description], [s].[DiscountPrice], [s].[ImageContentType], [s].[ImageFileName], [s].[ImageFileSize], [s].[ImageUrl], [s].[IsActive], [s].[Language], [s].[PageCount], [s].[Price], [s].[PublishDate], [s].[Publisher], [s].[StockQuantity], [s].[Title], [s].[UpdatedAt], [s].[Id0], [s].[CreatedAt0], [s].[Description0], [s].[ImageUrl0], [s].[IsActive0], [s].[Name], [s].[ParentCategoryId], [s0].[Id], [s0].[BookId], [s0].[Comment], [s0].[CreatedAt], [s0].[IsApproved], [s0].[IsVerifiedPurchase], [s0].[Rating], [s0].[UserId], [s0].[Id0], [s0].[AccessFailedCount], [s0].[ConcurrencyStamp], [s0].[CreatedAt0], [s0].[Email], [s0].[EmailConfirmed], [s0].[LockoutEnabled], [s0].[LockoutEnd], [s0].[Name], [s0].[NormalizedEmail], [s0].[NormalizedUserName], [s0].[PasswordHash], [s0].[PhoneNumber], [s0].[PhoneNumberConfirmed], [s0].[SecurityStamp], [s0].[TwoFactorEnabled], [s0].[UserName], [b0].[Id], [b0].[BookId], [b0].[CreatedAt], [b0].[DisplayOrder], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[UpdatedAt]
+FROM (
+    SELECT TOP(1) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], [c].[Id] AS [Id0], [c].[CreatedAt] AS [CreatedAt0], [c].[Description] AS [Description0], [c].[ImageUrl] AS [ImageUrl0], [c].[IsActive] AS [IsActive0], [c].[Name], [c].[ParentCategoryId]
+    FROM [Books] AS [b]
+    INNER JOIN [Categories] AS [c] ON [b].[CategoryId] = [c].[Id]
+    WHERE [b].[Id] = @__id_0 AND [b].[IsActive] = CAST(1 AS bit)
+) AS [s]
+LEFT JOIN (
+    SELECT [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId], [a].[Id] AS [Id0], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt] AS [CreatedAt0], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+    FROM [Reviews] AS [r]
+    INNER JOIN [AspNetUsers] AS [a] ON [r].[UserId] = [a].[Id]
+) AS [s0] ON [s].[Id] = [s0].[BookId]
+LEFT JOIN [BookGalleryImages] AS [b0] ON [s].[Id] = [b0].[BookId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[Id], [s0].[Id0]
+2025-10-24 11:43:00.574 +07:00 [INF] Executing ViewResult, running view Create.
+2025-10-24 11:43:00.576 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:43:00.578 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:43:00.579 +07:00 [INF] Executed ViewResult - view Create executed in 5.6533ms.
+2025-10-24 11:43:00.580 +07:00 [INF] Executed action BookStoreMVC.Controllers.ReviewsController.Create (BookStoreMVC) in 12.1413ms
+2025-10-24 11:43:00.581 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.ReviewsController.Create (BookStoreMVC)'
+2025-10-24 11:43:00.582 +07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5000/reviews/Create - 200 null text/html; charset=utf-8 22.287ms
+2025-10-24 11:43:23.871 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/books/4 - null null
+2025-10-24 11:43:23.874 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.BooksController.Details (BookStoreMVC)'
+2025-10-24 11:43:23.875 +07:00 [INF] Route matched with {action = "Details", controller = "Books"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Details(Int32, System.String) on controller BookStoreMVC.Controllers.BooksController (BookStoreMVC).
+2025-10-24 11:43:23.877 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [s].[Id], [s].[AdditionalImages], [s].[Author], [s].[CategoryId], [s].[CreatedAt], [s].[Description], [s].[DiscountPrice], [s].[ImageContentType], [s].[ImageFileName], [s].[ImageFileSize], [s].[ImageUrl], [s].[IsActive], [s].[Language], [s].[PageCount], [s].[Price], [s].[PublishDate], [s].[Publisher], [s].[StockQuantity], [s].[Title], [s].[UpdatedAt], [s].[Id0], [s].[CreatedAt0], [s].[Description0], [s].[ImageUrl0], [s].[IsActive0], [s].[Name], [s].[ParentCategoryId], [s0].[Id], [s0].[BookId], [s0].[Comment], [s0].[CreatedAt], [s0].[IsApproved], [s0].[IsVerifiedPurchase], [s0].[Rating], [s0].[UserId], [s0].[Id0], [s0].[AccessFailedCount], [s0].[ConcurrencyStamp], [s0].[CreatedAt0], [s0].[Email], [s0].[EmailConfirmed], [s0].[LockoutEnabled], [s0].[LockoutEnd], [s0].[Name], [s0].[NormalizedEmail], [s0].[NormalizedUserName], [s0].[PasswordHash], [s0].[PhoneNumber], [s0].[PhoneNumberConfirmed], [s0].[SecurityStamp], [s0].[TwoFactorEnabled], [s0].[UserName], [b0].[Id], [b0].[BookId], [b0].[CreatedAt], [b0].[DisplayOrder], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[UpdatedAt]
+FROM (
+    SELECT TOP(1) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], [c].[Id] AS [Id0], [c].[CreatedAt] AS [CreatedAt0], [c].[Description] AS [Description0], [c].[ImageUrl] AS [ImageUrl0], [c].[IsActive] AS [IsActive0], [c].[Name], [c].[ParentCategoryId]
+    FROM [Books] AS [b]
+    INNER JOIN [Categories] AS [c] ON [b].[CategoryId] = [c].[Id]
+    WHERE [b].[Id] = @__id_0 AND [b].[IsActive] = CAST(1 AS bit)
+) AS [s]
+LEFT JOIN (
+    SELECT [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId], [a].[Id] AS [Id0], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt] AS [CreatedAt0], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+    FROM [Reviews] AS [r]
+    INNER JOIN [AspNetUsers] AS [a] ON [r].[UserId] = [a].[Id]
+) AS [s0] ON [s].[Id] = [s0].[BookId]
+LEFT JOIN [BookGalleryImages] AS [b0] ON [s].[Id] = [b0].[BookId]
+ORDER BY [s].[Id], [s].[Id0], [s0].[Id], [s0].[Id0]
+2025-10-24 11:43:23.881 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[@__p_2='?' (DbType = Int32), @__bookId_0='?' (DbType = Int32), @__book_CategoryId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [b0].[Id], [b0].[AdditionalImages], [b0].[Author], [b0].[CategoryId], [b0].[CreatedAt], [b0].[Description], [b0].[DiscountPrice], [b0].[ImageContentType], [b0].[ImageFileName], [b0].[ImageFileSize], [b0].[ImageUrl], [b0].[IsActive], [b0].[Language], [b0].[PageCount], [b0].[Price], [b0].[PublishDate], [b0].[Publisher], [b0].[StockQuantity], [b0].[Title], [b0].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId], [r0].[Id], [r0].[BookId], [r0].[Comment], [r0].[CreatedAt], [r0].[IsApproved], [r0].[IsVerifiedPurchase], [r0].[Rating], [r0].[UserId]
+FROM (
+    SELECT TOP(@__p_2) [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], (
+        SELECT COUNT(*)
+        FROM [Reviews] AS [r]
+        WHERE [b].[Id] = [r].[BookId]) AS [c]
+    FROM [Books] AS [b]
+    WHERE [b].[IsActive] = CAST(1 AS bit) AND [b].[Id] <> @__bookId_0 AND [b].[CategoryId] = @__book_CategoryId_1
+    ORDER BY (
+        SELECT COUNT(*)
+        FROM [Reviews] AS [r]
+        WHERE [b].[Id] = [r].[BookId]) DESC
+) AS [b0]
+INNER JOIN [Categories] AS [c] ON [b0].[CategoryId] = [c].[Id]
+LEFT JOIN [Reviews] AS [r0] ON [b0].[Id] = [r0].[BookId]
+ORDER BY [b0].[c] DESC, [b0].[Id], [c].[Id]
+2025-10-24 11:43:23.885 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__userId_0='?' (Size = 450), @__bookId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Reviews] AS [r]
+        WHERE [r].[UserId] = @__userId_0 AND [r].[BookId] = @__bookId_1) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-10-24 11:43:23.887 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__userId_0='?' (Size = 450), @__bookId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [OrderItems] AS [o]
+        INNER JOIN [Orders] AS [o0] ON [o].[OrderId] = [o0].[Id]
+        WHERE [o0].[UserId] = @__userId_0 AND [o].[BookId] = @__bookId_1 AND [o0].[Status] = 3) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-10-24 11:43:23.888 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__userId_0='?' (Size = 450), @__bookId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Reviews] AS [r]
+        WHERE [r].[UserId] = @__userId_0 AND [r].[BookId] = @__bookId_1) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-10-24 11:43:23.889 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__userId_0='?' (Size = 450), @__bookId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [WishlistItems] AS [w]
+        WHERE [w].[UserId] = @__userId_0 AND [w].[BookId] = @__bookId_1) THEN CAST(1 AS bit)
+    ELSE CAST(0 AS bit)
+END
+2025-10-24 11:43:23.891 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__userId_0='?' (Size = 450), @__bookId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [c].[Id], [c].[BookId], [c].[CreatedAt], [c].[Quantity], [c].[UpdatedAt], [c].[UserId]
+FROM [CartItems] AS [c]
+WHERE [c].[UserId] = @__userId_0 AND [c].[BookId] = @__bookId_1
+2025-10-24 11:43:23.892 +07:00 [INF] Book 4 - AdditionalImages: null, GalleryCount: 0, HasGallery: false
+2025-10-24 11:43:23.893 +07:00 [INF] Executing ViewResult, running view Details.
+2025-10-24 11:43:23.895 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:43:23.897 +07:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM [Categories] AS [c]
+WHERE [c].[IsActive] = CAST(1 AS bit)
+ORDER BY [c].[Name]
+2025-10-24 11:43:23.900 +07:00 [INF] Executed ViewResult - view Details executed in 7.5079ms.
+2025-10-24 11:43:23.901 +07:00 [INF] Executed action BookStoreMVC.Controllers.BooksController.Details (BookStoreMVC) in 25.5827ms
+2025-10-24 11:43:23.902 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.BooksController.Details (BookStoreMVC)'
+2025-10-24 11:43:23.903 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/books/4 - 200 null text/html; charset=utf-8 31.4275ms
+2025-10-24 11:43:31.845 +07:00 [INF] Request starting HTTP/1.1 POST http://localhost:5000/wishlist/toggle - application/json 12
+2025-10-24 11:43:31.848 +07:00 [INF] CORS policy execution failed.
+2025-10-24 11:43:31.849 +07:00 [INF] Request origin http://localhost:5000 does not have permission to access the resource.
+2025-10-24 11:43:31.850 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.WishlistController.Toggle (BookStoreMVC)'
+2025-10-24 11:43:31.855 +07:00 [INF] Route matched with {action = "Toggle", controller = "Wishlist"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Toggle(BookStoreMVC.Models.ViewModels.AddToWishlistViewModel) on controller BookStoreMVC.Controllers.WishlistController (BookStoreMVC).
+2025-10-24 11:43:31.857 +07:00 [INF] Antiforgery token validation failed. The required antiforgery header value "RequestVerificationToken" is not present.
+Microsoft.AspNetCore.Antiforgery.AntiforgeryValidationException: The required antiforgery header value "RequestVerificationToken" is not present.
+   at Microsoft.AspNetCore.Antiforgery.DefaultAntiforgery.ValidateRequestAsync(HttpContext httpContext)
+   at Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.ValidateAntiforgeryTokenAuthorizationFilter.OnAuthorizationAsync(AuthorizationFilterContext context)
+2025-10-24 11:43:31.859 +07:00 [INF] Authorization failed for the request at filter 'Microsoft.AspNetCore.Mvc.ViewFeatures.Filters.ValidateAntiforgeryTokenAuthorizationFilter'.
+2025-10-24 11:43:31.861 +07:00 [INF] Executing StatusCodeResult, setting HTTP status code 400
+2025-10-24 11:43:31.862 +07:00 [INF] Executed action BookStoreMVC.Controllers.WishlistController.Toggle (BookStoreMVC) in 5.4572ms
+2025-10-24 11:43:31.862 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.WishlistController.Toggle (BookStoreMVC)'
+2025-10-24 11:43:31.863 +07:00 [INF] Request finished HTTP/1.1 POST http://localhost:5000/wishlist/toggle - 400 0 null 18.4762ms
+2025-10-24 11:43:52.130 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/.well-known/appspecific/com.chrome.devtools.json - null null
+2025-10-24 11:43:52.139 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/.well-known/appspecific/com.chrome.devtools.json - 404 0 null 9.2578ms
+2025-10-24 11:43:52.142 +07:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5000/.well-known/appspecific/com.chrome.devtools.json, Response status code: 404
+2025-10-24 11:45:20.754 +07:00 [INF] Request starting HTTP/1.1 GET http://localhost:5000/admin/reviews - null null
+2025-10-24 11:45:20.756 +07:00 [INF] Executing endpoint 'BookStoreMVC.Controllers.AdminController.Reviews (BookStoreMVC)'
+2025-10-24 11:45:20.757 +07:00 [INF] Route matched with {action = "Reviews", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Reviews(BookStoreMVC.Models.ViewModels.ReviewListViewModel) on controller BookStoreMVC.Controllers.AdminController (BookStoreMVC).
+2025-10-24 11:45:20.759 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Reviews] AS [r]
+WHERE [r].[IsApproved] = CAST(1 AS bit)
+2025-10-24 11:45:20.761 +07:00 [INF] Executed DbCommand (0ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT [r0].[Id], [r0].[BookId], [r0].[Comment], [r0].[CreatedAt], [r0].[IsApproved], [r0].[IsVerifiedPurchase], [r0].[Rating], [r0].[UserId], [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[CreatedAt], [a].[Email], [a].[EmailConfirmed], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[Name], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName], [b].[Id], [b].[AdditionalImages], [b].[Author], [b].[CategoryId], [b].[CreatedAt], [b].[Description], [b].[DiscountPrice], [b].[ImageContentType], [b].[ImageFileName], [b].[ImageFileSize], [b].[ImageUrl], [b].[IsActive], [b].[Language], [b].[PageCount], [b].[Price], [b].[PublishDate], [b].[Publisher], [b].[StockQuantity], [b].[Title], [b].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[ImageUrl], [c].[IsActive], [c].[Name], [c].[ParentCategoryId]
+FROM (
+    SELECT [r].[Id], [r].[BookId], [r].[Comment], [r].[CreatedAt], [r].[IsApproved], [r].[IsVerifiedPurchase], [r].[Rating], [r].[UserId]
+    FROM [Reviews] AS [r]
+    WHERE [r].[IsApproved] = CAST(1 AS bit)
+    ORDER BY [r].[CreatedAt] DESC
+    OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+) AS [r0]
+INNER JOIN [AspNetUsers] AS [a] ON [r0].[UserId] = [a].[Id]
+INNER JOIN [Books] AS [b] ON [r0].[BookId] = [b].[Id]
+INNER JOIN [Categories] AS [c] ON [b].[CategoryId] = [c].[Id]
+ORDER BY [r0].[CreatedAt] DESC
+2025-10-24 11:45:20.763 +07:00 [INF] Executing ViewResult, running view Reviews.
+2025-10-24 11:45:20.765 +07:00 [INF] Executed ViewResult - view Reviews executed in 1.8901ms.
+2025-10-24 11:45:20.766 +07:00 [INF] Executed action BookStoreMVC.Controllers.AdminController.Reviews (BookStoreMVC) in 8.1324ms
+2025-10-24 11:45:20.767 +07:00 [INF] Executed endpoint 'BookStoreMVC.Controllers.AdminController.Reviews (BookStoreMVC)'
+2025-10-24 11:45:20.768 +07:00 [INF] Request finished HTTP/1.1 GET http://localhost:5000/admin/reviews - 200 null text/html; charset=utf-8 14.0926ms
+2025-10-24 11:51:25.966 +07:00 [INF] Application is shutting down...

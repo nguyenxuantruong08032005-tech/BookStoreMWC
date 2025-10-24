@@ -80,7 +80,7 @@ namespace BookStoreMVC.Controllers
                 var model = new ReviewCreateViewModel
                 {
                     BookId = bookId,
-                    Book = book
+                   Book = BookSummaryViewModel.FromBook(book)
                 };
 
                 ViewBag.PageTitle = $"Review: {book.Title}";
@@ -101,7 +101,10 @@ namespace BookStoreMVC.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    model.Book = await _bookService.GetBookByIdAsync(model.BookId) ?? new BookViewModel();
+                    var book = await _bookService.GetBookByIdAsync(model.BookId);
+                    model.Book = book != null
+                        ? BookSummaryViewModel.FromBook(book)
+                        : new BookSummaryViewModel { Id = model.BookId };
                     return View(model);
                 }
 
@@ -114,14 +117,20 @@ namespace BookStoreMVC.Controllers
             catch (InvalidOperationException ex)
             {
                 ModelState.AddModelError(string.Empty, ex.Message);
-                model.Book = await _bookService.GetBookByIdAsync(model.BookId) ?? new BookViewModel();
+                var book = await _bookService.GetBookByIdAsync(model.BookId);
+                model.Book = book != null
+                    ? BookSummaryViewModel.FromBook(book)
+                    : new BookSummaryViewModel { Id = model.BookId };
                 return View(model);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error creating review");
                 ModelState.AddModelError(string.Empty, "An error occurred while submitting your review.");
-                model.Book = await _bookService.GetBookByIdAsync(model.BookId) ?? new BookViewModel();
+               var book = await _bookService.GetBookByIdAsync(model.BookId);
+                model.Book = book != null
+                    ? BookSummaryViewModel.FromBook(book)
+                    : new BookSummaryViewModel { Id = model.BookId };
                 return View(model);
             }
         }
@@ -138,18 +147,21 @@ namespace BookStoreMVC.Controllers
                 {
                     return NotFound();
                 }
-
+                  var book = await _bookService.GetBookByIdAsync(review.BookId);
                 var model = new ReviewCreateViewModel
                 {
                     BookId = review.BookId,
                     Rating = review.Rating,
                     Comment = review.Comment,
-                    Book = new BookViewModel
-                    {
-                        Id = review.Book.Id,
-                        Title = review.Book.Title,
-                        Author = review.Book.Author
-                    }
+                     Book = book != null
+                        ? BookSummaryViewModel.FromBook(book)
+                        : new BookSummaryViewModel
+                        {
+                            Id = review.Book.Id,
+                            Title = review.Book.Title,
+                            Author = review.Book.Author,
+                            ImageUrl = review.Book.ImageUrl
+                        }
                 };
 
                 ViewBag.PageTitle = $"Edit Review: {review.Book.Title}";
@@ -171,7 +183,10 @@ namespace BookStoreMVC.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    model.Book = await _bookService.GetBookByIdAsync(model.BookId) ?? new BookViewModel();
+                   var book = await _bookService.GetBookByIdAsync(model.BookId);
+                    model.Book = book != null
+                        ? BookSummaryViewModel.FromBook(book)
+                        : new BookSummaryViewModel { Id = model.BookId };
                     ViewBag.ReviewId = id;
                     return View(model);
                 }
@@ -187,7 +202,10 @@ namespace BookStoreMVC.Controllers
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Unable to update review.");
-                    model.Book = await _bookService.GetBookByIdAsync(model.BookId) ?? new BookViewModel();
+                     var book = await _bookService.GetBookByIdAsync(model.BookId);
+                    model.Book = book != null
+                        ? BookSummaryViewModel.FromBook(book)
+                        : new BookSummaryViewModel { Id = model.BookId };
                     return View(model);
                 }
             }
@@ -195,7 +213,10 @@ namespace BookStoreMVC.Controllers
             {
                 _logger.LogError(ex, "Error updating review");
                 ModelState.AddModelError(string.Empty, "An error occurred while updating your review.");
-                model.Book = await _bookService.GetBookByIdAsync(model.BookId) ?? new BookViewModel();
+              var book = await _bookService.GetBookByIdAsync(model.BookId);
+                model.Book = book != null
+                    ? BookSummaryViewModel.FromBook(book)
+                    : new BookSummaryViewModel { Id = model.BookId };
                 return View(model);
             }
         }

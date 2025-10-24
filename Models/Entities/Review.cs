@@ -14,7 +14,7 @@ namespace BookStoreMVC.Models.Entities
         [Range(1, 5)]
         public int Rating { get; set; }
 
-        [StringLength(1000)]
+        [StringLength(2000)]
         public string? Comment { get; set; }
 
         public bool IsVerifiedPurchase { get; set; } = false;
