@@ -7,7 +7,7 @@ using BookStoreMVC.Data;
 using BookStoreMVC.Models.Entities;
 using BookStoreMVC.Services;
 using Serilog;
-using BookStoreMVC;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
