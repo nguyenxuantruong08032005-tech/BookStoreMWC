@@ -509,8 +509,9 @@ namespace BookStoreMVC.Services
 
         private async Task<bool> CanUserReviewBookAsync(string userId, int bookId)
         {
-            return await HasUserPurchasedBookAsync(userId, bookId) &&
-                   !await HasUserReviewedBookAsync(userId, bookId);
+             // Cho phép người dùng đã đăng nhập đánh giá miễn là họ chưa từng đánh giá cuốn sách.
+            // Nếu họ đã mua hàng, đánh giá sẽ được gắn cờ là "đã xác minh" ở bước tạo đánh giá.
+            return !await HasUserReviewedBookAsync(userId, bookId);
         }
 
         private async Task<bool> HasUserPurchasedBookAsync(string userId, int bookId)

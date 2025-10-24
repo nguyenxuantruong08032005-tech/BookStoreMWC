@@ -352,7 +352,12 @@
             </div>
 
             <!-- Reviews -->
-            @if (Model.Book.Reviews.Any())
+           @{
+                var approvedReviews = Model.Book.ApprovedReviews
+                    .OrderByDescending(r => r.CreatedAt)
+                    .ToList();
+            }
+            @if (approvedReviews.Any())
             {
                 <div class="bg-white rounded-xl shadow-xl p-8 mb-6">
                     <h3 class="text-2xl font-black text-gray-900 mb-6 flex items-center justify-between">
@@ -364,7 +369,7 @@
                     </h3>
 
                     <div class="space-y-4">
-                        @foreach (var review in Model.Book.Reviews.OrderByDescending(r => r.CreatedAt).Take(5))
+                          @foreach (var review in approvedReviews.Take(5))
                         {
                             <div class="bg-gradient-to-r from-blue-50 to-purple-50 border-l-4 border-blue-500 rounded-lg p-5 hover:shadow-md transition-shadow">
                                 <div class="flex items-start justify-between mb-3">
@@ -401,7 +406,54 @@
                     }
                 </div>
             }
-
+   else if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <div class="mt-6 bg-blue-50 border border-blue-200 rounded-xl px-5 py-4 text-blue-700 text-sm font-medium flex items-center space-x-3">
+                            <i class="fas fa-info-circle"></i>
+                            <span>
+                                @(Model.AlreadyReviewed
+                                    ? "Bạn đã gửi đánh giá cho cuốn sách này. Cảm ơn bạn đã chia sẻ cảm nhận!"
+                                    : "Bạn đã đăng nhập. Hãy là người đầu tiên chia sẻ cảm nhận khi sẵn sàng!")
+                            </span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="mt-6 bg-gray-50 border border-gray-200 rounded-xl px-5 py-4 text-gray-600 text-sm font-medium flex items-center space-x-3">
+                            <i class="fas fa-lock"></i>
+                            <span>Đăng nhập để viết đánh giá cho cuốn sách này.</span>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="bg-white rounded-xl shadow-xl p-8 mb-6 text-center">
+                    <h3 class="text-2xl font-black text-gray-900 mb-3 flex items-center justify-center">
+                        <i class="fas fa-comments mr-3 text-purple-600"></i>
+                        Đánh giá
+                    </h3>
+                    <p class="text-gray-600 mb-4">Chưa có đánh giá nào cho cuốn sách này.</p>
+                    @if (Model.CanReview)
+                    {
+                        <a asp-controller="Reviews" asp-action="Create" asp-route-bookId="@Model.Book.Id"
+                           class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                            <i class="fas fa-pen mr-2"></i>
+                            Trở thành người đầu tiên đánh giá
+                        </a>
+                    }
+                    else if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <p class="text-sm text-blue-600 font-medium">
+                            @(Model.AlreadyReviewed
+                                ? "Bạn đã gửi đánh giá cho cuốn sách này. Cảm ơn bạn đã chia sẻ cảm nhận!"
+                                : "Bạn đã đăng nhập. Hãy chia sẻ cảm nhận của mình khi đã sẵn sàng!")
+                        </p>
+                    }
+                    else
+                    {
+                        <p class="text-sm text-gray-500">Đăng nhập để trở thành người đầu tiên đánh giá cuốn sách này.</p>
+                    }
             <!-- Related Books -->
             @if (Model.RelatedBooks.Any())
             {

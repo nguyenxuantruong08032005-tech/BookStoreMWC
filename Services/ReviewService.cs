@@ -187,12 +187,12 @@ namespace BookStoreMVC.Services
 
         public async Task<bool> CanUserReviewBookAsync(string userId, int bookId)
         {
-            // Người dùng có thể xem xét nếu họ đã mua cuốn sách và chưa đánh giá nó.
-            var hasPurchased = await HasUserPurchasedBookAsync(userId, bookId);
-            var hasReviewed = await _context.Reviews
+           // Người dùng đã đăng nhập có thể đánh giá miễn là chưa có đánh giá trước đó cho cuốn sách này.
+            // Nếu họ đã mua sách, đánh giá sẽ được gắn cờ là "Đã mua" ở bước tạo.
+            return !await _context.Reviews
                 .AnyAsync(r => r.UserId == userId && r.BookId == bookId);
 
-            return hasPurchased && !hasReviewed;
+           
         }
 
         public async Task<(double AverageRating, int[] RatingDistribution)> GetBookRatingStatsAsync(int bookId)

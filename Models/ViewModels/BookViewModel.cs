@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using BookStoreMVC.Models.Entities;
-
+using System.Linq;
 namespace BookStoreMVC.Models.ViewModels
 {
     public class BookViewModel
@@ -133,9 +133,20 @@ namespace BookStoreMVC.Models.ViewModels
         public IEnumerable<Category> Categories { get; set; } = new List<Category>();
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
 
+        [NotMapped]
+        public IEnumerable<Review> ApprovedReviews => Reviews?.Where(r => r.IsApproved) ?? Enumerable.Empty<Review>();
+
         // Calculated properties
-        public decimal AverageRating => Reviews.Any() ? (decimal)Reviews.Average(r => r.Rating) : 0;
-        public int ReviewCount => Reviews.Count();
+       public decimal AverageRating
+        {
+            get
+            {
+                var approvedReviews = ApprovedReviews.ToList();
+                return approvedReviews.Any() ? (decimal)approvedReviews.Average(r => r.Rating) : 0;
+            }
+        }
+
+        public int ReviewCount => Reviews?.Count(r => r.IsApproved) ?? 0;        
         public bool InStock => StockQuantity > 0;
         public decimal DisplayPrice => DiscountPrice ?? Price;
         public bool HasDiscount => DiscountPrice.HasValue && DiscountPrice < Price;
