@@ -9,7 +9,7 @@
 @section Styles {
     <style>
        .blog-hero::before {
-            content: "";
+                     content: "";
             position: absolute;
             inset: -30%;
             background:
@@ -35,34 +35,53 @@
         .sidebar-card {
             backdrop-filter: blur(6px);
         }
+        .hero-highlight {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-highlight::before {
+            content: "";
+            position: absolute;
+            inset: -35%;
+            background: radial-gradient(circle at top, rgba(34, 36, 144, 0.5));
+            opacity: 0.9;
+            filter: blur(18px);
+        }
+
+        .hero-highlight > * {
+            position: relative;
+            z-index: 1;
+        }
     </style>
 }
 
 <main class="mx-auto max-w-6xl space-y-12 px-4 sm:px-6 lg:px-8">
     <section class="blog-hero relative overflow-hidden rounded-[32px] bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 px-6 py-12 text-white shadow-2xl sm:px-10 md:px-16 md:py-16">
-        <div class="max-w-3xl space-y-6">
-             <div class="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-sm font-semibold uppercase tracking-wide backdrop-blur">
-                <i class="fas fa-pen-nib text-yellow-200"></i>
-                Blog BookVerse
-            </div>
-             <h1 class="text-4xl font-black leading-tight md:text-5xl">
-                @pageTitle
-            </h1>
-            <p class="text-lg leading-relaxed text-indigo-50/90 md:text-xl">
-                @pageDescription
-            </p>
-            <div class="flex flex-wrap items-center gap-3 text-sm font-semibold text-white/90">
-                <span class="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 backdrop-blur">
-                    <i class="fas fa-calendar-alt"></i>
-                    Cập nhật mỗi tuần
-                </span>
-                 <span class="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 backdrop-blur">
-                    <i class="fas fa-book-reader"></i>
-                    Mẹo đọc sách chất lượng
-                </span>
+          <div class="max-w-3xl">
+            <div class="hero-highlight space-y-6 rounded-3xl bg-white/10 p-6 shadow-xl shadow-indigo-900/20 ring-1 ring-white/25 backdrop-blur-sm sm:p-8">
+                <div class="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-sm font-semibold uppercase tracking-wide backdrop-blur">
+                    <i class="fas fa-pen-nib text-yellow-200"></i>
+                    Blog BookVerse
+                </div>
+                <h1 class="text-4xl font-black leading-tight md:text-5xl">
+                    @pageTitle
+                </h1>
+                <p class="text-lg leading-relaxed text-indigo-50/90 md:text-xl">
+                    @pageDescription
+                </p>
+                <div class="flex flex-wrap items-center gap-3 text-sm font-semibold text-white/90">
+                    <span class="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 backdrop-blur">
+                        <i class="fas fa-calendar-alt"></i>
+                        Cập nhật mỗi tuần
+                    </span>
+                    <span class="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 backdrop-blur">
+                        <i class="fas fa-book-reader"></i>
+                        Mẹo đọc sách chất lượng
+                    </span>
+                </div>
             </div>
         </div>
-    </div>
 </section>
   <section class="grid gap-12 lg:grid-cols-[1.7fr_1fr]">
         <div class="space-y-10">
@@ -78,8 +97,8 @@
                     @foreach (var post in Model.FeaturedPosts)
                     {
                         var imageUrl = string.IsNullOrWhiteSpace(post.HeroImageUrl) ? "/images/blog/default-featured.jpg" : post.HeroImageUrl;
-                        <article class="group relative overflow-hidden rounded-[28px] border border-slate-100 bg-white shadow-xl transition duration-300 hover:-translate-y-1 hover:shadow-2xl">
-                            <div class="relative h-52 overflow-hidden">
+                        <article class="featured-card group relative overflow-hidden rounded-[28px] border border-slate-100 bg-white shadow-xl transition duration-300 hover:-translate-y-1 hover:shadow-2xl">
+                            <div class="relative h-40 overflow-hidden sm:h-44 md:h-48">
                                 <img src="@imageUrl" alt="@post.Title" class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
                                 <span class="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-indigo-600 shadow">
 
@@ -178,7 +197,7 @@
                 </div>
             </div>
 
-        <div class="rounded-3xl border border-indigo-100 bg-indigo-50/90 p-6 shadow-inner">
+            <div class="rounded-3xl border border-indigo-100 bg-indigo-50/90 p-6 shadow-inner">
                 <h3 class="text-lg font-bold text-indigo-900">Bản tin BookVerse</h3>
                 <p class="mt-2 text-sm text-indigo-800/80">Nhận thông báo về bài viết mới, ưu đãi và gợi ý sách phù hợp với bạn.</p>
                 <form asp-controller="Home" asp-action="SubscribeNewsletter" method="post" class="mt-4 space-y-3">
@@ -193,7 +212,7 @@
                 </form>
             </div>
 
-        <div class="rounded-3xl border border-gray-100 bg-white p-6 shadow-xl">
+            <div class="rounded-3xl border border-gray-100 bg-white p-6 shadow-xl">
                 <h3 class="text-lg font-bold text-gray-900">Từ khoá được tìm kiếm nhiều</h3>
                 <ul class="mt-4 space-y-3 text-sm text-gray-600">
                     <li class="flex items-center gap-2"><i class="fas fa-search text-gray-400"></i>Sách self-help 2024</li>

@@ -2,310 +2,136 @@
 @{
     ViewData["Title"] = "Liên hệ";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    
+
 }
 
 <div class="container">
     <!-- Breadcrumb -->
-    @await Html.PartialAsync("_Breadcrumb", new List<(string, string)> {
-    ("Trang chủ", Url.Action("Index", "Home")),
+  <div class="container py-5 contact-article">
+    @await Html.PartialAsync("_Breadcrumb", new List<(string, string)>
+    {
+        ("Trang chủ", Url.Action("Index", "Home")),
         ("Liên hệ", "")
-        })
+      })
 
-    <div class="row">
-        <div class="col-12 text-center mb-5">
-            <h1 class="display-4">Liên hệ với chúng tôi</h1>
-            <p class="lead text-muted">
-                Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ bạn
-            </p>
-        </div>
-    </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-xl-9">
+            <article class="bg-white shadow rounded-4 border border-light-subtle">
+                <header class="px-4 px-md-5 py-5 border-bottom border-light-subtle text-center text-md-start">
+                    <p class="text-muted mb-2">Cập nhật ngày @DateTime.Now.ToString("dd/MM/yyyy")</p>
+                    <h1 class="display-5 fw-bold mb-3">Chào mừng các bạn đến với BookStore!</h1>
+                    <p class="lead text-secondary mb-0">
+                        Sách là nguồn cảm hứng vô tận và cũng là người bạn đồng hành đáng tin cậy trên mọi chặng đường
+                        tri thức. Chúng tôi trân trọng từng khoảnh khắc bạn dành cho những cuốn sách yêu thích của mình.
+                    </p>
+                </header>
 
-    <div class="row">
-        <!-- Contact Information -->
-        <div class="col-lg-4 mb-5">
-            <div class="card shadow-sm h-100">
-                <div class="card-body">
-                    <h4 class="card-title mb-4">
-                        <i class="fas fa-info-circle text-primary"></i> Thông tin liên hệ
-                    </h4>
+                <section class="px-4 px-md-5 py-4 py-md-5 border-bottom border-light-subtle bg-light-subtle">
+                    <figure class="mb-0">
+                        <blockquote class="blockquote fs-4 fst-italic text-primary mb-3">
+                            “Sách là nguồn của mọi tri thức của thế giới và là di sản xứng đáng của các thế hệ và các quốc gia.”
+                        </blockquote>
+                        <figcaption class="blockquote-footer">Henry David Thoreau</figcaption>
+                    </figure>
+                </section>
 
-                    <div class="contact-item mb-4">
-                        <div class="d-flex align-items-start">
-                            <div class="contact-icon me-3">
-                                <i class="fas fa-map-marker-alt fa-lg text-primary"></i>
-                            </div>
-                            <div>
-                                <h6>Địa chỉ</h6>
-                                <p class="text-muted mb-0">
-                                    123 Đường Nguyễn Huệ, Quận 1<br>
-                                    TP. Hồ Chí Minh, Việt Nam
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                <section class="px-4 px-md-5 py-4 py-md-5">
+                    <h2 class="h4 fw-semibold text-uppercase text-primary mb-3">Vì sao nên lựa chọn BookStore?</h2>
+                    <p class="text-secondary mb-4">
+                        Với sứ mệnh lan tỏa tri thức và nuôi dưỡng văn hóa đọc, BookStore mang đến trải nghiệm mua sắm
+                        sách trực tuyến nhanh chóng, tiện lợi và đầy cảm hứng. Đội ngũ của chúng tôi luôn sẵn sàng tư vấn,
+                        giới thiệu những tựa sách phù hợp, đồng thời cam kết dịch vụ hậu mãi tận tâm dành cho từng độc giả.
+                    </p>
+                    <ul class="list-unstyled vstack gap-3 text-secondary">
+                        <li class="d-flex gap-3">
+                            <i class="fas fa-book-open text-primary pt-1"></i>
+                            <span>Hơn 20.000 đầu sách đa dạng về thể loại, từ văn học, thiếu nhi đến kỹ năng sống và phát triển bản thân.</span>
+                        </li>
+                        <li class="d-flex gap-3">
+                            <i class="fas fa-shipping-fast text-primary pt-1"></i>
+                            <span>Giao hàng toàn quốc với nhiều lựa chọn thanh toán, đảm bảo sách đến tay bạn trong thời gian sớm nhất.</span>
+                        </li>
+                        <li class="d-flex gap-3">
+                            <i class="fas fa-headset text-primary pt-1"></i>
+                            <span>Đội ngũ chăm sóc khách hàng tận tâm, luôn lắng nghe phản hồi và hỗ trợ xử lý mọi thắc mắc của bạn.</span>
+                        </li>
+                    </ul>
+                </section>
 
-                    <div class="contact-item mb-4">
-                        <div class="d-flex align-items-start">
-                            <div class="contact-icon me-3">
-                                <i class="fas fa-phone fa-lg text-primary"></i>
-                            </div>
-                            <div>
-                                <h6>Điện thoại</h6>
-                                <p class="text-muted mb-0">
-                                    <a href="tel:+84123456789" class="text-decoration-none">
-                                        (+84) 123 456 789
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="contact-item mb-4">
-                        <div class="d-flex align-items-start">
-                            <div class="contact-icon me-3">
-                                <i class="fas fa-envelope fa-lg text-primary"></i>
-                            </div>
-                            <div>
-                                <h6>Email</h6>
-                                <p class="text-muted mb-0">
-                                    <a href="mailto:info@bookstore.vn" class="text-decoration-none">
-                                        info@bookstore.vn
-                                    </a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="contact-item mb-4">
-                        <div class="d-flex align-items-start">
-                            <div class="contact-icon me-3">
-                                <i class="fas fa-clock fa-lg text-primary"></i>
-                            </div>
-                            <div>
-                                <h6>Giờ làm việc</h6>
-                                <p class="text-muted mb-1">Thứ 2 - Thứ 6: 8:00 - 18:00</p>
-                                <p class="text-muted mb-1">Thứ 7: 8:00 - 17:00</p>
-                                <p class="text-muted mb-0">Chủ nhật: 9:00 - 16:00</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <h6 class="mb-3">Theo dõi chúng tôi</h6>
-                    <div class="social-links">
-                        <a href="#" class="btn btn-outline-primary btn-sm me-2 mb-2">
-                            <i class="fab fa-facebook-f"></i> Facebook
-                        </a>
-                        <a href="#" class="btn btn-outline-info btn-sm me-2 mb-2">
-                            <i class="fab fa-twitter"></i> Twitter
-                        </a>
-                        <a href="#" class="btn btn-outline-danger btn-sm me-2 mb-2">
-                            <i class="fab fa-instagram"></i> Instagram
-                        </a>
-                        <a href="#" class="btn btn-outline-success btn-sm mb-2">
-                            <i class="fab fa-whatsapp"></i> WhatsApp
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Contact Form -->
-        <div class="col-lg-8">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h4 class="card-title mb-4">
-                        <i class="fas fa-paper-plane text-primary"></i> Gửi tin nhắn
-                    </h4>
-
-                    <form id="contactForm" method="post" asp-action="Contact">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label class="form-label">Họ tên *</label>
-                                    <input type="text" name="Name" class="form-control" required>
+                <section class="px-4 px-md-5 py-4 py-md-5 bg-light-subtle border-top border-bottom border-light-subtle">
+                    <h2 class="h4 fw-semibold text-uppercase text-primary mb-3">Thông tin liên hệ</h2>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="d-flex gap-3">
+                                <i class="fas fa-map-marker-alt fa-lg text-primary pt-1"></i>
+                                <div>
+                                    <h5 class="fw-semibold mb-1">Trụ sở chính</h5>
+                                    <p class="mb-0 text-secondary">123 Nguyễn Huệ, Phường Bến Nghé, Quận 1<br />TP. Hồ Chí Minh</p>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label class="form-label">Email *</label>
-                                    <input type="email" name="Email" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex gap-3">
+                                <i class="fas fa-envelope fa-lg text-primary pt-1"></i>
+                                <div>
+                                    <h5 class="fw-semibold mb-1">Email</h5>
+                                    <p class="mb-0"><a href="mailto:lienhe@bookstore.vn" class="link-primary">lienhe@bookstore.vn</a></p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label class="form-label">Số điện thoại</label>
-                                    <input type="tel" name="Phone" class="form-control">
+                        <div class="col-md-6">
+                            <div class="d-flex gap-3">
+                                <i class="fas fa-phone fa-lg text-primary pt-1"></i>
+                                <div>
+                                    <h5 class="fw-semibold mb-1">Hotline</h5>
+                                    <p class="mb-0"><a href="tel:+842838888888" class="link-primary">(+84) 28 3888 8888</a></p>
+                                    <p class="mb-0 text-secondary small">Thứ 2 - Thứ 7: 8:00 - 20:00 | Chủ nhật: 9:00 - 17:00</p>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
-                                    <label class="form-label">Chủ đề</label>
-                                    <select name="Subject" class="form-select">
-                                        <option value="">Chọn chủ đề</option>
-                                        <option value="general">Câu hỏi chung</option>
-                                        <option value="order">Vấn đề đơn hàng</option>
-                                        <option value="return">Đổi trả sản phẩm</option>
-                                        <option value="suggestion">Góp ý, đề xuất</option>
-                                        <option value="partnership">Hợp tác kinh doanh</option>
-                                        <option value="other">Khác</option>
-                                    </select>
+                               </div>
+                        <div class="col-md-6">
+                            <div class="d-flex gap-3">
+                                <i class="fas fa-store fa-lg text-primary pt-1"></i>
+                                <div>
+                                    <h5 class="fw-semibold mb-1">Showroom</h5>
+                                    <p class="mb-0 text-secondary">Lầu 2, TTTM Saigon Centre, 65 Lê Lợi, Quận 1<br />TP. Hồ Chí Minh</p>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="form-group mb-3">
-                            <label class="form-label">Nội dung tin nhắn *</label>
-                            <textarea name="Message" class="form-control" rows="6"
-                                placeholder="Vui lòng mô tả chi tiết vấn đề hoặc câu hỏi của bạn..."
-                                required></textarea>
-                        </div>
-
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" id="newsletter" name="Newsletter">
-                            <label class="form-check-label" for="newsletter">
-                                Tôi muốn nhận email thông báo về sản phẩm mới và ưu đãi đặc biệt
-                            </label>
-                        </div>
-
-                        <div class="form-check mb-4">
-                            <input class="form-check-input" type="checkbox" id="privacy" required>
-                            <label class="form-check-label" for="privacy">
-                                Tôi đồng ý với
-                                <a asp-action="Privacy" target="_blank">chính sách bảo mật</a>
-                                của BookStore *
-                            </label>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="fas fa-paper-plane"></i> Gửi tin nhắn
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- FAQ Section -->
-    <div class="row mt-5">
-        <div class="col-12">
-            <h3 class="text-center mb-4">Câu hỏi thường gặp</h3>
-            <div class="accordion" id="faqAccordion">
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="faq1">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapse1" aria-expanded="true">
-                            Làm thế nào để đặt hàng trên website?
-                        </button>
-                    </h2>
-                    <div id="collapse1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">
-                            Bạn chỉ cần tìm sách mong muốn, thêm vào giỏ hàng, điền thông tin giao hàng và thanh toán.
-                            Chúng tôi sẽ xử lý đơn hàng trong vòng 24 giờ.
-                        </div>
                     </div>
-                </div>
+                </section>
 
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="faq2">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapse2">
-                            Phí vận chuyển được tính như thế nào?
-                        </button>
-                    </h2>
-                    <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">
-                            Miễn phí vận chuyển cho đơn hàng từ 500,000đ. Với đơn hàng dưới 500,000đ,
-                            phí vận chuyển là 30,000đ trong nội thành và 50,000đ ngoại thành.
-                        </div>
-                    </div>
-                </div>
+                <section class="px-4 px-md-5 py-4 py-md-5">
+                    <h2 class="h4 fw-semibold text-uppercase text-primary mb-3">Bạn có thể liên hệ với chúng tôi qua</h2>
+                    <ol class="ps-3 text-secondary">
+                        <li class="mb-2">Gửi email trực tiếp tới <strong>lienhe@bookstore.vn</strong> với đầy đủ thông tin liên lạc và nội dung yêu cầu.</li>
+                        <li class="mb-2">Liên hệ hotline <strong>(+84) 28 3888 8888</strong> để được hỗ trợ nhanh về đơn hàng, đổi trả hay các chương trình khuyến mãi.</li>
+                        <li class="mb-2">Nhắn tin qua các kênh mạng xã hội Facebook, Instagram, Zalo chính thức của BookStore để được tư vấn ngay.</li>
+                        <li>Tới trực tiếp showroom của chúng tôi tại Saigon Centre để trải nghiệm không gian đọc sách và trò chuyện cùng đội ngũ BookStore.</li>
+                    </ol>
+                </section>
 
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="faq3">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapse3">
-                            Tôi có thể đổi trả sách không?
-                        </button>
-                    </h2>
-                    <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">
-                            Có, bạn có thể đổi trả trong vòng 7 ngày kể từ ngày nhận hàng.
-                            Sách phải còn nguyên vẹn và kèm theo hóa đơn mua hàng.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="faq4">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapse4">
-                            Các phương thức thanh toán nào được hỗ trợ?
-                        </button>
-                    </h2>
-                    <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">
-                            Chúng tôi hỗ trợ thanh toán qua thẻ tín dụng/ghi nợ, ví điện tử (MoMo, ZaloPay),
-                            chuyển khoản ngân hàng và thanh toán khi nhận hàng.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Map Section -->
-    <div class="row mt-5">
-        <div class="col-12">
-            <h3 class="text-center mb-4">Vị trí của chúng tôi</h3>
-            <div class="map-container">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.4326002651003!2d106.69868731531277!3d10.775431992321135!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f1c06f4e1dd%3A0x43900f1d4539408d!2sNguyen%20Hue%20Walking%20Street!5e0!3m2!1sen!2s!4v1636789234567!5m2!1sen!2s"
-                    width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-            </div>
+                <section class="px-4 px-md-5 py-4 py-md-5 bg-light-subtle border-top border-light-subtle">
+                    <h2 class="h4 fw-semibold text-uppercase text-primary mb-3">Chúng tôi luôn ở đây vì bạn</h2>
+                    <p class="text-secondary mb-3">
+                        BookStore trân trọng từng phản hồi, từng câu hỏi và sự tin tưởng của bạn. Nếu cần thêm bất kỳ thông tin nào,
+                        đừng ngần ngại liên hệ với chúng tôi. Chúc bạn luôn tìm được những cuốn sách yêu thích và có những trải nghiệm
+                        đọc tuyệt vời cùng BookStore.
+                    </p>
+                    <p class="text-secondary mb-0 fst-italic">Thân mến,<br />Đội ngũ BookStore</p>
+                </section>
+            </article>
         </div>
     </div>
 </div>
 
-<script>
-    document.getElementById('contactForm').addEventListener('submit', function (e) {
-        e.preventDefault();
+<style>
+   .contact-article .link-primary { text-decoration: none; }
+.contact-article .link-primary:hover { text-decoration: underline; }
 
-        const formData = new FormData(this);
-        const submitBtn = this.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
-
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang gửi...';
-
-        fetch(this.action, {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    Swal.fire({
-                        title: 'Gửi thành công!',
-                        text: 'Cảm ơn bạn đã liên hệ. Chúng tôi sẽ phản hồi trong thời gian sớm nhất.',
-                        icon: 'success',
-                        confirmButtonText: 'Đóng'
-                    });
-                    this.reset();
-                } else {
-                    Swal.fire('Lỗi!', data.message || 'Có lỗi xảy ra khi gửi tin nhắn.', 'error');
-                }
-            })
-            .catch(error => {
-                Swal.fire('Lỗi!', 'Có lỗi xảy ra khi gửi tin nhắn.', 'error');
-            })
-            .finally(() => {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalText;
-            });
-    });
-</script>
+@@media (max-width: 575.98px) {
+  .contact-article article { border-radius: 1rem; }
+}
+</style>
