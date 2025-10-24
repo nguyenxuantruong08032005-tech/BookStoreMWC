@@ -34,6 +34,7 @@ namespace BookStoreMVC.Controllers
             try
             {
                 NormalizeSorting(Request, model);
+                 NormalizePagination(model);
                 var (books, totalCount) = await _bookService.GetBooksAsync(model);
 
                 model.Books = books;
@@ -51,7 +52,7 @@ namespace BookStoreMVC.Controllers
                 return View(new BookListViewModel());
             }
         }
- public async Task<IActionResult> NewBooks(string? searchTerm, string filter = "all", int page = 1)
+  public async Task<IActionResult> NewBooks(string? searchTerm, string filter = "all", int page = 1)
         {
             try
             {
@@ -150,6 +151,7 @@ namespace BookStoreMVC.Controllers
             {
                 model.SortBy = "bestseller";
                 NormalizeSorting(Request, model);
+                 NormalizePagination(model);
 
                 var (books, totalCount) = await _bookService.GetBooksAsync(model);
 
@@ -183,6 +185,7 @@ namespace BookStoreMVC.Controllers
             {
                 model.SortBy = "discount";
                 NormalizeSorting(Request, model);
+                 NormalizePagination(model);
 
                 var (books, totalCount) = await _bookService.GetBooksAsync(model);
 
@@ -234,7 +237,18 @@ namespace BookStoreMVC.Controllers
                 model.SortOrder = "desc";
             }
         }
+ private static void NormalizePagination(BookListViewModel model)
+        {
+            if (model.PageNumber < 1)
+            {
+                model.PageNumber = 1;
+            }
 
+            if (model.PageSize < 1)
+            {
+                model.PageSize = 12;
+            }
+        }
         private static string GetDefaultSortOrder(string sortBy) => sortBy switch
         {
             "newest" => "desc",
@@ -356,7 +370,7 @@ namespace BookStoreMVC.Controllers
                 var model = new BookListViewModel
                 {
                     SearchTerm = searchTerm,
-                    PageNumber = page,
+                    PageNumber = Math.Max(page, 1),
                     PageSize = 12
                 };
 
