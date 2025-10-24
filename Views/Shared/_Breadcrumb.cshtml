@@ -1,0 +1,38 @@
+@* Views/Shared/_Breadcrumb.cshtml *@
+@using System.Linq
+@model IEnumerable<(string Label, string? Url)>
+
+@{
+    var items = (Model ?? Enumerable.Empty<(string Label, string? Url)>()).ToList();
+}
+
+@if (items.Any())
+{
+    <nav class="bg-gray-100 border-y border-gray-200" aria-label="breadcrumb">
+        <div class="container mx-auto px-4 py-3">
+            <ol class="flex flex-wrap items-center gap-2 text-sm text-gray-600">
+                @for (var i = 0; i < items.Count; i++)
+                {
+                    var (label, url) = items[i];
+                    var isLast = i == items.Count - 1;
+
+                    <li class="flex items-center gap-2">
+                        @if (!string.IsNullOrWhiteSpace(url) && !isLast)
+                        {
+                            <a class="text-indigo-600 hover:text-indigo-700 font-medium" href="@url">@label</a>
+                        }
+                        else
+                        {
+                            <span class="text-gray-800 font-semibold">@label</span>
+                        }
+
+                        @if (!isLast)
+                        {
+                            <span class="text-gray-400">/</span>
+                        }
+                    </li>
+                }
+            </ol>
+        </div>
+    </nav>
+}
