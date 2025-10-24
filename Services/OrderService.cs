@@ -17,7 +17,7 @@ namespace BookStoreMVC.Services
         Task<(decimal TotalRevenue, int TotalOrders, decimal AverageOrderValue)> GetOrderStatisticsAsync();
         Task<Dictionary<string, decimal>> GetMonthlyRevenueAsync(int months = 12);
         Task<Dictionary<OrderStatus, int>> GetOrdersByStatusAsync();
-        Task<IEnumerable<BookSummaryViewModel>> GetTopSellingBooksAsync(int count = 5);
+        Task<IEnumerable<TopSellingBookViewModel>> GetTopSellingBooksAsync(int count = 5);
     }
 
     public class OrderService : IOrderService
@@ -335,7 +335,7 @@ namespace BookStoreMVC.Services
                 .ToDictionaryAsync(g => g.Key, g => g.Count());
         }
 
-        public async Task<IEnumerable<BookSummaryViewModel>> GetTopSellingBooksAsync(int count = 5)
+         public async Task<IEnumerable<TopSellingBookViewModel>> GetTopSellingBooksAsync(int count = 5)
         {
             try
             {
@@ -344,7 +344,7 @@ namespace BookStoreMVC.Services
                     .Include(oi => oi.Order)
                     .Where(oi => oi.Book != null && oi.Order != null && oi.Order.Status == OrderStatus.Delivered)
                     .GroupBy(oi => new { oi.BookId, oi.Book.Title })
-                    .Select(g => new BookSummaryViewModel
+                    .Select(g => new TopSellingBookViewModel
                     {
                         BookId = g.Key.BookId,
                         Title = g.Key.Title,
@@ -360,7 +360,7 @@ namespace BookStoreMVC.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting top selling books");
-                return new List<BookSummaryViewModel>();
+                  return new List<TopSellingBookViewModel>();
             }
         }
     }

@@ -54,7 +54,7 @@ namespace BookStoreMVC.Models.ViewModels
 
         // Có thể bổ sung Top Users, Top Books
         public IEnumerable<UserSummaryViewModel> TopCustomers { get; set; } = new List<UserSummaryViewModel>();
-        public IEnumerable<BookSummaryViewModel> TopSellingBooks { get; set; } = new List<BookSummaryViewModel>();
+         public IEnumerable<TopSellingBookViewModel> TopSellingBooks { get; set; } = new List<TopSellingBookViewModel>();
     }
 
     public class UserSummaryViewModel
@@ -65,7 +65,7 @@ namespace BookStoreMVC.Models.ViewModels
         public decimal TotalSpent { get; set; }
     }
 
-    public class BookSummaryViewModel
+    public class TopSellingBookViewModel
     {
         public int BookId { get; set; }
         public string Title { get; set; } = string.Empty;

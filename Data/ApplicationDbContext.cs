@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using BookStoreMVC.Models.Entities;
 
-namespace BookStoreMVC.Data
+namespace BookStoreMVC
 {
     public class ApplicationDbContext : IdentityDbContext<User>
     {

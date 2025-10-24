@@ -123,10 +123,10 @@
         </div>
         <div class="p-6">
             <div class="space-y-3">
-                @if (ViewBag.TopSellingBooks != null && ((IEnumerable<BookStoreMVC.Models.ViewModels.BookSummaryViewModel>)ViewBag.TopSellingBooks).Any())
+              @if (ViewBag.TopSellingBooks != null && ((IEnumerable<BookStoreMVC.Models.ViewModels.TopSellingBookViewModel>)ViewBag.TopSellingBooks).Any())
                 {
                     var rank = 1;
-                    foreach (var book in (IEnumerable<BookStoreMVC.Models.ViewModels.BookSummaryViewModel>)ViewBag.TopSellingBooks)
+                      foreach (var book in (IEnumerable<BookStoreMVC.Models.ViewModels.TopSellingBookViewModel>)ViewBag.TopSellingBooks)
                     {
                         <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                             <div class="flex items-center space-x-3">
